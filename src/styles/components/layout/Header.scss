@@ -1,0 +1,28 @@
+.layout-header {
+  padding: 0;
+  background: #ffffff !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding-inline: 35px !important;
+  padding-left: 250px !important;
+
+  .avatar {
+    height: 35px;
+    width: 35px;
+    border-radius: 100rem;
+    background: #f7f7f7;
+    margin-right: 10px;
+  }
+
+  .dropdown-menu {
+    .display-name {
+      margin-right: 10px;
+    }
+  }
+
+  .ant-dropdown-menu {
+    border-radius: 4px !important;
+  }
+}

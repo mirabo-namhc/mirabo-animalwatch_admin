@@ -1,0 +1,52 @@
+.layout-sider {
+  position: fixed !important;
+  overflow: auto;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  overflow-x: hidden;
+  margin-right: 200px !important;
+
+  .logo {
+    height: 55px;
+    margin: 5px !important;
+  }
+
+  hr {
+    margin: 0px 10px 10px;
+  }
+
+  .btn-collapse {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .ant-menu-inline {
+    border-inline-end: none !important;
+    color: #948e8e;
+    .ant-menu-item-selected {
+      color: black;
+    }
+  }
+}
+
+.layout-wraper-content {
+  min-height: calc(100vh - 65px) !important;
+  background-color: #f7f7f7;
+  word-break: break-all;
+  transition: all 0.2s;
+  padding: 20px;
+
+  &.collapsed {
+    margin-left: 80px;
+  }
+  &.uncollapsed {
+    margin-left: 250px;
+  }
+}
+.ant-layout-sider-children {
+  background: white;
+}

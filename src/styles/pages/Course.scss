@@ -1,0 +1,46 @@
+.course-form {
+  .ant-card .ant-card-body {
+    padding: 100px 200px;
+  }
+  .form-item {
+    position: relative;
+
+    .dynamic-delete-button {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+  .ant-form-item-label > label {
+    flex-direction: row-reverse;
+    gap: 0 5px;
+  }
+}
+
+.badge-form {
+  border: unset !important;
+  .ant-card-body {
+    padding: 20px 0 !important;
+    min-height: unset !important;
+  }
+}
+.title-badge-from {
+  margin-top: 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  h3 {
+    margin: auto 0;
+  }
+}
+.img-badge {
+  width: 50px;
+  object-fit: cover;
+}
+
+.pl-17 {
+  padding-left: 17px;
+}
+.pr-17 {
+  padding-right: 17px;
+}

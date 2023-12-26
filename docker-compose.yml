@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  frontend:
+    container_name: pq_jcl_sns_prod
+
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+
+    volumes:
+      - "./:/app"
+      - "/app/node_modules"
+
+    ports:
+      - "3000:3000"
+
+    stdin_open: true
+
+    tty: true
+
+    env_file:
+      - .env

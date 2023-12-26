@@ -1,0 +1,30 @@
+.detail {
+  .full-width {
+    padding: 20px;
+    .title {
+      font-weight: 600;
+      padding-right: 20px;
+    }
+  }
+}
+
+.ant-form-item-label > label {
+  flex-direction: row-reverse;
+  gap: 0 5px;
+}
+
+.checkpoint-form {
+  .ant-card .ant-card-body {
+    padding: 100px 200px;
+    min-height: 90vh !important;
+  }
+  .form-item {
+    position: relative;
+
+    .dynamic-delete-button {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}
