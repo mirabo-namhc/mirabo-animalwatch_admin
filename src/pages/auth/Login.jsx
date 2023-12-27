@@ -46,9 +46,6 @@ function Login() {
 
   return (
     <div className="login">
-      <div className="logo">
-        <img src={logoCC} alt="logo" />
-      </div>
       <div className="flex-center px-30 mt-10">
         <Form
           name="normal_login"

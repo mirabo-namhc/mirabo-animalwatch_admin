@@ -41,9 +41,6 @@ function ForgotPassword() {
 
   return (
     <div className="login">
-      <div className="logo">
-        <img src={logoCC} alt="logo" />
-      </div>
       <div className="full-height flex-center px-30 mt-10">
         {emailSended ? (
           <SendMailSuccess email={emailSended} />
