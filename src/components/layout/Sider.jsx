@@ -37,22 +37,29 @@ function Sider({ collapsed, setCollapsed }) {
       window.location.reload();
     }
   };
-  function getItem(labelText, key, icon, path) {
-    const label = (
-      <Link
-        to={path}
-        className="fw-500 fz-14 pt-10"
-        onClick={() => handleClick(path)}
-      >
-        {labelText}
-      </Link>
-    );
+  const { SubMenu } = Menu;
 
-    return {
-      key,
-      icon,
-      label,
-    };
+  // Function để tạo menu item với hoặc không có children
+  function getItem(labelText, key, path, children) {
+    if (children && children.length > 0) {
+      const subMenuItems = children.map((child, index) => (
+        <Menu.Item key={`${key}-${index + 1}`}>
+          <Link to={child.path}>{child.label}</Link>
+        </Menu.Item>
+      ));
+
+      return (
+        <SubMenu key={key} title={labelText}>
+          {subMenuItems}
+        </SubMenu>
+      );
+    } else {
+      return (
+        <Menu.Item key={key}>
+          <Link to={path}>{labelText}</Link>
+        </Menu.Item>
+      );
+    }
   }
 
   const itemsActive = {
@@ -85,117 +92,6 @@ function Sider({ collapsed, setCollapsed }) {
     setActive(itemsActive[page]);
   }, [page]);
 
-  const items = [
-    getItem(
-      t("layout.sider.dashboard"),
-      "1",
-      <PieChartOutlined />,
-      PATH_URL.DASHBOARD,
-    ),
-    getItem(
-      t("layout.sider.managerUser"),
-      "2",
-      <DesktopOutlined />,
-      PATH_URL.MANAGER_USER.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerAdmin"),
-      "3",
-      <UserOutlined />,
-      PATH_URL.MANAGER_ADMIN.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerAccount"),
-      "4",
-      <UserOutlined />,
-      PATH_URL.MANAGER_ACCOUNT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerCollection"),
-      "5",
-      <UserOutlined />,
-      PATH_URL.MANAGER_COLLECTION.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerEvent"),
-      "6",
-      <CalendarOutlined />,
-      PATH_URL.MANAGER_EVENT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerCourse"),
-      "7",
-      <BookOutlined />,
-      PATH_URL.MANAGER_COURSE.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerCheckPoint"),
-      "9",
-      <CheckSquareOutlined />,
-      PATH_URL.CHECKPOINT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerNotification"),
-      "10",
-      <BellOutlined />,
-      PATH_URL.NOTIFICATION.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerGiftCode"),
-      "11",
-      <GiftOutlined />,
-      PATH_URL.GIFT_CODE.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerBadge"),
-      "12",
-      <GiftOutlined />,
-      PATH_URL.BADGE.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerSendMail"),
-      "13",
-      <MailOutlined />,
-      PATH_URL.SEND_MAIL.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerData"),
-      "14",
-      <DatabaseOutlined />,
-      PATH_URL.DATA_MANAGERMENT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerVersion"),
-      "15",
-      <OrderedListOutlined />,
-      PATH_URL.VERSION_MANAGERMENT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerGroup"),
-      "16",
-      <UsergroupAddOutlined />,
-      PATH_URL.GROUP_MANAGERMENT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerUsertag"),
-      "17",
-      <TagOutlined />,
-      PATH_URL.USERTAG_MANAGERMENT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.managerResultImage"),
-      "18",
-      <FileImageOutlined />,
-      PATH_URL.RESULT_IMAGE_MANAGERMENT.INDEX,
-    ),
-    getItem(
-      t("layout.sider.levelManagement"),
-      "19",
-      <UpSquareOutlined />,
-      PATH_URL.MANAGER_LEVEL.INDEX,
-    ),
-  ];
-
   return (
     <Layout.Sider
       breakpoint="lg"
@@ -204,24 +100,27 @@ function Sider({ collapsed, setCollapsed }) {
       onCollapse={(value) => setCollapsed(value)}
       width={250}
     >
-      <div className="flex jc-center">
-        {collapsed ? (
-          <div className="logo">
-            <CCLogoMark />
-          </div>
-        ) : (
-          <img className="logo" src={logoCC} alt="Logo" />
-        )}
-      </div>
-      <hr />
-      <Menu selectedKeys={active} mode="inline" items={items} />
-      <Button
+      <Menu selectedKeys={[active]} mode="inline">
+        {getItem("カテゴリ一覧", "1", PATH_URL.DASHBOARD)}
+        {getItem("クーポン一覧", "2", PATH_URL.MANAGER_USER.INDEX)}
+        {getItem("写真一覧", "3", PATH_URL.MANAGER_ADMIN.INDEX)}
+        {getItem("設定", "4", PATH_URL.MANAGER_ADMIN.INDEX)}
+        {getItem("動画データ同期", "5", PATH_URL.MANAGER_ADMIN.INDEX)}
+        {getItem("クイズ・豆知識", "6", PATH_URL.MANAGER_ADMIN.INDEX)}
+        {getItem("施設情報", "7", PATH_URL.MANAGER_ACCOUNT.INDEX, [
+          { label: "Child 1", path: "/child1" },
+          { label: "Child 2", path: "/child2" },
+        ])}
+        {getItem("お知らせ一覧", "8", PATH_URL.MANAGER_ADMIN.INDEX)}
+        {getItem("ログアウト", "9", PATH_URL.MANAGER_ADMIN.INDEX)}
+      </Menu>
+      {/* <Button
         type="text"
         className="btn-collapse"
         onClick={handleToggleCollapse}
       >
         {collapsed ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}
-      </Button>
+      </Button> */}
     </Layout.Sider>
   );
 }
