@@ -15,41 +15,41 @@ function DashBoard() {
   const [quantityNewUserThisMonth, setQuantityNewUserThisMonth] = useState(0);
   const [registeredUser, setRegisteredUser] = useState(0);
 
-  const dataInfoBadge = [
-    {
-      title: t("home.quantityNewUserThisMonth"),
-      borderColor: "#70AD47",
-      data: quantityNewUserThisMonth,
-      handleNavigate: () => navigate(PATH_URL.USER_MANAGEMENT),
-    },
-    {
-      title: t("home.registeredUser"),
-      borderColor: "#FFC000",
-      data: registeredUser,
-      handleNavigate: () => navigate(PATH_URL.USER_MANAGEMENT),
-    },
-  ];
+  // const dataInfoBadge = [
+  //   {
+  //     title: t("home.quantityNewUserThisMonth"),
+  //     borderColor: "#70AD47",
+  //     data: quantityNewUserThisMonth,
+  //     handleNavigate: () => navigate(PATH_URL.USER_MANAGEMENT),
+  //   },
+  //   {
+  //     title: t("home.registeredUser"),
+  //     borderColor: "#FFC000",
+  //     data: registeredUser,
+  //     handleNavigate: () => navigate(PATH_URL.USER_MANAGEMENT),
+  //   },
+  // ];
 
-  const renderInfoBadge = () => {
-    const listInfoBadge = dataInfoBadge.map((infoItem, index) => {
-      return (
-        <InfoBadge
-          key={index}
-          data={infoItem.data}
-          title={infoItem.title}
-          borderColor={infoItem.borderColor}
-          handleNavigate={infoItem.handleNavigate}
-        />
-      );
-    });
-    return listInfoBadge;
-  };
+  // const renderInfoBadge = () => {
+  //   const listInfoBadge = dataInfoBadge.map((infoItem, index) => {
+  //     return (
+  //       <InfoBadge
+  //         key={index}
+  //         data={infoItem.data}
+  //         title={infoItem.title}
+  //         borderColor={infoItem.borderColor}
+  //         handleNavigate={infoItem.handleNavigate}
+  //       />
+  //     );
+  //   });
+  //   return listInfoBadge;
+  // };
 
   return (
-    <div className="homepage layout-content">
-      <Row className="rowgap-vbox" gutter={[24, 0]}>
+    <div className="">
+      {/* <Row className="rowgap-vbox" gutter={[24, 0]}>
         {renderInfoBadge()}
-      </Row>
+      </Row> */}
       {/* <Row gutter={[24, 0]}>
         <Col span={24} md={12} className="mb-24">
           <QuantityPurchasedBadge

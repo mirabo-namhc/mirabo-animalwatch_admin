@@ -18,11 +18,11 @@ function LayoutComp({ children }) {
   const { token } = useSelector(authStore);
   const [collapsed, setCollapsed] = useState(false);
 
-  useEffect(() => {
-    if (!token) {
-      navigate(PATH_URL.LOGIN);
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate(PATH_URL.LOGIN);
+  //   }
+  // }, [token]);
 
   return (
     <Layout>
@@ -34,7 +34,7 @@ function LayoutComp({ children }) {
             collapsed ? "collapsed" : "uncollapsed"
           }`}
         >
-          <BreadcrumbComp breadcrumbNameData={breadcrumb} />
+          {/* <BreadcrumbComp breadcrumbNameData={breadcrumb} /> */}
           {children}
         </Content>
       </Layout>
