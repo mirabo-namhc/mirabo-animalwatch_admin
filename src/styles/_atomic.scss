@@ -1,0 +1,114 @@
+@import './mixin';
+@import './variables';
+
+@each $module in $atomicMap {
+  @include generateAtomic($module);
+}
+
+@each $colorName, $colorValue in $colorMap {
+  @include createColorClass($colorName, $colorValue);
+}
+
+//font-weight
+// example: fw-100, fw-900
+@for $i from 1 through 9 {
+  .fw-#{$i * 100} {
+    font-weight: ($i * 100) !important;
+  }
+}
+
+// width, height:
+.w-full {
+  width: 100% !important;
+}
+.w-screen {
+  width: 100vw !important;
+}
+.w-min {
+  width: min-content !important;
+}
+.w-max {
+  width: max-content !important;
+}
+.w-fit {
+  width: fit-content !important;
+}
+.h-full {
+  height: 100% !important;
+}
+.h-screen {
+  height: 100vh !important;
+}
+.h-min {
+  height: min-content !important;
+}
+.h-max {
+  height: max-content !important;
+}
+.h-fit {
+  height: fit-content !important;
+}
+
+// rotation
+.-rotate-180 {
+  transform: rotate(-180deg);
+}
+.-rotate-90 {
+  transform: rotate(-90deg);
+}
+.rotate-0 {
+  transform: rotate(0deg);
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
+.rotate-90 {
+  transform: rotate(90deg);
+}
+.-rotateX-180 {
+  transform: rotateX(-180deg);
+}
+.-rotateX-90 {
+  transform: rotateX(-90deg);
+}
+.rotateX-0 {
+  transform: rotateX(0deg);
+}
+.rotateX-180 {
+  transform: rotateX(180deg);
+}
+.rotateX-90 {
+  transform: rotateX(90deg);
+}
+.-rotateY-180 {
+  transform: rotateY(-180deg);
+}
+.-rotateY-90 {
+  transform: rotateY(-90deg);
+}
+.rotateY-0 {
+  transform: rotateY(0deg);
+}
+.rotateY-180 {
+  transform: rotateY(180deg);
+}
+.rotateY-90 {
+  transform: rotateY(90deg);
+}
+
+// extra margin css
+.ma-auto {
+  margin: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.mb-auto {
+  margin-bottom: auto;
+}

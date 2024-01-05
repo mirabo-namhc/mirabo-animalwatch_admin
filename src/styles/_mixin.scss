@@ -1,0 +1,75 @@
+@mixin generateAtomic($module) {
+  $prefix: nth($module, 1);
+  $properties: nth($module, 2);
+  $values: nth($module, 3);
+  $suffix: null;
+  @if length($module) >= 4 {
+    $suffix: nth($module, 4);
+  }
+  $isNagative: null;
+  @if length($module) >= 5 {
+    $isNagative: nth($module, 5);
+  }
+
+  @each $value in $values {
+    $actualValue: $value;
+    @if $isNagative == 'negative' {
+      $actualValue: (-1) * $value;
+    }
+    $className: '#{$prefix}-#{$value}';
+    $valueWithSuffix: $actualValue + #{$suffix};
+    .#{$className} {
+      @if type-of($properties) == 'list' {
+        @each $property in $properties {
+          #{$property}: $valueWithSuffix !important;
+        }
+      } @else {
+        #{$properties}: $valueWithSuffix !important;
+      }
+    }
+  }
+}
+
+@mixin createColorClass($colorName, $colorValue) {
+  $className: to-lower-case($colorName);
+
+  .#{$className} {
+    color: $colorValue !important;
+  }
+  .bg-#{$className} {
+    background-color: $colorValue !important;
+  }
+  .border-#{$className} {
+    border-color: $colorValue !important;
+  }
+  // fill svg path
+  .fill-#{$className} path {
+    fill: $colorValue !important;
+  }
+  // fill bg svg
+  .svg-fill-#{$className} {
+    fill: $colorValue !important;
+  }
+}
+
+@function generate-array($start, $end, $step) {
+  $my-array: ();
+  $i: $start;
+
+  @while $i <= $end {
+    $my-array: append($my-array, $i);
+    $i: $i + $step;
+  }
+
+  @return $my-array;
+}
+
+@function negative-sign($input-array) {
+  $result-array: ();
+
+  @each $value in $input-array {
+    $result-array: append($result-array, (-1) * $value, $separator: comma);
+  }
+
+  @return $result-array;
+}
