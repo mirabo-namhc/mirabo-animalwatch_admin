@@ -1,17 +1,3 @@
-@import "./global.scss";
-//import css common
-@import "./common/Table.scss";
-//import css components
-@import "./components/layout/Sider.scss";
-@import "./components/layout/Header.scss";
-
-// RCE CSS
-@import "react-chat-elements/dist/main.css";
-//import css pages
-@import "./pages/Auth.scss";
-@import "./pages/Course.scss";
-@import "./pages/CheckPoint.scss";
-@import "./pages/Notification.scss";
-@import "./pages/Event.scss";
-@import "./pages/Data.scss";
-@import "./pages/Group.scss";
+@import './reset.scss';
+@import './atomic.scss';
+@import './global.scss';

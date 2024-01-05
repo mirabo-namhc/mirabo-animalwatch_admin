@@ -1,0 +1,185 @@
+@import './custom.scss';
+
+$xxl: 1600px;
+$xl: 1200px;
+$lg: 992px;
+$md: 768px;
+$sm: 576px;
+$xs: 480px;
+$container-width: 1366px;
+
+// color
+$primary: #0e91ef;
+$sub-primary: #e57c00;
+
+$gray: #252525;
+$gray-0: #ffffff;
+
+$black: #000000;
+
+$blue: #bcd7ff;
+
+$error: #d82700;
+$wrong: #ff5b37;
+
+$highlight-light: #fdf6c9;
+$highlight-dark: #ffe08f;
+
+$pink: #ffaea9;
+$yellow: #ffe382;
+$mint: #a6e9d5;
+$grape: #f5b7ff;
+$orange: #ffbf92;
+$purple: #bec1ff;
+$green: #d9ef9a;
+$navy: #2a3054;
+$gray-shadow: #d9d9d9;
+
+$space-amount-default: (
+  0,
+  1,
+  2,
+  4,
+  6,
+  8,
+  10,
+  12,
+  14,
+  16,
+  20,
+  22,
+  24,
+  28,
+  32,
+  36,
+  40,
+  48,
+  56,
+  64,
+  80,
+  100,
+  112,
+  160,
+  220,
+);
+$opacity-default: (0, 5, 10, 20, 40, 50, 60, 75, 90, 95, 100);
+$border-radius-default: (0, 1, 2, 3, 4, 8, 16, 9999);
+$border-width-default: (0, 1, 2, 4);
+$stroke-width-default: (0, 1, 2);
+$zindex-default: (0, 10, 100, 1000, 10000, 100000);
+$font-size-default: generate-array(9, 40, 1);
+$pos-trbl-default: generate-array(0, 48, 1);
+$percent-default: (60, 80, 100, 125, 150, 170);
+
+$space-amounts: join($space-amount-default, $space-amount-custom, comma);
+$opacity-atomics: join($opacity-default, $opacity-custom, comma);
+$border-radius-atomics: join($border-radius-default, $border-radius-custom, comma);
+$border-width-atomics: join($border-width-default, $border-width-custom, comma);
+$stroke-width-atomics: join($stroke-width-default, $stroke-width-custom, comma);
+$zindex-atomics: join($zindex-default, $zindex-custom, comma);
+$font-size-atomics: join($font-size-default, $font-size-custom, comma);
+$pos-trbl-atomics: join($pos-trbl-default, $pos-trbl-custom, comma);
+$percent-atomics: join($percent-default, $percent-custom, comma);
+$negative-pos-trbl-atomics: negative-sign($pos-trbl-atomics);
+$position-atomics: (relative, absolute, fixed, sticky);
+$display-atomics: (none, block, inline-block, inline, flex, inline-flex);
+$text-align-atomics: (center, start, end);
+$overflow-atomics: (auto, hidden, scroll);
+$overflow-x-atomics: (auto, hidden, scroll);
+$overflow-y-atomics: (auto, hidden, scroll);
+$justify-content-atomics: (normal, flex-start, flex-end, center, space-between, space-around);
+$justify-items-atomics: (start, end, center);
+$align-content-atomics: (normal, flex-start, flex-end, center, space-between, space-around);
+$align-items-atomics: (flex-start, flex-end, center, baseline);
+$flex-direction-atomics: (row, row-reverse, column, column-reverse);
+$border-style-atomics: (solid, dashed, dotted, double, hidden, none);
+$cursor-atomics: (auto, default, pointer, grab, grabbing, move);
+$pointer-events-atomics: (auto, none);
+$user-select-atomics: (none, text, auto, all);
+$width-atomics: (auto, fit-content, max-content, min-content);
+$visibility-atomics: (none, hidden, visible);
+$box-shadow-style-atomics: (none);
+
+$atomicMap: (
+  ('pos', 'position', $position-atomics),
+  ('dis', 'display', $display-atomics),
+  ('vis', 'visibility', $visibility-atomics),
+  ('text', 'text-align', $text-align-atomics),
+  ('overflow', 'overflow', $overflow-atomics),
+  ('overflow-x', 'overflow-x', $overflow-x-atomics),
+  ('overflow-y', 'overflow-y', $overflow-x-atomics),
+  ('jc', 'justify-content', $justify-content-atomics),
+  ('ji', 'justify-items', $justify-items-atomics),
+  ('ac', 'align-content', $align-content-atomics),
+  ('ai', 'align-items', $align-items-atomics),
+  ('flex', 'flex-direction', $flex-direction-atomics),
+  ('flex-shrink', 'flex-shrink', $space-amounts),
+  ('rounded', 'border-radius', $border-radius-atomics, px),
+  ('border', 'border', $border-width-atomics, px solid),
+  ('border-b', 'border-bottom', $border-width-atomics, px solid),
+  ('border-t', 'border-top', $border-width-atomics, px solid),
+  ('border-r', 'border-right', $border-width-atomics, px solid),
+  ('border-l', 'border-left', $border-width-atomics, px solid),
+  ('border', 'border-style', $border-style-atomics),
+  ('b-shadow', 'box-shadow', $box-shadow-style-atomics),
+  ('opacity', 'opacity', $opacity-atomics, '%'),
+  ('cursor', 'cursor', $cursor-atomics),
+  ('pointer-events', 'pointer-events', $pointer-events-atomics),
+  ('select', 'user-select', $user-select-atomics),
+  ('stroke', 'stroke-width', $stroke-width-atomics),
+  ('w', 'width', $space-amounts, px),
+  ('w', 'width', $width-atomics),
+  ('min-w', 'min-width', $space-amounts, px),
+  ('max-w', 'max-width', $space-amounts, px),
+  ('h', 'height', $space-amounts, px),
+  ('min-h', 'min-height', $space-amounts, px),
+  ('max-h', 'max-height', $space-amounts, px),
+  ('ma', 'margin', $space-amounts, px),
+  ('mt', 'margin-top', $space-amounts, px),
+  ('mr', 'margin-right', $space-amounts, px),
+  ('mb', 'margin-bottom', $space-amounts, px),
+  ('ml', 'margin-left', $space-amounts, px),
+  ('mx', ('margin-left', 'margin-right'), $space-amounts, px),
+  ('my', ('margin-top', 'margin-bottom'), $space-amounts, px),
+  ('pa', 'padding', $space-amounts, px),
+  ('pt', 'padding-top', $space-amounts, px),
+  ('pr', 'padding-right', $space-amounts, px),
+  ('pb', 'padding-bottom', $space-amounts, px),
+  ('pl', 'padding-left', $space-amounts, px),
+  ('px', ('padding-left', 'padding-right'), $space-amounts, px),
+  ('py', ('padding-top', 'padding-bottom'), $space-amounts, px),
+  ('z', 'z-index', $zindex-atomics),
+  ('fs', 'font-size', $font-size-atomics, px),
+  ('top', 'top', $pos-trbl-atomics, px),
+  ('right', 'right', $pos-trbl-atomics, px),
+  ('bottom', 'bottom', $pos-trbl-atomics, px),
+  ('left', 'left', $pos-trbl-atomics, px),
+  ('-top', 'top', $pos-trbl-atomics, px, 'negative'),
+  ('-right', 'right', $pos-trbl-atomics, px, 'negative'),
+  ('-bottom', 'bottom', $pos-trbl-atomics, px, 'negative'),
+  ('-left', 'left', $pos-trbl-atomics, px, 'negative'),
+  ('lh', 'line-height', $percent-atomics, '%'),
+  ('scale', 'scale', $percent-atomics, '%'),
+  ('lh-px', 'line-height', $space-amounts, px),
+  ('gap', 'gap', $space-amounts, px),
+  ('gap-x', 'column-gap', $space-amounts, px),
+  ('gap-y', 'row-gap', $space-amounts, px)
+);
+
+$colorMap: (
+  'primary': $primary,
+  'sub-primary': $sub-primary,
+  'gray': $gray,
+  'gray-0': $gray-0,
+  'blue': $blue,
+  'error': $error,
+  'wrong': $wrong,
+  'black': $black,
+  'pink': $pink,
+  'yellow': $yellow,
+  'mint': $mint,
+  'grape': $grape,
+  'orange': $orange,
+  'purple': $purple,
+  'green': $green,
+);
