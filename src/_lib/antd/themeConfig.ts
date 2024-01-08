@@ -4,6 +4,7 @@ const color = {
     primary: '#0e91ef',
     subPrimary: '#e57c00',
     gray: '#252525',
+    gray20: '#eeeeee',
     blue: '#bcd7ff',
     black: '#000000',
     error: '#d82700',
@@ -35,6 +36,12 @@ const theme: ThemeConfig = {
             itemPaddingInline: 12,
             itemHoverColor: color.gray,
             itemSelectedColor: color.primary,
+        },
+        Table: {
+            colorFillAlter: color.gray20,
+            colorFillContent: color.gray20,
+            colorFillSecondary: color.gray20,
+            headerBorderRadius: 0,
         },
     },
 };

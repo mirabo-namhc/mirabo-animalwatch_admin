@@ -1,0 +1,10 @@
+.m-table {
+    .ant-table-pagination {
+        display: none !important;
+    }
+}
+
+.m-table-pagination {
+    display: flex;
+    align-items: center;
+}

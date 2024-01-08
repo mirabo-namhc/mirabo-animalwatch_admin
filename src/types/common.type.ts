@@ -9,3 +9,13 @@ export interface IErrorAPI {
         [key: string]: any
     }
 }
+
+export interface IFilterCommonParams {
+    limit?: number;
+    page?: number;
+    isAsc?: boolean;
+    sortCategory?: number | string;
+    search?: string;
+}
+
+export type TFilterParams<T = object> = IFilterCommonParams & Partial<T>;
