@@ -1,4 +1,4 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Modal } from 'antd';
 import type { MenuProps } from 'antd/lib';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -11,10 +11,11 @@ export type MenuItem = Required<MenuProps>['items'][number];
 
 interface IOSideMenu {
     items: MenuItem[];
+    itemLogout: MenuItem[];
     onSelectMenuItem: (key: string, keyPath: string[]) => void;
 }
 
-function OSideMenu({ items, onSelectMenuItem }: IOSideMenu) {
+function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
     const location = useLocation();
     const { pathname } = location;
 
@@ -26,6 +27,22 @@ function OSideMenu({ items, onSelectMenuItem }: IOSideMenu) {
     const classSider = clsx('o-side-menu bg-gray-0 shadow-low rounded-8 ml-16', {
         'ant-layout-sider-expanded': !collapsed,
     });
+
+    const onLogout = () => {
+        Modal.confirm({
+            title: 'Confirm Logout',
+            content: 'Are you sure you want to logout?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+              console.log('Confirmed');
+            },
+            onCancel() {
+              console.log('Cancelled');
+            },
+        });
+    };
 
     return (
         <Layout.Sider
@@ -53,6 +70,15 @@ function OSideMenu({ items, onSelectMenuItem }: IOSideMenu) {
                 selectedKeys={[pathname]}
                 items={items}
                 style={{ borderRight: 0 }}
+            />
+            <Menu
+                className="menu-logout"
+                mode="inline"
+                expandIcon={null}
+                selectable={false}
+                items={itemLogout}
+                style={{ borderRight: 0 }}
+                onClick={() => onLogout()}
             />
         </Layout.Sider>
     );
