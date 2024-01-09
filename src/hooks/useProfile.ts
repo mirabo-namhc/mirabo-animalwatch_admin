@@ -1,7 +1,7 @@
-import { getAuth } from "~utils/auth"
+import { getAuth } from '~utils/auth';
 
 export default function useProfile() {
-    const isLoggedIn = getAuth()
+  const isLoggedIn = getAuth();
 
-    return { isLoggedIn }
+  return { isLoggedIn };
 }

@@ -8,21 +8,21 @@ const AuthLogin = Loadable(lazy(() => import('~pages/authentication/Login')));
 const AuthRegister = Loadable(lazy(() => import('~pages/authentication/Register')));
 
 const AuthRoutes = {
-    path: '/',
-    children: [
-        {
-            path: APP_ROUTE_URL.LOGIN,
-            element: <AuthLogin />,
-        },
-        {
-            path: APP_ROUTE_URL.REGISTER,
-            element: <AuthRegister />,
-        },
-        {
-            path: '/',
-            element: <Navigate to={APP_ROUTE_URL.LOGIN} />,
-        },
-    ],
+  path: '/',
+  children: [
+    {
+      path: APP_ROUTE_URL.LOGIN,
+      element: <AuthLogin />,
+    },
+    {
+      path: APP_ROUTE_URL.REGISTER,
+      element: <AuthRegister />,
+    },
+    {
+      path: '/',
+      element: <Navigate to={APP_ROUTE_URL.LOGIN} />,
+    },
+  ],
 };
 
 export default AuthRoutes;
