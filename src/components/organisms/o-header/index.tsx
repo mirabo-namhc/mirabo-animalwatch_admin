@@ -1,3 +1,3 @@
-import OHeader from "./OHeader";
+import OHeader from './OHeader';
 
-export default OHeader
+export default OHeader;

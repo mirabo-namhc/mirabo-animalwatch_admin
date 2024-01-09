@@ -1,3 +1,3 @@
-const AUTH_LOCAL_STORAGE_KEY = 'access_token'
+const AUTH_LOCAL_STORAGE_KEY = 'access_token';
 
-export { AUTH_LOCAL_STORAGE_KEY }
+export { AUTH_LOCAL_STORAGE_KEY };

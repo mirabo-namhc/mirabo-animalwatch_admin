@@ -1,3 +1,3 @@
-import OMainLayout from "./OMainLayout";
+import OMainLayout from './OMainLayout';
 
-export default OMainLayout
+export default OMainLayout;

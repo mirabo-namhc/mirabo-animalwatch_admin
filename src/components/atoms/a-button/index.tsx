@@ -1,3 +1,3 @@
-import AButton from "./AButton";
+import AButton from './AButton';
 
-export default AButton
+export default AButton;

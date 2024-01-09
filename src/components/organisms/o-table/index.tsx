@@ -1,3 +1,3 @@
-import { OTable } from "./OTable";
+import { OTable } from './OTable';
 
-export default OTable
+export default OTable;

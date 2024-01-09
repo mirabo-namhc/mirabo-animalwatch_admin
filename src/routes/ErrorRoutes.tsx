@@ -6,18 +6,17 @@ import Loadable from './Loadable';
 const ErrorPage404 = Loadable(lazy(() => import('~pages/error/404')));
 
 const ErrorRoutes = {
-    path: '/',
-    children: [
-        {
-            path: 'login',
-            element: <Navigate to='/' />,
-        },
-        {
-            path: '*',
-            element: <ErrorPage404 />,
-        },
-
-    ],
+  path: '/',
+  children: [
+    {
+      path: 'login',
+      element: <Navigate to="/" />,
+    },
+    {
+      path: '*',
+      element: <ErrorPage404 />,
+    },
+  ],
 };
 
 export default ErrorRoutes;

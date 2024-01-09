@@ -1,3 +1,3 @@
-import OFooter from "./OFooter";
+import OFooter from './OFooter';
 
-export default OFooter
+export default OFooter;
