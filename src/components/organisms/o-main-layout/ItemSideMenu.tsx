@@ -1,69 +1,67 @@
-import { IconHome } from "~/assets/icon";
 import { MenuItem } from "~organisms/o-side-menu/OSideMenu";
 import { getItemSideMenu } from "~utils/funcHelper";
+import {
+    SettingFilled,
+    VideoCameraFilled,
+    QuestionCircleFilled,
+    HomeFilled,
+    ScheduleFilled,
+    MoneyCollectFilled,
+    CloseCircleFilled
+} from '@ant-design/icons';
+import { APP_ROUTE_URL } from "~constants/endpoint";
 
 export const itemsSideMenu: MenuItem[] = [
     getItemSideMenu(
         'カテゴリ一覧',
-        '/',
+        APP_ROUTE_URL.FACILITY,
         <span>
-            <img src={IconHome} alt='icon-home' />
+            <HomeFilled />
         </span>,
     ),
     getItemSideMenu(
         'クーポン一覧',
-        '/categories',
+        APP_ROUTE_URL.COUPON,
         <span>
-            <img src={IconHome} alt='icon-home' />
-        </span>,
-    ),
-    getItemSideMenu(
-        '写真一覧',
-        '/categories',
-        <span>
-            <img src={IconHome} alt='icon-home' />
+            <MoneyCollectFilled />
         </span>,
     ),
     getItemSideMenu(
         '設定',
-        '/categories',
+        APP_ROUTE_URL.SETTING,
         <span>
-            <img src={IconHome} alt='icon-home' />
+            <SettingFilled />
         </span>,
     ),
     getItemSideMenu(
         '動画データ同期',
-        '/categories',
+        APP_ROUTE_URL.VIDEO,
         <span>
-            <img src={IconHome} alt='icon-home' />
+            <VideoCameraFilled />
         </span>,
     ),
     getItemSideMenu(
         'クイズ・豆知識',
-        '/categories',
+        APP_ROUTE_URL.QUIZ,
         <span>
-            <img src={IconHome} alt='icon-home' />
+            <QuestionCircleFilled />
         </span>,
     ),
     getItemSideMenu(
         '施設情報',
-        '/categories',
+        APP_ROUTE_URL.EVENT,
         <span>
-            <img src={IconHome} alt='icon-home' />
+            <ScheduleFilled />
         </span>,
     ),
-    getItemSideMenu(
-        'お知らせ一覧',
-        '/categories',
-        <span>
-            <img src={IconHome} alt='icon-home' />
-        </span>,
-    ),
+];
+
+export const itemLogoutMenu: MenuItem[] = [
     getItemSideMenu(
         'ログアウト',
-        '/categories',
+        '',
         <span>
-            <img src={IconHome} alt='icon-home' />
+            <CloseCircleFilled />
         </span>,
     ),
 ];

@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import OFooter from '~organisms/o-footer';
 import OHeader from '~organisms/o-header';
 import OSideMenu from '~organisms/o-side-menu/OSideMenu';
-import { itemsSideMenu } from './ItemSideMenu';
+import { itemsSideMenu, itemLogoutMenu } from './ItemSideMenu';
 import './OMainLayout.scss';
 
 export default function OMainLayout() {
@@ -17,7 +17,7 @@ export default function OMainLayout() {
             <OHeader />
             <Layout.Content className="py-16">
                 <Layout hasSider>
-                    <OSideMenu items={itemsSideMenu} onSelectMenuItem={onClickMenuItem} />
+                    <OSideMenu items={itemsSideMenu} itemLogout={itemLogoutMenu} onSelectMenuItem={onClickMenuItem} />
                     <Layout.Content className="layout-content pos-relative"><Outlet /></Layout.Content>
                 </Layout>
             </Layout.Content>
