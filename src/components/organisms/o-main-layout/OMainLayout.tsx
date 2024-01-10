@@ -6,19 +6,17 @@ import OSideMenu from '~organisms/o-side-menu/OSideMenu';
 import { itemsSideMenu, itemLogoutMenu } from './ItemSideMenu';
 import './OMainLayout.scss';
 import clsx from 'clsx';
+import useURLInfo from '~/hooks/useURLInfo';
 
 export default function OMainLayout() {
   const navigate = useNavigate();
-  const { pathname }: { pathname: string } = useLocation();
+  const { isFormPage } = useURLInfo();
   const onClickMenuItem = (key: string) => {
     navigate(key);
   };
 
-  const isFormPage =
-    pathname.includes('/detail') || pathname.includes('/edit') || pathname.includes('/create');
-
   const classLayout = clsx('layout-content pos-relative px-20', {
-    'px-60': isFormPage,
+    'px-100': isFormPage,
   });
 
   return (

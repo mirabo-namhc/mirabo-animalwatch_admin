@@ -59,10 +59,10 @@ export default function OForm<Values extends Record<string, any>>({
       >
         <Row gutter={[48, 8]}>{renderFieldForm()}</Row>
 
-        <Row justify="center" className="flex gap-20 group-btn-event">
-          <Button type="default">Cancel</Button>
+        <Row justify="center" className="mt-30 flex gap-20 group-btn-event">
+          <Button type="default">プレビュ</Button>
           <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-            Save
+            登録
           </Button>
         </Row>
       </Form>

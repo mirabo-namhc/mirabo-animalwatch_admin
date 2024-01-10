@@ -14,7 +14,7 @@ import { APP_ROUTE_URL } from '~constants/endpoint';
 export const itemsSideMenu: MenuItem[] = [
   getItemSideMenu(
     'カテゴリ一覧',
-    APP_ROUTE_URL.FACILITY,
+    APP_ROUTE_URL.FACILITY.INDEX,
     <span>
       <HomeFilled />
     </span>,

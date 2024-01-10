@@ -1,9 +1,8 @@
-import React from 'react'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-export default function FacilityPage() {
-    return (
-        <div className='gray fs-20'>
-            <h1 className='mb-20'>Facility Page</h1>
-        </div>
-    )
+function FacilityPage() {
+  return <Outlet />;
 }
+
+export default FacilityPage;
