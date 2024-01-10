@@ -4,6 +4,7 @@ import MFormInput from '~molecules/m-form-input';
 import MFormButton from '~molecules/m-form-button';
 import './OLoginForm.scss';
 import { FormInstance } from 'antd/lib';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 export interface IOLoginForm  {
     form: FormInstance<any>;
@@ -21,26 +22,34 @@ export default function OLoginForm({ form, username, password, handleSubmit, han
             onFinish={handleSubmit}
             className="login-form"
         >
-            <MFormInput
-                placeholder="Username"
-                isRequired={true}
-                message="Please input your username!"
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={handleUsernameChange}
-            />
-            <MFormInput
-                placeholder="Password"
-                isRequired={true}
-                message="Please input your password!"
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={handlePasswordChange}
-            />
+            <div className="login-form-input">
+                <MFormInput
+                    placeholder="Username"
+                    isRequired={true}
+                    message="Please input your username!"
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                />
+            </div>
+            
+            <div className="login-form-input">
+                <MFormInput
+                    placeholder="Password"
+                    isRequired={true}
+                    message="Please input your password!"
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                />
+            </div>
+
             <div className="login-form-button">
                 <MFormButton
                     type="primary"
