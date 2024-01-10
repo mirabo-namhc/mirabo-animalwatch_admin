@@ -6,13 +6,15 @@ export interface IAInput {
     type: string;
     id: string;
     value: string;
+    prefix: React.ReactNode;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function AInput({ placeholder, type, id, value, onChange }: IAInput) {
+function AInput({ placeholder, type, id, value, prefix, onChange }: IAInput) {
     return (
         <div>
             <Input
+                prefix={prefix}
                 type={type}
                 id={id}
                 placeholder={placeholder}
