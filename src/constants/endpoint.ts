@@ -12,7 +12,11 @@ export const APP_ROUTE_URL = {
     DETAIL: "detail",
   },
   COUPON: '/coupon',
-  SETTING: '/setting',
+  SETTING: {
+    INDEX: '/setting',
+    RANK: 'rank',
+    BANNER: 'banner',
+  },
   VIDEO: '/video',
   QUIZ: '/quiz',
   EVENT: '/event',

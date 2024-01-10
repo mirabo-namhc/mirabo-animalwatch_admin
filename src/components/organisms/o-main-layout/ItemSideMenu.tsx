@@ -8,6 +8,8 @@ import {
   ScheduleFilled,
   MoneyCollectFilled,
   CloseCircleFilled,
+  FileImageOutlined,
+  BarChartOutlined,
 } from '@ant-design/icons';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 
@@ -28,10 +30,26 @@ export const itemsSideMenu: MenuItem[] = [
   ),
   getItemSideMenu(
     '設定',
-    APP_ROUTE_URL.SETTING,
+    APP_ROUTE_URL.SETTING.INDEX,
     <span>
       <SettingFilled />
     </span>,
+    [
+      getItemSideMenu(
+        'ランキング設定',
+        `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
+        <span>
+          <BarChartOutlined />
+        </span>,
+      ),
+      getItemSideMenu(
+        'バナー設定',
+        `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER}`,
+        <span>
+          <FileImageOutlined />
+        </span>,
+      ),
+    ]
   ),
   getItemSideMenu(
     '動画データ同期',

@@ -14,6 +14,8 @@ const SettingPage = Loadable(lazy(() => import('~pages/setting')));
 const VideoPage = Loadable(lazy(() => import('~pages/video')));
 const QuizPage = Loadable(lazy(() => import('~pages/quiz')));
 const EventPage = Loadable(lazy(() => import('~pages/event')));
+const RankPage = Loadable(lazy(() => import('~pages/rank')));
+const BannerPage = Loadable(lazy(() => import('~pages/banner')));
 
 const urlForm = (url: string) => `${url}/:id`;
 
@@ -65,8 +67,19 @@ const MainRoutes = {
     },
     {
       key: 5,
-      path: APP_ROUTE_URL.SETTING,
-      element: <SettingPage />,
+      path: APP_ROUTE_URL.SETTING.INDEX,
+      children: [
+        {
+          key:  5.1,
+          path: `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
+          element: <RankPage />,
+        },
+        {
+          key: 5.2,
+          path: `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER}`,
+          element: <BannerPage />,
+        },
+      ],
     },
     {
       key: 6,
