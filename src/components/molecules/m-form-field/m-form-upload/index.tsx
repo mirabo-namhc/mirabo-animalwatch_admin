@@ -53,7 +53,7 @@ function MFormUpload({
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div className="mt-8 fs-14">アップロード</div>
     </button>
   );
 

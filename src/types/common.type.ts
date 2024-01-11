@@ -10,7 +10,7 @@ export interface IErrorAPI {
   };
 }
 
-export interface IFilterCommonParams {
+export interface ICommonParams {
   limit?: number;
   page?: number;
   isAsc?: boolean;
@@ -18,4 +18,11 @@ export interface IFilterCommonParams {
   search?: string;
 }
 
-export type TFilterParams<T = object> = IFilterCommonParams & Partial<T>;
+export type TFilterParams<T = object> = ICommonParams & Partial<T>;
+
+export interface IDefaultState<T> {
+  loading: boolean;
+  reloadList: boolean;
+  pagination: any; // todo
+  listData: T[];
+}

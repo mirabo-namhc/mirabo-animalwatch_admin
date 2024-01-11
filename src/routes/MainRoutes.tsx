@@ -24,11 +24,11 @@ const MainRoutes = {
     {
       key: 1,
       path: APP_ROUTE_URL.LOGIN,
-      element: <Navigate to={APP_ROUTE_URL.DASHBOARD} />,
+      element: <Navigate to={APP_ROUTE_URL.INDEX} />,
     },
     {
       key: 2,
-      path: APP_ROUTE_URL.DASHBOARD,
+      path: APP_ROUTE_URL.INDEX,
       element: <DashboardDefault />,
     },
     {

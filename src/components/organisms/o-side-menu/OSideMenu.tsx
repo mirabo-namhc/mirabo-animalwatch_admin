@@ -2,9 +2,12 @@ import { Layout, Menu, Modal } from 'antd';
 import type { MenuProps } from 'antd/lib';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '~/_lib/redux/hooks';
 import { IconArrowNext, IconArrowPrev } from '~/assets/icon';
 import AButton from '~atoms/a-button';
+import { APP_ROUTE_URL } from '~constants/endpoint';
+import { authActions } from '~store/auth/authSlice';
 import './OSideMenu.scss';
 
 export type MenuItem = Required<MenuProps>['items'][number];
@@ -16,6 +19,8 @@ interface IOSideMenu {
 }
 
 function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
 
@@ -36,12 +41,11 @@ function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        // todo
-        console.log('Confirmed');
-      },
-      onCancel() {
-        // todo
-        console.log('Cancelled');
+        dispatch(
+          authActions.logout({
+            onNavigate: () => navigate(APP_ROUTE_URL.LOGIN),
+          }),
+        );
       },
     });
   };

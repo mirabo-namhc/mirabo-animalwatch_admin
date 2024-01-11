@@ -49,7 +49,6 @@ const theme: ThemeConfig = {
       colorBorder: color.gray20,
       colorText: color.gray,
       colorTextDisabled: color.gray20,
-      colorTextPlaceholder: color.gray20,
       paddingInline: 12,
       paddingInlineSM: 12,
       lineHeight: 1.5,

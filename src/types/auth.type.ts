@@ -1,7 +1,7 @@
 import { IUserData } from '.';
 
 export interface IAuth {
-  api_token: string;
+  api_token?: string;
   refreshToken?: string;
   user?: IUserData;
   token?: string;
@@ -15,8 +15,13 @@ export interface IAuthState {
 }
 
 export interface ILoginPayload {
-  email: string;
+  username: string;
   password: string;
+  onNavigate?: () => void
+}
+
+export interface ILogoutPayload {
+  onNavigate?: () => void
 }
 
 export interface IRegisterPayload {
@@ -28,10 +33,10 @@ export interface IRegisterPayload {
   acceptTerms?: boolean;
 }
 
-export interface IResponseAuth<T> {
+export interface IResponseAuth {
   data: {
     token?: string;
-    user: T;
+    type: string;
   };
   status?: string;
   statusText?: string;

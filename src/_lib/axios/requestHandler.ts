@@ -1,8 +1,8 @@
 import type { InternalAxiosRequestConfig } from 'axios';
-import cache from '~utils/cache';
+import { getAuth } from '~utils/auth';
 
 const requestHandler = (config: InternalAxiosRequestConfig<unknown>) => {
-  const token = cache.get('token');
+  const token = getAuth()?.api_token;
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 };
