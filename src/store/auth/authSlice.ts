@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { IAuthState, ILoginPayload, IRegisterPayload, IResponseAuth, IUserData } from '~/types';
+import { getAuth, setAuth } from '~utils/auth';
 import { RootState } from '..';
-import { getAuth } from '~utils/auth';
-import { IAuthState, ILoginPayload, IRegisterPayload, IUserData } from '~/types';
+import { message } from 'antd';
 
 const api_token = getAuth()?.api_token;
 
@@ -20,13 +21,19 @@ const authSlice = createSlice({
     login(state, action: PayloadAction<ILoginPayload>) {
       state.logging = true;
     },
-    loginSuccess(state, action: PayloadAction<IUserData>) {
+    loginSuccess(state, action: PayloadAction<IResponseAuth['data']>) {
       state.isLoggedIn = true;
       state.logging = false;
-      state.userData = action.payload;
+      // todo:
+      // state.userData = action.payload;
+      setAuth({
+        api_token: action.payload.token,
+        user: undefined,
+      })
     },
-    loginFailed(state, action: PayloadAction<string>) {
+    loginFailed(state) {
       state.logging = false;
+      message.error("ログインに失敗しました。");
     },
 
     logout(state, action: PayloadAction<unknown>) {

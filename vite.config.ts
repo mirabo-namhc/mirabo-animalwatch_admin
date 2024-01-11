@@ -9,6 +9,7 @@ const resolveAliases = {
   '~constants': '/src/constants',
   '~services': '/src/services',
   '~utils': '/src/utils',
+  '~store': '/src/store',
   '~atoms': '/src/components/atoms',
   '~molecules': '/src/components/molecules',
   '~organisms': '/src/components/organisms',
