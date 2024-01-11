@@ -1,7 +1,18 @@
+import { IPagination } from "./common.type";
+
+export interface IFacilityState {
+    loading: boolean;
+    reloadList: boolean;
+    loadingCreate: boolean;
+    listData: IFacility[];
+    pagination?: IPagination;
+    detailData?: IFacility;
+}
+
 export interface IFacility {
-    id: number;
+    id?: number;
     name?: string;
-    group_id?: IGroupFacility;
+    group_id?: EGroupFacility;
     youtube_channel_id?: string;
     instagram_token_id?: string;
     image_thumnail_url?: string;
@@ -12,7 +23,7 @@ export interface IFacility {
     order?: number
 }
 
-export enum IGroupFacility {
+export enum EGroupFacility {
     ZOO = 1,
     AQUARIUM,
     JCOM,

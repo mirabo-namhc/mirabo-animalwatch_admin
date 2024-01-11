@@ -1,5 +1,6 @@
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
 import { Upload, message } from "antd";
+import { IPagination, IResponseApiList } from '~types';
 
 
 export function getItemSideMenu(
@@ -53,3 +54,16 @@ export const checkBeforeUpload = (
 
   return false;
 };
+
+export const getPaginationInfo = <T>(response: IResponseApiList<T>) => {
+  let pagination: IPagination = {}
+  if (response) {
+    pagination = {
+      total: response?.total,
+      per_page: response?.per_page,
+      current_page: response?.current_page,
+      last_page: response?.last_page,
+    }
+  }
+  return pagination
+}

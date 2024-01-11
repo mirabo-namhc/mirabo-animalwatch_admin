@@ -15,7 +15,7 @@ const facilityAPI = {
         const url = `/facility/${params?.id}`;
         return request.patch(url, params);
     },
-    getById(id: IFacility['id']) {
+    getDetail(id: IFacility['id']) {
         const url = `/facility/${id}`;
         return request.get(url);
     },
