@@ -6,7 +6,7 @@ import MFormUpload from './m-form-upload';
 
 export const MFormField = {
   TextField: MFormTextField,
-  Slect: MFormSelect,
+  Select: MFormSelect,
   DatePicker: MFormDatePicker,
   Radio: MFormRadio,
   Upload: MFormUpload,

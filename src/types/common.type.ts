@@ -12,7 +12,7 @@ export interface IErrorAPI {
 
 export interface ICommonParams {
   limit?: number;
-  page?: number;
+  current_page?: number;
   isAsc?: boolean;
   sortCategory?: number | string;
   search?: string;
@@ -20,9 +20,14 @@ export interface ICommonParams {
 
 export type TFilterParams<T = object> = ICommonParams & Partial<T>;
 
-export interface IDefaultState<T> {
-  loading: boolean;
-  reloadList: boolean;
-  pagination: any; // todo
-  listData: T[];
+export interface IResponseApiList<T> extends IPagination {
+  data?: T[];
+  message?: string;
+}
+
+export interface IPagination {
+  total?: number;
+  per_page?: number;
+  current_page?: number;
+  last_page?: number;
 }

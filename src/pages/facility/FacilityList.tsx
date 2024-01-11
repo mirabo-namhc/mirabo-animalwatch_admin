@@ -2,20 +2,21 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IFacility, IGroupFacility } from '~/types/facility.type';
+import { useGetList } from '~/hooks';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { groupsFacilityOptions } from '~constants/form';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
-import { TFilterParams } from '~types';
+import { facilityActions } from '~store/facility/facilitySlice';
+import { EGroupFacility, IFacility, TFilterParams } from '~types';
 
 const dataTable: IFacility[] = [
-  { id: 1, name: 'すみだ水族館', group_id: IGroupFacility.ZOO, is_active: true, order: 1 },
+  { id: 1, name: 'すみだ水族館', group_id: EGroupFacility.ZOO, is_active: true, order: 1 },
   {
     id: 2,
     name: 'てんのうじ動物園',
-    group_id: IGroupFacility.AQUARIUM,
+    group_id: EGroupFacility.AQUARIUM,
     is_active: false,
     order: 2,
   },
@@ -24,7 +25,17 @@ const dataTable: IFacility[] = [
 export default function FacilityList() {
   const navigate = useNavigate();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IFacility>>({
-    page: 1,
+    current_page: 1,
+  });
+
+  const {
+    listData: listFacility,
+    pagination,
+    loading,
+  } = useGetList({
+    params: paramsQuery,
+    action: facilityActions,
+    nameState: 'facility',
   });
 
   const columns: ColumnsType<IFacility> = [
@@ -58,7 +69,7 @@ export default function FacilityList() {
           <AButton
             size="small"
             className="h-32 w-97 gray-80"
-            onClick={() => onNavigateDetail(record.id)}
+            onClick={() => record?.id && onNavigateDetail(record.id)}
             type="primary"
             data-testid="btn-preview"
           >
@@ -95,10 +106,11 @@ export default function FacilityList() {
       <OTable
         columns={columns}
         dataSource={dataTable}
-        pageSize={5}
-        total={dataTable.length}
+        pageSize={10}
+        total={pagination?.total}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
+        loading={loading}
       />
     </div>
   );

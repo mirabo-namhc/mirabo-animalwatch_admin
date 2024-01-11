@@ -30,7 +30,7 @@ const dataTable: IUser[] = [
 export default function DashboardDefault() {
   const [formControl] = Form.useForm();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IUser>>({
-    page: 1,
+    current_page: 1,
   });
   const columns: ColumnsType<IUser> = [
     {

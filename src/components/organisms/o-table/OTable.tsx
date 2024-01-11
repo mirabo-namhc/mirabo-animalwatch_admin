@@ -24,7 +24,7 @@ interface TOTable<T> extends TableProps<T> {
   onRow?: TableProps<T>['onRow'];
   rowSelection?: TableRowSelection<T>;
   pageSize?: number;
-  total: number;
+  total?: number;
   scroll?: TableProps<T>['scroll'];
   contentPagination?: React.ReactNode;
   isShowPagination?: boolean;
@@ -36,7 +36,7 @@ export function OTable<T extends AnyObject>({
   className,
   columns,
   pageSize = 10,
-  total,
+  total = 0,
   useGetData,
   paramsQuery,
   setParamsQuery,
@@ -89,7 +89,7 @@ export function OTable<T extends AnyObject>({
         bordered
         onChange={handleChangeTable}
         handlePagination={handlePagination}
-        current={paramsQuery?.page || 1}
+        current={paramsQuery?.current_page || 1}
         pageSize={pageSize}
         pagingPosition={['bottomLeft']}
         columns={columns}
