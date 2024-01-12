@@ -1,0 +1,29 @@
+.banner-side-left {
+  width: 200px;
+  display: flex;
+  justify-content: flex-start;
+  align-self: start;
+  font-weight: 800;
+}
+
+.banner-side-right {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &-content {
+    font-size: 16px;
+
+    &-link {
+      text-decoration: underline;
+    }
+  }
+
+  &-button {
+    width: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-self: start;
+    flex-direction: column;
+  }
+}

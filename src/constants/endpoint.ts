@@ -15,7 +15,13 @@ export const APP_ROUTE_URL = {
   SETTING: {
     INDEX: '/setting',
     RANK: 'rank',
-    BANNER: 'banner',
+    BANNER: {
+      INDEX: 'banner',
+      TABLE: "",
+      EDIT: "edit",
+      CREATE: "create",
+      DETAIL: "detail",
+    },
   },
   VIDEO: '/video',
   QUIZ: '/quiz',
