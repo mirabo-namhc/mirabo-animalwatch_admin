@@ -12,7 +12,7 @@ interface UseGetListProps {
   isGetApi?: boolean;
 }
 
-export default function useGetDetail({ action, nameState, isGetApi = true }: UseGetListProps) {
+export default function useGetDetail<T>({ action, nameState, isGetApi = true }: UseGetListProps) {
   const { id, pathname } = useURLInfo();
   const dispatch = useAppDispatch();
   const { detailData, loading } = useAppSelector((state: TRootState) => state[nameState]);
@@ -36,5 +36,5 @@ export default function useGetDetail({ action, nameState, isGetApi = true }: Use
     };
   }, [id, pathname]);
 
-  return { detailData, loading: loading };
+  return { detailData: detailData as T, loading: loading };
 }

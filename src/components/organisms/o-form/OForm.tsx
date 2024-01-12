@@ -29,7 +29,7 @@ export default function OForm<Values extends Record<string, any>>({
   onDelete,
   onNavigateEdit,
   hanleResetForm,
-  loading,
+  loading = false,
   className,
   initialValues,
   ...props
@@ -89,9 +89,11 @@ export default function OForm<Values extends Record<string, any>>({
               <AButton type="default" onClick={onCancel}>
                 プレビュ
               </AButton>
-              <AButton type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                登録
-              </AButton>
+              <Form.Item>
+                <AButton type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                  登録
+                </AButton>
+              </Form.Item>
             </>
           )}
         </Row>
