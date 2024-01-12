@@ -88,4 +88,11 @@ const removeSessionStorage = (key: string) => {
   }
 };
 
-export { getAuth, setAuth, removeAuth, logout, getSessionStorage, removeSessionStorage };
+const handleLogout = () => {
+  if (window.location.pathname !== APP_ROUTE_URL.LOGIN) {
+    window.location.pathname = '/login'
+    localStorage.removeItem(AUTH_LOCAL_STORAGE_KEY);
+  }
+};
+
+export { getAuth, setAuth, removeAuth, logout, handleLogout, getSessionStorage, removeSessionStorage };
