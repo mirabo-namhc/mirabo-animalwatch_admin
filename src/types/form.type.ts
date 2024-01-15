@@ -14,8 +14,9 @@ import { RangePickerProps } from "antd/es/date-picker";
 import { TextAreaProps } from "antd/es/input";
 import { PasswordProps } from "antd/lib/input";
 
-export interface ICustomUploadProps extends UploadProps {
+interface ICustomMappedFormItems {
     length?: number;
+    isDisable?: boolean;
 }
 
 export interface IAtomFormItemsProps {
@@ -26,7 +27,7 @@ export interface IAtomFormItemsProps {
     [ETypeFieldForm.RADIO]: RadioGroupProps;
     [ETypeFieldForm.RANGE_DATE]: RangePickerProps;
     [ETypeFieldForm.TEXT_AREA]: TextAreaProps;
-    [ETypeFieldForm.UPLOAD]: ICustomUploadProps;
+    [ETypeFieldForm.UPLOAD]: UploadProps;
     [ETypeFieldForm.PASSWORD]: PasswordProps;
     [ETypeFieldForm.INPUT_NUMBER]: InputNumberProps;
 }
@@ -37,7 +38,7 @@ export type TMappedFormItems = {
         atomProps?: IAtomFormItemsProps[K];
         colProps?: ColProps;
     } & FormItemProps;
-}[keyof IAtomFormItemsProps];
+}[keyof IAtomFormItemsProps] & ICustomMappedFormItems;
 
 export interface IMFormItemProps<T extends ETypeFieldForm> extends Omit<TMappedFormItems, 'type'> {
     type: T;

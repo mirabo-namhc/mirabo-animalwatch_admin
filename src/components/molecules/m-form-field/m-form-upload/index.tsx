@@ -10,7 +10,6 @@ interface IMFormUploadProps extends IMFormItemProps<ETypeFieldForm.UPLOAD> {
   deletedArr?: string[];
   setAddedArr?: (files: RcFile[]) => void;
   setDeletedArr?: (deleted: string[]) => void;
-  length?: number;
 }
 
 const getBase64 = (file: RcFile): Promise<string> =>

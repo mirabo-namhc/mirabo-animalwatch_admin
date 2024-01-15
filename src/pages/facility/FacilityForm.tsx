@@ -1,4 +1,5 @@
 import { Form, Spin } from 'antd';
+import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
@@ -10,12 +11,26 @@ import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from
 import OForm from '~organisms/o-form';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { IFacility } from '~types';
+import { convertDateToFormat } from '~utils/datetime';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
   const [formControl] = Form.useForm();
   const navigate = useNavigate();
   const { id, isDetail, isEdit, isCreate } = useURLInfo();
+
+  const { detailData, loading } = useGetDetail({
+    id: Number(id),
+    action: facilityActions,
+    nameState: 'facility',
+    isGetApi: isDetail || isEdit,
+  });
+
+  const initValues = {
+    ...detailData,
+    start_date: detailData?.start_date && dayjs(detailData?.start_date),
+    end_date: detailData?.end_date && dayjs(detailData?.end_date),
+  };
 
   const listFieldForm: TMappedFormItems[] = [
     {
@@ -40,10 +55,10 @@ export default function FacilityForm() {
       type: ETypeFieldForm.SELECT,
       label: 'カテゴリ',
       name: 'group_id',
+      isDisable: isDetail,
       atomProps: {
         placeholder: '',
         options: groupsFacilityOptions,
-        disabled: isDetail,
       },
       colProps: {
         span: COLDEF,
@@ -95,11 +110,11 @@ export default function FacilityForm() {
       type: ETypeFieldForm.UPLOAD,
       label: 'ロゴ',
       name: 'image_thumnail_url',
+      length: 1,
       colProps: {
         span: COLDEF,
       },
       atomProps: {
-        length: 1,
         disabled: isDetail,
       },
       rules: [
@@ -131,10 +146,10 @@ export default function FacilityForm() {
       type: ETypeFieldForm.SELECT,
       label: '非表示フラグ',
       name: 'is_active',
+      isDisable: isDetail,
       atomProps: {
         placeholder: '',
         options: isActiveFacilityOptions,
-        disabled: isDetail,
       },
       colProps: {
         span: COLDEF,
@@ -150,11 +165,9 @@ export default function FacilityForm() {
       type: ETypeFieldForm.DATEPICKER,
       label: '公開日',
       name: 'start_date',
+      isDisable: isDetail,
       colProps: {
         span: COL_HAFT,
-      },
-      atomProps: {
-        disabled: isDetail,
       },
       rules: [
         {
@@ -167,11 +180,9 @@ export default function FacilityForm() {
       type: ETypeFieldForm.DATEPICKER,
       label: '公開終了日',
       name: 'end_date',
+      isDisable: isDetail,
       colProps: {
         span: COL_HAFT,
-      },
-      atomProps: {
-        disabled: isDetail,
       },
       rules: [
         {
@@ -184,10 +195,10 @@ export default function FacilityForm() {
       type: ETypeFieldForm.SELECT,
       label: '表示順',
       name: 'order',
+      isDisable: isDetail,
       atomProps: {
         placeholder: '',
         options: [{ label: 1, value: 1 }],
-        disabled: isDetail,
       },
       colProps: {
         span: COLDEF,
@@ -201,17 +212,31 @@ export default function FacilityForm() {
     },
   ];
 
-  const { detailData, loading } = useGetDetail({
-    id: Number(id),
-    action: facilityActions,
-    nameState: 'facility',
-    isGetApi: isDetail || isEdit,
-  });
-
   const handleSubmit = (values: IFacility) => {
-    const params = { ...values };
-    if (isCreate) {
-      dispatch(facilityActions.create(params));
+    try {
+      const params = {
+        ...values,
+        start_date: convertDateToFormat(values.start_date),
+        end_date: convertDateToFormat(values.end_date),
+      };
+      if (isCreate) {
+        dispatch(
+          facilityActions.create({
+            ...params,
+            onNavigate: () => navigate(APP_ROUTE_URL.FACILITY.INDEX),
+          }),
+        );
+      } else if (isEdit) {
+        // todo:
+        // dispatch(
+        //   facilityActions.create({
+        //     ...params,
+        //     onNavigate: () => navigate(APP_ROUTE_URL.FACILITY.INDEX),
+        //   }),
+        // );
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -236,7 +261,7 @@ export default function FacilityForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={isCreate ? {} : detailData}
+          initialValues={isCreate ? {} : initValues}
           onCancel={handleCancel}
           onDelete={handleDelete}
         />
