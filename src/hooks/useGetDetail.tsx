@@ -2,17 +2,18 @@ import { CaseReducerActions, SliceCaseReducers } from '@reduxjs/toolkit';
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { RootState } from '~store/index';
+import { useURLInfo } from '.';
 
 type TRootState = Omit<RootState, 'auth'>;
 
 interface UseGetListProps {
-  id: number;
   action: CaseReducerActions<SliceCaseReducers<any>, string>;
   nameState: keyof TRootState;
   isGetApi?: boolean;
 }
 
-export default function useGetDetail({ id, action, nameState, isGetApi = true }: UseGetListProps) {
+export default function useGetDetail({ action, nameState, isGetApi = true }: UseGetListProps) {
+  const { id, pathname } = useURLInfo();
   const dispatch = useAppDispatch();
   const { detailData, loading } = useAppSelector((state: TRootState) => state[nameState]);
 
@@ -24,16 +25,16 @@ export default function useGetDetail({ id, action, nameState, isGetApi = true }:
         console.error({ error });
       }
     },
-    [id],
+    [id, pathname],
   );
 
   useEffect(() => {
-    if (isGetApi) fetchData(id);
+    if (isGetApi) fetchData(Number(id));
 
     return () => {
       dispatch(action?.clearData?.(id));
     };
-  }, [id]);
+  }, [id, pathname]);
 
   return { detailData, loading: loading };
 }

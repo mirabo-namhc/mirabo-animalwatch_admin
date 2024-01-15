@@ -88,8 +88,6 @@ const theme: ThemeConfig = {
     DatePicker: {
       colorBorder: color.gray20,
       colorText: color.gray,
-      colorTextDisabled: color.gray20,
-      colorTextPlaceholder: color.gray20,
       lineHeight: 1.5,
       lineWidth: 2,
       controlHeight: 40,
