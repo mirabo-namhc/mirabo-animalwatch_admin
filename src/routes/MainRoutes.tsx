@@ -6,6 +6,8 @@ import { APP_ROUTE_URL } from '~constants/endpoint';
 import OMainLayout from '~organisms/o-main-layout';
 import FacilityList from '~pages/facility/FacilityList';
 import FacilityForm from '~pages/facility/FacilityForm';
+import BannerList from '~pages/banner/BannerList';
+import BannerForm from '~pages/banner/BannerForm';
 
 const DashboardDefault = Loadable(lazy(() => import('~pages/dashboard')));
 const FacilityPage = Loadable(lazy(() => import('~pages/facility')));
@@ -76,8 +78,30 @@ const MainRoutes = {
         },
         {
           key: 5.2,
-          path: `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER}`,
+          path: `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`,
           element: <BannerPage />,
+          children: [
+            {
+              key: 5.1,
+              path: APP_ROUTE_URL.SETTING.BANNER.TABLE,
+              element: <BannerList />,
+            },
+            {
+              key: 5.2,
+              path: urlForm(APP_ROUTE_URL.SETTING.BANNER.DETAIL),
+              element: <BannerForm />,
+            },
+            {
+              key: 5.3,
+              path: APP_ROUTE_URL.SETTING.BANNER.CREATE,
+              element: <BannerForm />,
+            },
+            {
+              key: 5.4,
+              path: urlForm(APP_ROUTE_URL.SETTING.BANNER.EDIT),
+              element: <BannerForm />,
+            },
+          ],
         },
       ],
     },

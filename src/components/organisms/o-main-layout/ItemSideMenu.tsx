@@ -44,7 +44,7 @@ export const itemsSideMenu: MenuItem[] = [
       ),
       getItemSideMenu(
         'バナー設定',
-        `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER}`,
+        `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`,
         <span>
           <FileImageOutlined />
         </span>,
