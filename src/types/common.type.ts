@@ -31,3 +31,8 @@ export interface IPagination {
   current_page?: number;
   last_page?: number;
 }
+
+export type TCreateEditPayload<T> = {
+  onNavigate?(): void;
+} & { [P in keyof T]?: T[P] | undefined };
+

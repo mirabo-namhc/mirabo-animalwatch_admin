@@ -9,18 +9,7 @@ import { groupsFacilityOptions } from '~constants/form';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { facilityActions } from '~store/facility/facilitySlice';
-import { EGroupFacility, IFacility, TFilterParams } from '~types';
-
-const dataTable: IFacility[] = [
-  { id: 1, name: 'すみだ水族館', group_id: EGroupFacility.ZOO, is_active: true, order: 1 },
-  {
-    id: 2,
-    name: 'てんのうじ動物園',
-    group_id: EGroupFacility.AQUARIUM,
-    is_active: false,
-    order: 2,
-  },
-];
+import { IFacility, TFilterParams } from '~types';
 
 export default function FacilityList() {
   const navigate = useNavigate();
@@ -105,7 +94,7 @@ export default function FacilityList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={dataTable}
+        dataSource={listFacility}
         pageSize={10}
         total={pagination?.total}
         setParamsQuery={setParamsQuery}
