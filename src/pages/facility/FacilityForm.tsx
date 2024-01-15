@@ -1,7 +1,8 @@
-import { Form, Spin } from 'antd';
+import { Modal, Spin } from 'antd';
+import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '~/_lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
 import useURLInfo from '~/hooks/useURLInfo';
 import { ETypeFieldForm } from '~/types/enum.type';
@@ -11,16 +12,22 @@ import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from
 import OForm from '~organisms/o-form';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { IFacility } from '~types';
-import { convertDateToFormat } from '~utils/datetime';
+import {
+  convertDateToFormat,
+  disableBeforeDateWithParams,
+  disableDateBefore,
+} from '~utils/datetime';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
-  const [formControl] = Form.useForm();
   const navigate = useNavigate();
+
+  const { loadingForm } = useAppSelector((state) => state.facility);
   const { id, isDetail, isEdit, isCreate } = useURLInfo();
 
+  const [formControl] = useForm();
+
   const { detailData, loading } = useGetDetail({
-    id: Number(id),
     action: facilityActions,
     nameState: 'facility',
     isGetApi: isDetail || isEdit,
@@ -30,6 +37,11 @@ export default function FacilityForm() {
     ...detailData,
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
+  };
+
+  const handleValuesChange = (value: IFacility) => {
+    if (!Object.keys(value).includes('start_date') || !value.start_date) return;
+    formControl.setFieldValue('end_date', null);
   };
 
   const listFieldForm: TMappedFormItems[] = [
@@ -166,6 +178,9 @@ export default function FacilityForm() {
       label: '公開日',
       name: 'start_date',
       isDisable: isDetail,
+      atomProps: {
+        disabledDate: disableDateBefore,
+      },
       colProps: {
         span: COL_HAFT,
       },
@@ -181,6 +196,10 @@ export default function FacilityForm() {
       label: '公開終了日',
       name: 'end_date',
       isDisable: isDetail,
+      atomProps: {
+        disabledDate: (current) =>
+          disableBeforeDateWithParams(current, formControl.getFieldValue('start_date')),
+      },
       colProps: {
         span: COL_HAFT,
       },
@@ -227,13 +246,14 @@ export default function FacilityForm() {
           }),
         );
       } else if (isEdit) {
-        // todo:
-        // dispatch(
-        //   facilityActions.create({
-        //     ...params,
-        //     onNavigate: () => navigate(APP_ROUTE_URL.FACILITY.INDEX),
-        //   }),
-        // );
+        dispatch(
+          facilityActions.edit({
+            id,
+            ...params,
+            onNavigate: () =>
+              navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}/${id}`),
+          }),
+        );
       }
     } catch (error) {
       console.error(error);
@@ -242,12 +262,26 @@ export default function FacilityForm() {
 
   const handleCancel = () => {
     if (isCreate || isDetail) navigate(APP_ROUTE_URL.FACILITY.INDEX);
-    else navigate(APP_ROUTE_URL.FACILITY.DETAIL);
+    else navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}/${id}`);
+  };
+  const handleNavigateEdit = () => {
+    navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.EDIT}/${id}`);
   };
 
   const handleDelete = () => {
-    // todo
-    console.log('id', id);
+    Modal.confirm({
+      title: 'このカテゴリを削除してもよろしいですか?',
+      okText: 'はい',
+      cancelText: 'いいえ',
+      onOk() {
+        dispatch(
+          facilityActions.remove({
+            id: Number(id),
+            onNavigate: () => navigate(APP_ROUTE_URL.FACILITY.INDEX),
+          }),
+        );
+      },
+    });
   };
 
   return (
@@ -264,6 +298,9 @@ export default function FacilityForm() {
           initialValues={isCreate ? {} : initValues}
           onCancel={handleCancel}
           onDelete={handleDelete}
+          onNavigateEdit={handleNavigateEdit}
+          onValuesChange={handleValuesChange}
+          loading={loadingForm}
         />
       )}
     </div>

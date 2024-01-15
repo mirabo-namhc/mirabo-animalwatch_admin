@@ -64,7 +64,7 @@ function MFormUpload({
           fileList={fileList}
           onPreview={handlePreview}
           onChange={handleChange}
-          beforeUpload={(file) => checkBeforeUpload(file, 2)}
+          beforeUpload={(file) => checkBeforeUpload(file, 5)}
           accept="image/*"
           {...atomProps}
         >

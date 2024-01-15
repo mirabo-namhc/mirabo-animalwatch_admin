@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import { IFacility, IFacilityState } from '~/types/facility.type';
-import { IResponseApiList, TFilterParams } from '~types';
+import { IRemovePayload, IResponseApiList, TFilterParams } from '~types';
 import { getPaginationInfo } from '~utils/funcHelper';
 
 const initialState: IFacilityState = {
   loading: false,
   reloadList: false,
-  loadingCreate: false,
+  loadingForm: false,
   listData: [],
   pagination: {},
   detailData: {},
@@ -49,14 +49,40 @@ const facilitySlice = createSlice({
 
     // CREATE
     create(state, action) {
-      state.loadingCreate = true;
+      state.loadingForm = true;
     },
     createSuccess(state, action) {
-      state.loadingCreate = false;
+      state.loadingForm = false;
       message.success("");
     },
     createFalse(state, action) {
-      state.loadingCreate = false;
+      state.loadingForm = false;
+      message.error("");
+    },
+
+    // EDIT
+    edit(state, action) {
+      state.loadingForm = true;
+    },
+    editSuccess(state, action) {
+      state.loadingForm = false;
+      message.success("");
+    },
+    editFalse(state, action) {
+      state.loadingForm = false;
+      message.error("");
+    },
+
+    // REMOVE
+    remove(state, action: PayloadAction<IRemovePayload>) {
+      state.loading = true;
+    },
+    removeSuccess(state) {
+      state.loading = false;
+      message.success("");
+    },
+    removeFalse(state) {
+      state.loading = false;
       message.error("");
     },
   },

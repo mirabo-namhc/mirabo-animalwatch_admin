@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { IFacility, IResponseApiList, TCreateEditPayload, TFilterParams } from '~/types';
+import { IFacility, IRemovePayload, IResponseApiList, TCreateEditPayload, TFilterParams } from '~/types';
 import facilityAPI from '~services/api/facility.api';
 import { facilityActions } from './facilitySlice';
 
@@ -39,11 +39,38 @@ function* handleCreate(action: PayloadAction<TCreateEditPayload<IFacility>>) {
     }
 }
 
+function* handleEdit(action: PayloadAction<TCreateEditPayload<IFacility>>) {
+    try {
+        const params = action.payload;
+        const response: IFacility = yield call(facilityAPI.edit, params);
+
+        yield put(facilityActions.editSuccess(response));
+
+        action.payload.onNavigate?.();
+    } catch (error) {
+        yield put(facilityActions.editFalse('An error occurred, please try again'));
+    }
+}
+
+function* handleRemove(action: PayloadAction<IRemovePayload>) {
+    try {
+        const id = action.payload.id;
+        yield call(facilityAPI.remove, id);
+
+        yield put(facilityActions.removeSuccess());
+        action?.payload?.onNavigate?.()
+    } catch (error) {
+        yield put(facilityActions.removeFalse());
+    }
+}
+
 function* watchApiFlow() {
     yield all([
         takeLatest(facilityActions.fetchData.type, handleFetchData),
         takeLatest(facilityActions.getDetail.type, handleGetDetail),
         takeLatest(facilityActions.create.type, handleCreate),
+        takeLatest(facilityActions.edit.type, handleEdit),
+        takeLatest(facilityActions.remove.type, handleRemove),
     ]);
 }
 

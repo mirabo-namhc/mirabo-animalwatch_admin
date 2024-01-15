@@ -1,13 +1,13 @@
-import { Button, Form, FormProps, Row } from 'antd';
+import { Form, FormProps, Row } from 'antd';
 import clsx from 'clsx';
 
-import './OForm.scss';
-import { TMappedFormItems } from '~/types/form.type';
-import { ETypeFieldForm } from '~/types/enum.type';
-import { MFormField } from '~molecules/m-form-field';
 import { useEffect, useMemo } from 'react';
 import { useURLInfo } from '~/hooks';
+import { ETypeFieldForm } from '~/types/enum.type';
+import { TMappedFormItems } from '~/types/form.type';
 import AButton from '~atoms/a-button';
+import { MFormField } from '~molecules/m-form-field';
+import './OForm.scss';
 
 interface IOForm<Values extends Record<string, any> = Record<string, any>>
   extends FormProps<Values> {
@@ -18,6 +18,7 @@ interface IOForm<Values extends Record<string, any> = Record<string, any>>
   loading?: boolean;
   onCancel?: () => void;
   onDelete?: () => void;
+  onNavigateEdit?: () => void;
 }
 
 export default function OForm<Values extends Record<string, any>>({
@@ -26,6 +27,7 @@ export default function OForm<Values extends Record<string, any>>({
   onSubmitForm,
   onCancel,
   onDelete,
+  onNavigateEdit,
   hanleResetForm,
   loading,
   className,
@@ -34,7 +36,7 @@ export default function OForm<Values extends Record<string, any>>({
 }: IOForm<Values>) {
   const { isDetail } = useURLInfo();
   const { form } = props;
-  const classOForm = clsx('classOForm', className);
+  const classOForm = clsx('o-form', className);
 
   const renderFieldForm = useMemo(() => {
     return listField.map((item, index) => {
@@ -78,7 +80,9 @@ export default function OForm<Values extends Record<string, any>>({
               <AButton danger onClick={onDelete}>
                 削除
               </AButton>
-              <AButton type="primary">登録</AButton>
+              <AButton type="primary" onClick={onNavigateEdit}>
+                更新
+              </AButton>
             </>
           ) : (
             <>

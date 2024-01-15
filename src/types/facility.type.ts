@@ -3,10 +3,11 @@ import { IPagination } from "./common.type";
 export interface IFacilityState {
     loading: boolean;
     reloadList: boolean;
-    loadingCreate: boolean;
+    loadingForm: boolean;
     listData: IFacility[];
     pagination?: IPagination;
     detailData?: IFacility;
+    reloadDataDetail?: boolean;
 }
 
 export interface IFacility {
