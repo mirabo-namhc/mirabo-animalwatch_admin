@@ -3,10 +3,12 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import authReducer from './auth/authSlice';
 import facilityReducer from './facility/facilitySlice';
+import couponReducer from './coupon/couponSlice';
 
 const reducers = combineReducers({
   auth: authReducer,
   facility: facilityReducer,
+  coupon: couponReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

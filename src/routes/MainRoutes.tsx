@@ -8,6 +8,8 @@ import FacilityList from '~pages/facility/FacilityList';
 import FacilityForm from '~pages/facility/FacilityForm';
 import BannerList from '~pages/banner/BannerList';
 import BannerForm from '~pages/banner/BannerForm';
+import CouponList from '~pages/coupon/CouponList';
+import CouponForm from '~pages/coupon/CouponFrom';
 
 const DashboardDefault = Loadable(lazy(() => import('~pages/dashboard')));
 const FacilityPage = Loadable(lazy(() => import('~pages/facility')));
@@ -64,15 +66,37 @@ const MainRoutes = {
     },
     {
       key: 4,
-      path: APP_ROUTE_URL.COUPON,
+      path: APP_ROUTE_URL.COUPON.INDEX,
       element: <CouponPage />,
+      children: [
+        {
+          key: 4.1,
+          path: APP_ROUTE_URL.COUPON.TABLE,
+          element: <CouponList />,
+        },
+        {
+          key: 4.2,
+          path: urlForm(APP_ROUTE_URL.COUPON.DETAIL),
+          element: <CouponForm />,
+        },
+        {
+          key: 4.3,
+          path: urlForm(APP_ROUTE_URL.COUPON.EDIT),
+          element: <CouponForm />,
+        },
+        {
+          key: 4.4,
+          path: APP_ROUTE_URL.COUPON.CREATE,
+          element: <CouponForm />,
+        },
+      ],
     },
     {
       key: 5,
       path: APP_ROUTE_URL.SETTING.INDEX,
       children: [
         {
-          key:  5.1,
+          key: 5.1,
           path: `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
           element: <RankPage />,
         },

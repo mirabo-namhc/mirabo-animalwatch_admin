@@ -6,12 +6,18 @@ export const APP_ROUTE_URL = {
   REGISTER: '/register',
   FACILITY: {
     INDEX: '/facility',
-    TABLE: "",
-    EDIT: "edit",
-    CREATE: "create",
-    DETAIL: "detail",
+    TABLE: '',
+    EDIT: 'edit',
+    CREATE: 'create',
+    DETAIL: 'detail',
   },
-  COUPON: '/coupon',
+  COUPON: {
+    INDEX: '/coupon',
+    TABLE: '',
+    EDIT: 'edit',
+    CREATE: 'create',
+    DETAIL: 'detail',
+  },
   SETTING: {
     INDEX: '/setting',
     RANK: 'rank',

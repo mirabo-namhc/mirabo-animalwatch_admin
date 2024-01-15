@@ -74,7 +74,7 @@ const theme: ThemeConfig = {
       lineWidth: 2,
       lineHeight: 1.5,
       colorBgContainerDisabled: color.gray20,
-      colorTextDisabled: color.gray20,
+      colorTextDisabled: color.black,
       optionSelectedBg: color.white,
       optionSelectedColor: color.primary,
     },

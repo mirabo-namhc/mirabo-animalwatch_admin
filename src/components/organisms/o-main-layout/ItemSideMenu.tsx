@@ -23,7 +23,7 @@ export const itemsSideMenu: MenuItem[] = [
   ),
   getItemSideMenu(
     'クーポン一覧',
-    APP_ROUTE_URL.COUPON,
+    APP_ROUTE_URL.COUPON.INDEX,
     <span>
       <MoneyCollectFilled />
     </span>,
@@ -49,7 +49,7 @@ export const itemsSideMenu: MenuItem[] = [
           <FileImageOutlined />
         </span>,
       ),
-    ]
+    ],
   ),
   getItemSideMenu(
     '動画データ同期',
