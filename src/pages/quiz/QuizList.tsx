@@ -1,75 +1,55 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
-import { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetList } from '~/hooks';
-import { ICoupon } from '~/types/coupon.type';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
-import { couponActions } from '~store/coupon/couponSlice';
-import { TFilterParams } from '~types';
+import { quizActions } from '~store/quiz/quiz.slice';
+import { IQuiz, TFilterParams } from '~types';
 
-interface ICouponTables extends ICoupon {
+interface IQuizTables extends IQuiz {
   key: string | number;
 }
 
-const dataTable: ICouponTables[] = [
-  {
-    key: '1',
-    id: 1,
-    facility_name: 'てんのうじ動物園',
-    status: '非表示',
-    title: 'クーポンタイトル',
-  },
-  {
-    key: '2',
-    id: 2,
-    facility_name: 'てんのうじ動物園',
-    status: '非公開',
-    title: 'タイトル写真',
-  },
-];
-
-export default function CouponList() {
+export default function QuizList() {
   const navigate = useNavigate();
-  const [paramsQuery, setParamsQuery] = useState<TFilterParams<ICoupon>>({
+  const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IQuiz>>({
     current_page: 1,
     per_page: 20,
   });
 
+  const [dataQuizList, setDataQuizList] = React.useState<Array<IQuizTables>>([]);
+
   const {
-    listData: listCoupon,
+    listData: listQuiz,
     pagination,
     loading,
-  } = useGetList<ICoupon[]>({
+  } = useGetList<IQuiz[]>({
     params: paramsQuery,
-    action: couponActions,
-    nameState: 'coupon',
+    action: quizActions,
+    nameState: 'quiz',
   });
 
-  const columns: ColumnsType<ICouponTables> = [
+  const columns: ColumnsType<IQuizTables> = [
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: ICoupon, index: number) => <span>{index + 1}</span>,
-    },
-    {
-      title: '施設名',
-      dataIndex: 'facility_name',
+      render: (_: unknown, record: IQuiz, index: number) => <span>{index + 1}</span>,
     },
     {
       title: 'タイトル',
       dataIndex: 'title',
     },
     {
-      title: '表示状態',
-      dataIndex: 'status',
+      title: '施設名',
+      dataIndex: 'question',
     },
     {
       dataIndex: 'action',
-      render: (_: unknown, record: ICoupon) => (
+      render: (_: unknown, record: IQuiz) => (
         <div className="dis-flex ai-flex-center jc-center">
           <AButton
             size="small"
@@ -86,11 +66,24 @@ export default function CouponList() {
   ];
 
   const onNavigateDetail = (id: number) => {
-    navigate(`${APP_ROUTE_URL.COUPON.EDIT}?id=${id}`);
+    navigate(`${APP_ROUTE_URL.QUIZ.EDIT}?id=${id}`);
   };
   const onNavigateCreateCoupon = () => {
-    navigate(APP_ROUTE_URL.COUPON.CREATE);
+    navigate(APP_ROUTE_URL.QUIZ.CREATE);
   };
+
+  useEffect(() => {
+    if (listQuiz) {
+      setDataQuizList(() => {
+        return listQuiz.map((item) => {
+          return {
+            ...item,
+            key: item.id,
+          } as IQuizTables;
+        });
+      });
+    }
+  }, [listQuiz]);
 
   return (
     <div className="gray fs-20">
@@ -110,7 +103,7 @@ export default function CouponList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={dataTable}
+        dataSource={dataQuizList}
         pageSize={10}
         total={pagination?.total_page}
         setParamsQuery={setParamsQuery}

@@ -12,7 +12,7 @@ interface UseGetListProps {
   nameState: keyof TRootState;
 }
 
-export default function useGetList({ params, action, nameState }: UseGetListProps) {
+export default function useGetList<T>({ params, action, nameState }: UseGetListProps) {
   const dispatch = useAppDispatch();
   const { listData, pagination, reloadList, loading } = useAppSelector(
     (state: TRootState) => state[nameState],
@@ -34,5 +34,5 @@ export default function useGetList({ params, action, nameState }: UseGetListProp
     fetchData(params);
   }, [params, reloadList]);
 
-  return { listData, pagination, reloadList, loading };
+  return { listData: listData as T, pagination, reloadList, loading };
 }

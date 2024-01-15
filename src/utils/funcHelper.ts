@@ -1,7 +1,6 @@
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { Upload, message } from "antd";
+import { Upload, message } from 'antd';
 import { IPagination, IResponseApiList } from '~types';
-
 
 export function getItemSideMenu(
   label: React.ReactNode,
@@ -23,32 +22,29 @@ interface FileError extends File {
   status?: boolean;
 }
 
-export const checkBeforeUpload = (
-  file: FileError,
-  fileSize: number
-): boolean | string => {
+export const checkBeforeUpload = (file: FileError, fileSize: number): boolean | string => {
   // check size file
   const isLt8M = file.size / 1024 / 1024 < fileSize;
   if (!isLt8M) {
-    message.error("todo");
+    message.error('todo');
     return isLt8M || Upload.LIST_IGNORE;
   }
 
   // check type file
-  const isJpgOrPng = ["image/jpeg", "image/png"].includes(file.type);
+  const isJpgOrPng = ['image/jpeg', 'image/png'].includes(file.type);
 
   if (!isJpgOrPng) {
-    message.error("todo");
+    message.error('todo');
     return isJpgOrPng || Upload.LIST_IGNORE;
   }
 
   // check last file name includes jpeg or png
-  const checkLastNameFile = ["jpg", "png", "jpeg"].includes(
-    (file?.name?.split(".")?.pop() || "").toLowerCase()
+  const checkLastNameFile = ['jpg', 'png', 'jpeg'].includes(
+    (file?.name?.split('.')?.pop() || '').toLowerCase(),
   );
 
   if (!checkLastNameFile) {
-    message.error("todo");
+    message.error('todo');
     return checkLastNameFile || Upload.LIST_IGNORE;
   }
 
@@ -56,14 +52,18 @@ export const checkBeforeUpload = (
 };
 
 export const getPaginationInfo = <T>(response: IResponseApiList<T>['data']) => {
-  let pagination: IPagination = {}
+  let pagination: IPagination = {};
   if (response) {
     pagination = {
       total_page: response?.meta?.total_page,
       per_page: response?.meta?.per_page,
       current_page: response?.meta?.current_page,
       last_page: response?.meta?.last_page,
-    }
+    };
   }
-  return pagination
-}
+  return pagination;
+};
+
+export const isNullable = (value: any): boolean => {
+  return value === undefined || value === null || value === '';
+};

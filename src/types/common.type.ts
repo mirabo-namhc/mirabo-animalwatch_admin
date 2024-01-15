@@ -47,6 +47,6 @@ export type TCreateEditPayload<T> = {
 } & { [P in keyof T]?: T[P] | undefined };
 
 export interface IRemovePayload {
-  id: number
+  id: number;
   onNavigate?(): void;
-} 
+}

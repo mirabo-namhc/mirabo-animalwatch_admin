@@ -48,7 +48,7 @@ const theme: ThemeConfig = {
       activeBorderColor: color.blue,
       colorBorder: color.gray20,
       colorText: color.gray,
-      colorTextDisabled: color.gray20,
+      colorTextDisabled: color.black,
       paddingInline: 12,
       paddingInlineSM: 12,
       lineHeight: 1.5,

@@ -60,7 +60,7 @@ export const itemsSideMenu: MenuItem[] = [
   ),
   getItemSideMenu(
     'クイズ・豆知識',
-    APP_ROUTE_URL.QUIZ,
+    APP_ROUTE_URL.QUIZ.INDEX,
     <span>
       <QuestionCircleFilled />
     </span>,
