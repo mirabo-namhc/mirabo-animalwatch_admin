@@ -21,12 +21,16 @@ export interface ICommonParams {
 export type TFilterParams<T = object> = ICommonParams & Partial<T>;
 
 export interface IResponseApiList<T> extends IPagination {
-  data?: T[];
+  code?: string;
+  data?: {
+    data?: T[];
+    meta?: IPagination;
+  };
   message?: string;
 }
 
 export interface IPagination {
-  total?: number;
+  total_page?: number;
   per_page?: number;
   current_page?: number;
   last_page?: number;

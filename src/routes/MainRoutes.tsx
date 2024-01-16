@@ -30,12 +30,12 @@ const MainRoutes = {
     {
       key: 1,
       path: APP_ROUTE_URL.LOGIN,
-      element: <Navigate to={APP_ROUTE_URL.INDEX} />,
+      element: <Navigate to={APP_ROUTE_URL.FACILITY.INDEX} />,
     },
     {
       key: 2,
       path: APP_ROUTE_URL.INDEX,
-      element: <DashboardDefault />,
+      element: <Navigate to={APP_ROUTE_URL.FACILITY.INDEX} />,
     },
     {
       key: 3,

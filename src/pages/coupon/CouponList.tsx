@@ -112,7 +112,7 @@ export default function CouponList() {
         columns={columns}
         dataSource={dataTable}
         pageSize={10}
-        total={pagination?.total}
+        total={pagination?.total_page}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}

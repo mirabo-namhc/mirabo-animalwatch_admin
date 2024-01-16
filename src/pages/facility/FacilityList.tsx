@@ -94,9 +94,9 @@ export default function FacilityList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={listFacility}
+        dataSource={listFacility as IFacility[]}
         pageSize={10}
-        total={pagination?.total}
+        total={pagination?.total_page}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}
