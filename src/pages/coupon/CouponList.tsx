@@ -86,7 +86,7 @@ export default function CouponList() {
   ];
 
   const onNavigateDetail = (id: number) => {
-    navigate(`${APP_ROUTE_URL.COUPON.DETAIL}/${id}`);
+    navigate(`${APP_ROUTE_URL.COUPON.DETAIL}?id=${id}`);
   };
   const onNavigateCreateCoupon = () => {
     navigate(APP_ROUTE_URL.COUPON.CREATE);

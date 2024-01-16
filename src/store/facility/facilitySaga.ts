@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { IFacility, IRemovePayload, IResponseApiList, TCreateEditPayload, TFilterParams } from '~/types';
+import { IFacility, IRemovePayload, IResponseApiDetail, IResponseApiList, TCreateEditPayload, TFilterParams } from '~/types';
 import facilityAPI from '~services/api/facility.api';
 import { facilityActions } from './facilitySlice';
 
@@ -18,9 +18,9 @@ function* handleFetchData(action: PayloadAction<TFilterParams>) {
 function* handleGetDetail(action: PayloadAction<number>) {
     try {
         const id = action.payload;
-        const response: IFacility = yield call(facilityAPI.getDetail, id);
+        const response: IResponseApiDetail<IFacility> = yield call(facilityAPI.getDetail, id);
 
-        yield put(facilityActions.getDetailSuccess(response));
+        yield put(facilityActions.getDetailSuccess(response.data || {}));
     } catch (error) {
         yield put(facilityActions.fetchDataFalse('An error occurred, please try again'));
     }

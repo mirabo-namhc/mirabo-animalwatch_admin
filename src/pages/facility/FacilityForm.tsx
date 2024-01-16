@@ -251,7 +251,7 @@ export default function FacilityForm() {
             id,
             ...params,
             onNavigate: () =>
-              navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}/${id}`),
+              navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}?id=${id}`),
           }),
         );
       }
@@ -262,10 +262,10 @@ export default function FacilityForm() {
 
   const handleCancel = () => {
     if (isCreate || isDetail) navigate(APP_ROUTE_URL.FACILITY.INDEX);
-    else navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}/${id}`);
+    else navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}?id=${id}`);
   };
   const handleNavigateEdit = () => {
-    navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.EDIT}/${id}`);
+    navigate(`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.EDIT}?id=${id}`);
   };
 
   const handleDelete = () => {

@@ -21,8 +21,6 @@ const EventPage = Loadable(lazy(() => import('~pages/event')));
 const RankPage = Loadable(lazy(() => import('~pages/rank')));
 const BannerPage = Loadable(lazy(() => import('~pages/banner')));
 
-const urlForm = (url: string) => `${url}/:id`;
-
 const MainRoutes = {
   path: '/',
   element: <OMainLayout />,
@@ -49,7 +47,7 @@ const MainRoutes = {
         },
         {
           key: 3.2,
-          path: urlForm(APP_ROUTE_URL.FACILITY.DETAIL),
+          path: APP_ROUTE_URL.FACILITY.DETAIL,
           element: <FacilityForm />,
         },
         {
@@ -59,7 +57,7 @@ const MainRoutes = {
         },
         {
           key: 3.4,
-          path: urlForm(APP_ROUTE_URL.FACILITY.EDIT),
+          path: APP_ROUTE_URL.FACILITY.EDIT,
           element: <FacilityForm />,
         },
       ],
@@ -76,12 +74,12 @@ const MainRoutes = {
         },
         {
           key: 4.2,
-          path: urlForm(APP_ROUTE_URL.COUPON.DETAIL),
+          path: APP_ROUTE_URL.COUPON.DETAIL,
           element: <CouponForm />,
         },
         {
           key: 4.3,
-          path: urlForm(APP_ROUTE_URL.COUPON.EDIT),
+          path: APP_ROUTE_URL.COUPON.EDIT,
           element: <CouponForm />,
         },
         {
@@ -112,7 +110,7 @@ const MainRoutes = {
             },
             {
               key: 5.2,
-              path: urlForm(APP_ROUTE_URL.SETTING.BANNER.DETAIL),
+              path: APP_ROUTE_URL.SETTING.BANNER.DETAIL,
               element: <BannerForm />,
             },
             {
@@ -122,7 +120,7 @@ const MainRoutes = {
             },
             {
               key: 5.4,
-              path: urlForm(APP_ROUTE_URL.SETTING.BANNER.EDIT),
+              path: APP_ROUTE_URL.SETTING.BANNER.EDIT,
               element: <BannerForm />,
             },
           ],
