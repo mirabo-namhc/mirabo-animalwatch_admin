@@ -5,16 +5,14 @@ function useURLInfo() {
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
 
-    const isDetail = location?.pathname?.includes('/detail')
     const isCreate = location?.pathname?.includes('/create')
     const isEdit = location?.pathname?.includes('/edit')
 
-    const isFormPage = isDetail || isEdit || isCreate
+    const isFormPage = isEdit || isCreate
 
     return {
         pathname: location.pathname,
         id,
-        isDetail,
         isCreate,
         isEdit,
         isFormPage,

@@ -31,17 +31,20 @@ export const APP_ROUTE_URL = {
   },
   VIDEO: '/video',
   QUIZ: '/quiz',
-  EVENT: '/event',
+  EVENT: {
+    INDEX: '/event',
+    TABLE: '',
+    EDIT: 'edit',
+    CREATE: 'create',
+  },
 };
 
 export const TITLE_HEADER = {
   [APP_ROUTE_URL.FACILITY.INDEX]: 'カテゴリ一覧',
-  [`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.DETAIL}`]: 'カテゴリ詳細',
   [`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.EDIT}`]: 'カテゴリを編集する',
   [`${APP_ROUTE_URL.FACILITY.INDEX}/${APP_ROUTE_URL.FACILITY.CREATE}`]: '新しいカテゴリを作成する',
 
   [APP_ROUTE_URL.COUPON.INDEX]: 'クーポン一覧',
-  [`${APP_ROUTE_URL.COUPON.INDEX}/${APP_ROUTE_URL.COUPON.DETAIL}`]: 'クーポン一覧',
   [`${APP_ROUTE_URL.COUPON.INDEX}/${APP_ROUTE_URL.COUPON.EDIT}`]: 'クーポン一覧',
   [`${APP_ROUTE_URL.COUPON.INDEX}/${APP_ROUTE_URL.COUPON.CREATE}`]: 'クーポン一覧',
 
@@ -50,5 +53,8 @@ export const TITLE_HEADER = {
 
   [APP_ROUTE_URL.VIDEO]: '動画データ同期',
   [APP_ROUTE_URL.QUIZ]: 'クイズ・豆知識',
-  [APP_ROUTE_URL.EVENT]: '施設情報',
+
+  [APP_ROUTE_URL.EVENT.INDEX]: 'イベント情報',
+  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.EDIT}`]: 'イベント情報',
+  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.CREATE}`]: 'イベント情報',
 };

@@ -7,7 +7,7 @@ import OForm from '~organisms/o-form';
 
 export default function BannerForm() {
   const [formControl] = Form.useForm();
-  const { id, isDetail, isEdit } = useURLInfo();
+  const { id, isEdit } = useURLInfo();
 
   const listFieldForm: TMappedFormItems[] = [
     {

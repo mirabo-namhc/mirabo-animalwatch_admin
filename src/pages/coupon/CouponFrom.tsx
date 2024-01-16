@@ -18,7 +18,7 @@ export default function CouponForm() {
 
   const dispatch = useAppDispatch();
   const [formControl] = Form.useForm();
-  const { id: couponId, isDetail, isEdit, isCreate } = useURLInfo();
+  const { id: couponId, isEdit, isCreate } = useURLInfo();
 
   //Navigator
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function CouponForm() {
   const { detailData: couponDetail, loading } = useGetDetail<ICoupon | undefined>({
     action: couponActions,
     nameState: 'coupon',
-    isGetApi: isDetail || isEdit,
+    isGetApi: isEdit,
   });
 
   const listFieldForm: TMappedFormItems[] = [
@@ -37,7 +37,6 @@ export default function CouponForm() {
       atomProps: {
         placeholder: '施設名',
         options: groupsFacilityOptions,
-        disabled: isDetail,
       },
       colProps: {
         span: COLDEF,
@@ -56,9 +55,7 @@ export default function CouponForm() {
       colProps: {
         span: COLDEF,
       },
-      atomProps: {
-        disabled: isDetail,
-      },
+      atomProps: {},
       rules: [
         {
           required: true,
@@ -75,9 +72,7 @@ export default function CouponForm() {
       colProps: {
         span: COL_HAFT,
       },
-      atomProps: {
-        disabled: isDetail,
-      },
+      atomProps: {},
       rules: [
         {
           required: true,
@@ -92,9 +87,7 @@ export default function CouponForm() {
       colProps: {
         span: COL_HAFT,
       },
-      atomProps: {
-        disabled: isDetail,
-      },
+      atomProps: {},
       rules: [
         {
           required: true,
@@ -109,7 +102,6 @@ export default function CouponForm() {
       atomProps: {
         placeholder: '非表示フラグ',
         options: isActiveFacilityOptions,
-        disabled: isDetail,
       },
       colProps: {
         span: COLDEF,
@@ -142,7 +134,7 @@ export default function CouponForm() {
           params: { couponId, ...params },
           onUpdateSuccess: () => {
             // Go back to detail coupon page
-            navigate(`../${APP_ROUTE_URL.COUPON.DETAIL}/${couponId}`, { replace: true });
+            navigate(APP_ROUTE_URL.COUPON.INDEX);
           },
         }),
       );
@@ -150,12 +142,7 @@ export default function CouponForm() {
   };
 
   const handleCancel = () => {
-    if (isCreate || isDetail) navigate(APP_ROUTE_URL.COUPON.INDEX);
-    else navigate(`../${APP_ROUTE_URL.COUPON.DETAIL}/${couponId}`, { replace: true });
-  };
-
-  const handleEditCoupon = () => {
-    if (isDetail) navigate(`../${APP_ROUTE_URL.COUPON.EDIT}/${couponId}`, { replace: true });
+    navigate(APP_ROUTE_URL.COUPON.INDEX);
   };
 
   const handleDeleteCoupon = () => {
@@ -207,7 +194,6 @@ export default function CouponForm() {
           initialValues={isCreate ? {} : coupon}
           onCancel={handleCancel}
           onDelete={handleDeleteCoupon}
-          onNavigateEdit={handleEditCoupon}
         />
       )}
     </div>

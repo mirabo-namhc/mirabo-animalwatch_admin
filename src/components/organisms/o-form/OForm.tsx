@@ -18,7 +18,6 @@ interface IOForm<Values extends Record<string, any> = Record<string, any>>
   loading?: boolean;
   onCancel?: () => void;
   onDelete?: () => void;
-  onNavigateEdit?: () => void;
 }
 
 export default function OForm<Values extends Record<string, any>>({
@@ -27,14 +26,13 @@ export default function OForm<Values extends Record<string, any>>({
   onSubmitForm,
   onCancel,
   onDelete,
-  onNavigateEdit,
   hanleResetForm,
   loading = false,
   className,
   initialValues,
   ...props
 }: IOForm<Values>) {
-  const { isDetail } = useURLInfo();
+  const { isEdit } = useURLInfo();
   const { form } = props;
   const classOForm = clsx('o-form', className);
 
@@ -75,14 +73,16 @@ export default function OForm<Values extends Record<string, any>>({
         <Row gutter={[48, 8]}>{renderFieldForm}</Row>
 
         <Row justify="center" className="mt-30 flex gap-20 group-btn-event">
-          {isDetail ? (
+          {isEdit ? (
             <>
               <AButton danger onClick={onDelete}>
                 削除
               </AButton>
-              <AButton type="primary" onClick={onNavigateEdit}>
-                更新
-              </AButton>
+              <Form.Item>
+                <AButton type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                  更新
+                </AButton>
+              </Form.Item>
             </>
           ) : (
             <>

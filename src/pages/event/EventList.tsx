@@ -1,75 +1,50 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetList } from '~/hooks';
-import { ICoupon } from '~/types/coupon.type';
+import { IEvent } from '~/types/event.type';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
-import { couponActions } from '~store/coupon/couponSlice';
+import { eventActions } from '~store/event/eventSlice';
 import { TFilterParams } from '~types';
 
-interface ICouponTables extends ICoupon {
-  key: string | number;
-}
-
-const dataTable: ICouponTables[] = [
-  {
-    key: '1',
-    id: 1,
-    facility_name: 'てんのうじ動物園',
-    status: '非表示',
-    title: 'クーポンタイトル',
-  },
-  {
-    key: '2',
-    id: 2,
-    facility_name: 'てんのうじ動物園',
-    status: '非公開',
-    title: 'タイトル写真',
-  },
-];
-
-export default function CouponList() {
+export default function EventList() {
   const navigate = useNavigate();
-  const [paramsQuery, setParamsQuery] = useState<TFilterParams<ICoupon>>({
+  const [paramsQuery, setParamsQuery] = useState<TFilterParams<IEvent>>({
     current_page: 1,
-    per_page: 20,
   });
 
   const {
-    listData: listCoupon,
+    listData: listEvent,
     pagination,
     loading,
   } = useGetList({
     params: paramsQuery,
-    action: couponActions,
-    nameState: 'coupon',
+    action: eventActions,
+    nameState: 'event',
   });
 
-  const columns: ColumnsType<ICouponTables> = [
+  const columns: ColumnsType<IEvent> = [
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: ICoupon, index: number) => <span>{index + 1}</span>,
+      render: (_: unknown, record: IEvent, index: number) => <span>{index + 1}</span>,
     },
     {
       title: '施設名',
-      dataIndex: 'facility_name',
+      dataIndex: 'name',
     },
     {
       title: 'タイトル',
-      dataIndex: 'title',
-    },
-    {
-      title: '表示状態',
-      dataIndex: 'status',
+      dataIndex: 'facility_id',
+      render: (value) => value,
     },
     {
       dataIndex: 'action',
-      render: (_: unknown, record: ICoupon) => (
+      render: (_: unknown, record: IEvent) => (
         <div className="dis-flex ai-flex-center jc-center">
           <AButton
             size="small"
@@ -86,10 +61,10 @@ export default function CouponList() {
   ];
 
   const onNavigateDetail = (id: number) => {
-    navigate(`${APP_ROUTE_URL.COUPON.EDIT}?id=${id}`);
+    navigate(`${APP_ROUTE_URL.EVENT.EDIT}?id=${id}`);
   };
-  const onNavigateCreateCoupon = () => {
-    navigate(APP_ROUTE_URL.COUPON.CREATE);
+  const onNavigateCreate = () => {
+    navigate(APP_ROUTE_URL.EVENT.CREATE);
   };
 
   return (
@@ -101,7 +76,7 @@ export default function CouponList() {
         </div>
         <AButton
           size="middle"
-          onClick={onNavigateCreateCoupon}
+          onClick={onNavigateCreate}
           type="primary"
           leftIcon={<PlusCircleOutlined />}
         >
@@ -110,7 +85,7 @@ export default function CouponList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={dataTable}
+        dataSource={listEvent as IEvent[]}
         pageSize={10}
         total={pagination?.total_page}
         setParamsQuery={setParamsQuery}

@@ -67,7 +67,7 @@ export const itemsSideMenu: MenuItem[] = [
   ),
   getItemSideMenu(
     '施設情報',
-    APP_ROUTE_URL.EVENT,
+    APP_ROUTE_URL.EVENT.INDEX,
     <span>
       <ScheduleFilled />
     </span>,
