@@ -13,7 +13,7 @@ const facilityAPI = {
     },
     edit(params: IFacility) {
         const url = `/facility/${params?.id}`;
-        return request.patch(url, params);
+        return request.put(url, params);
     },
     getDetail(id: IFacility['id']) {
         const url = `/facility/${id}`;

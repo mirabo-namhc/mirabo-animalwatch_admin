@@ -11,11 +11,11 @@ export interface IErrorAPI {
 }
 
 export interface ICommonParams {
-  limit?: number;
+  per_page?: number;
   current_page?: number;
   isAsc?: boolean;
   sortCategory?: number | string;
-  search?: string;
+  keyword?: string;
 }
 
 export type TFilterParams<T = object> = ICommonParams & Partial<T>;

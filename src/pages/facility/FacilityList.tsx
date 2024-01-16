@@ -70,7 +70,7 @@ export default function FacilityList() {
   ];
 
   const onNavigateDetail = (id: number) => {
-    navigate(`${APP_ROUTE_URL.FACILITY.DETAIL}?id=${id}`);
+    navigate(`${APP_ROUTE_URL.FACILITY.EDIT}?id=${id}`);
   };
   const onNavigateCreate = () => {
     navigate(APP_ROUTE_URL.FACILITY.CREATE);

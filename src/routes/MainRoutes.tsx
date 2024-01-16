@@ -1,15 +1,17 @@
 import { lazy } from 'react';
 
 import { Navigate } from 'react-router-dom';
-import Loadable from './Loadable';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import OMainLayout from '~organisms/o-main-layout';
-import FacilityList from '~pages/facility/FacilityList';
-import FacilityForm from '~pages/facility/FacilityForm';
-import BannerList from '~pages/banner/BannerList';
 import BannerForm from '~pages/banner/BannerForm';
-import CouponList from '~pages/coupon/CouponList';
+import BannerList from '~pages/banner/BannerList';
 import CouponForm from '~pages/coupon/CouponFrom';
+import CouponList from '~pages/coupon/CouponList';
+import EventForm from '~pages/event/EventForm';
+import EventList from '~pages/event/EventList';
+import FacilityForm from '~pages/facility/FacilityForm';
+import FacilityList from '~pages/facility/FacilityList';
+import Loadable from './Loadable';
 
 const DashboardDefault = Loadable(lazy(() => import('~pages/dashboard')));
 const FacilityPage = Loadable(lazy(() => import('~pages/facility')));
@@ -46,11 +48,6 @@ const MainRoutes = {
           element: <FacilityList />,
         },
         {
-          key: 3.2,
-          path: APP_ROUTE_URL.FACILITY.DETAIL,
-          element: <FacilityForm />,
-        },
-        {
           key: 3.3,
           path: APP_ROUTE_URL.FACILITY.CREATE,
           element: <FacilityForm />,
@@ -71,11 +68,6 @@ const MainRoutes = {
           key: 4.1,
           path: APP_ROUTE_URL.COUPON.TABLE,
           element: <CouponList />,
-        },
-        {
-          key: 4.2,
-          path: APP_ROUTE_URL.COUPON.DETAIL,
-          element: <CouponForm />,
         },
         {
           key: 4.3,
@@ -109,11 +101,6 @@ const MainRoutes = {
               element: <BannerList />,
             },
             {
-              key: 5.2,
-              path: APP_ROUTE_URL.SETTING.BANNER.DETAIL,
-              element: <BannerForm />,
-            },
-            {
               key: 5.3,
               path: APP_ROUTE_URL.SETTING.BANNER.CREATE,
               element: <BannerForm />,
@@ -139,8 +126,25 @@ const MainRoutes = {
     },
     {
       key: 8,
-      path: APP_ROUTE_URL.EVENT,
+      path: APP_ROUTE_URL.EVENT.INDEX,
       element: <EventPage />,
+      children: [
+        {
+          key: 8.1,
+          path: APP_ROUTE_URL.EVENT.TABLE,
+          element: <EventList />,
+        },
+        {
+          key: 8.3,
+          path: APP_ROUTE_URL.EVENT.CREATE,
+          element: <EventForm />,
+        },
+        {
+          key: 8.4,
+          path: APP_ROUTE_URL.EVENT.EDIT,
+          element: <EventForm />,
+        },
+      ],
     },
   ],
 };

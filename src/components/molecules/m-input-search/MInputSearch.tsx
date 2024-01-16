@@ -11,12 +11,12 @@ interface IMInputSearch {
 }
 
 export default function MInputSearch({ setParamsQuery, paramsQuery }: IMInputSearch) {
-  const [value, setValue] = useState(paramsQuery?.search ?? '');
+  const [value, setValue] = useState(paramsQuery?.keyword ?? '');
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
     setParamsQuery?.((pre) => ({
       ...pre,
-      search: value,
+      keyword: value,
     }));
   };
 
