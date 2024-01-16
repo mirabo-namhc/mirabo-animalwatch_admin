@@ -25,8 +25,8 @@ const couponSlice = createSlice({
     },
     fetchDataSuccess(state, action: PayloadAction<IResponseApiList<ICoupon>>) {
       state.loading = false;
-      state.listData = action?.payload?.data || [];
-      state.pagination = getPaginationInfo(action?.payload);
+      state.listData = action?.payload?.data?.data || [];
+      state.pagination = getPaginationInfo(action?.payload?.data);
     },
     fetchDataFalse(state, action) {
       state.loading = false;

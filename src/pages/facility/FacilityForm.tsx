@@ -27,7 +27,7 @@ export default function FacilityForm() {
 
   const [formControl] = useForm();
 
-  const { detailData, loading } = useGetDetail({
+  const { detailData, loading } = useGetDetail<IFacility | undefined>({
     action: facilityActions,
     nameState: 'facility',
     isGetApi: isDetail || isEdit,

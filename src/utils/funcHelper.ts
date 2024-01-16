@@ -55,14 +55,14 @@ export const checkBeforeUpload = (
   return false;
 };
 
-export const getPaginationInfo = <T>(response: IResponseApiList<T>) => {
+export const getPaginationInfo = <T>(response: IResponseApiList<T>['data']) => {
   let pagination: IPagination = {}
   if (response) {
     pagination = {
-      total: response?.total,
-      per_page: response?.per_page,
-      current_page: response?.current_page,
-      last_page: response?.last_page,
+      total_page: response?.meta?.total_page,
+      per_page: response?.meta?.per_page,
+      current_page: response?.meta?.current_page,
+      last_page: response?.meta?.last_page,
     }
   }
   return pagination

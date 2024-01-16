@@ -57,7 +57,6 @@ export default function CouponForm() {
         span: COLDEF,
       },
       atomProps: {
-        length: 1,
         disabled: isDetail,
       },
       rules: [
@@ -66,6 +65,7 @@ export default function CouponForm() {
           message: 'Required',
         },
       ],
+      length: 1,
     },
 
     {
