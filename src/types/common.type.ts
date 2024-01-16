@@ -29,6 +29,12 @@ export interface IResponseApiList<T> extends IPagination {
   message?: string;
 }
 
+export interface IResponseApiDetail<T> {
+  code?: string;
+  data?: T;
+  message?: string;
+}
+
 export interface IPagination {
   total_page?: number;
   per_page?: number;

@@ -2,9 +2,9 @@ import { useLocation, useParams } from 'react-router-dom';
 
 function useURLInfo() {
     const location = useLocation();
-    const params = useParams();
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
 
-    const id = params?.id
     const isDetail = location?.pathname?.includes('/detail')
     const isCreate = location?.pathname?.includes('/create')
     const isEdit = location?.pathname?.includes('/edit')

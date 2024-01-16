@@ -55,7 +55,7 @@ function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
       collapsible
       collapsed={collapsed}
       collapsedWidth={72}
-      width={168}
+      width={200}
       trigger={null}
       className={classSider}
     >
