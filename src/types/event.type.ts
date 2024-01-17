@@ -22,3 +22,11 @@ export interface IEvent {
     facility_id?: number
     contentable_type?: string
 }
+
+export interface IResponseApiDetailEvent<T> {
+    code?: string;
+    data?: {
+        content?: T
+    } & T;
+    message?: string;
+}

@@ -10,11 +10,13 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { IFacility, TFilterParams } from '~types';
+import { getNoTable, getTotal } from '~utils/tableHelper';
 
 export default function FacilityList() {
   const navigate = useNavigate();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IFacility>>({
     current_page: 1,
+    per_page: 5,
   });
 
   const {
@@ -31,7 +33,9 @@ export default function FacilityList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: IFacility, index: number) => <span>{index + 1}</span>,
+      render: (_: unknown, record: IFacility, index: number) => (
+        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
+      ),
     },
     {
       title: '施設名',
@@ -95,8 +99,8 @@ export default function FacilityList() {
       <OTable
         columns={columns}
         dataSource={listFacility as IFacility[]}
-        pageSize={10}
-        total={pagination?.total_page}
+        pageSize={pagination?.per_page}
+        total={getTotal(pagination?.total_page, pagination?.per_page)}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}

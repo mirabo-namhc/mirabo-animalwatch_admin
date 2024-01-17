@@ -7,7 +7,7 @@ import { TFilterParams } from '~types';
 type TRootState = Omit<RootState, 'auth' | 'form'>;
 
 interface IUseGetListProps {
-  params: TFilterParams;
+  params?: TFilterParams;
   action: CaseReducerActions<SliceCaseReducers<any>, string>;
   nameState: keyof TRootState;
 }
@@ -19,7 +19,7 @@ export default function useGetList<T>({ params, action, nameState }: IUseGetList
   );
 
   const fetchData = useCallback(
-    (params: TFilterParams) => {
+    (params?: TFilterParams) => {
       try {
         const paramsApi = { ...params };
         dispatch(action?.fetchData?.(paramsApi || {}));

@@ -46,7 +46,7 @@ export function OTable<T extends AnyObject>({
     if (page) {
       setParamsQuery?.((pre) => ({
         ...pre,
-        page: page ?? 0,
+        current_page: page ?? 0,
       }));
     }
   };

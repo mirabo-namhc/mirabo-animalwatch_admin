@@ -67,6 +67,10 @@ export default function FacilityForm() {
           required: true,
           message: '',
         },
+        {
+          max: 225,
+          message: '',
+        },
       ],
     },
     {
@@ -102,6 +106,10 @@ export default function FacilityForm() {
           required: true,
           message: '',
         },
+        {
+          max: 225,
+          message: '',
+        },
       ],
     },
     {
@@ -117,6 +125,10 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
+          message: '',
+        },
+        {
+          max: 225,
           message: '',
         },
       ],

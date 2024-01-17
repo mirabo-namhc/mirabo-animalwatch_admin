@@ -10,11 +10,13 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { eventActions } from '~store/event/eventSlice';
 import { TFilterParams } from '~types';
+import { getTotal } from '~utils/tableHelper';
 
 export default function EventList() {
   const navigate = useNavigate();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IEvent>>({
     current_page: 1,
+    per_page: 5,
   });
 
   const {
@@ -31,7 +33,7 @@ export default function EventList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: IEvent, index: number) => <span>{index + 1}</span>,
+      render: (_: unknown, record: IEvent, index: number) => <span>{record.id}</span>,
     },
     {
       title: '施設名',
@@ -39,8 +41,7 @@ export default function EventList() {
     },
     {
       title: 'タイトル',
-      dataIndex: 'facility_id',
-      render: (value) => value,
+      dataIndex: 'facility_name',
     },
     {
       dataIndex: 'action',
@@ -86,8 +87,8 @@ export default function EventList() {
       <OTable
         columns={columns}
         dataSource={listEvent as IEvent[]}
-        pageSize={10}
-        total={pagination?.total_page}
+        pageSize={pagination?.per_page}
+        total={getTotal(pagination?.total_page, pagination?.per_page)}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}
