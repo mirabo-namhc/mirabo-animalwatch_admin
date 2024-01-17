@@ -1,6 +1,7 @@
 import { Modal, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
@@ -11,12 +12,14 @@ import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from '~constants/form';
 import OForm from '~organisms/o-form';
 import { facilityActions } from '~store/facility/facilitySlice';
+import { formActions } from '~store/form/formSlice';
 import { IFacility } from '~types';
 import {
   convertDateToFormat,
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
+import { handleCheckDataForm } from '~utils/funcHelper';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
@@ -40,8 +43,12 @@ export default function FacilityForm() {
   };
 
   const handleValuesChange = (value: IFacility) => {
-    if (!Object.keys(value).includes('start_date') || !value.start_date) return;
-    formControl.setFieldValue('end_date', null);
+    if (!!Object.keys(value).includes('start_date') && !!value.start_date) {
+      formControl.setFieldValue('end_date', null);
+    }
+
+    const hasAtLeastOneValue = handleCheckDataForm(formControl);
+    dispatch(formActions.getHasAtLeastOneValue(hasAtLeastOneValue));
   };
 
   const listFieldForm: TMappedFormItems[] = [
@@ -244,7 +251,21 @@ export default function FacilityForm() {
   };
 
   const handleCancel = () => {
-    navigate(APP_ROUTE_URL.FACILITY.INDEX);
+    const hasAtLeastOneValue = handleCheckDataForm(formControl);
+    if (hasAtLeastOneValue) {
+      Modal.confirm({
+        title: (
+          <span>
+            このページを離れてもよろしいですか? <br /> 入力したデータは失われます。
+          </span>
+        ),
+        okText: 'はい',
+        cancelText: 'いいえ',
+        onOk() {
+          navigate(APP_ROUTE_URL.FACILITY.INDEX);
+        },
+      });
+    } else navigate(APP_ROUTE_URL.FACILITY.INDEX);
   };
 
   const handleDelete = () => {
@@ -262,6 +283,12 @@ export default function FacilityForm() {
       },
     });
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(formActions.getHasAtLeastOneValue(false));
+    };
+  }, []);
 
   return (
     <div>
