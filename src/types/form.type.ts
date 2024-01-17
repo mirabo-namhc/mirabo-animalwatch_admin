@@ -44,3 +44,7 @@ export interface IMFormItemProps<T extends ETypeFieldForm> extends Omit<TMappedF
     type: T;
     atomProps?: IAtomFormItemsProps[T];
 }
+
+export interface IFormState {
+    hasAtLeastOneValue?: boolean
+}

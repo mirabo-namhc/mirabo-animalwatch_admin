@@ -1,5 +1,5 @@
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { Upload, message } from 'antd';
+import { FormInstance, Upload, message } from "antd";
 import { IPagination, IResponseApiList } from '~types';
 
 export function getItemSideMenu(
@@ -66,4 +66,12 @@ export const getPaginationInfo = <T>(response: IResponseApiList<T>['data']) => {
 
 export const isNullable = (value: any): boolean => {
   return value === undefined || value === null || value === '';
+};
+
+export const handleCheckDataForm = (form?: FormInstance) => {
+  if (!form) return false;
+  const values = form.getFieldsValue();
+  const hasAtLeastOneValue = Object.values(values).some((value) => value !== undefined && value !== null && value !== '');
+
+  return hasAtLeastOneValue
 };

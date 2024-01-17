@@ -4,15 +4,15 @@ import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { RootState } from '~store/index';
 import { TFilterParams } from '~types';
 
-type TRootState = Omit<RootState, 'auth'>;
+type TRootState = Omit<RootState, 'auth' | 'form'>;
 
-interface UseGetListProps {
+interface IUseGetListProps {
   params: TFilterParams;
   action: CaseReducerActions<SliceCaseReducers<any>, string>;
   nameState: keyof TRootState;
 }
 
-export default function useGetList<T>({ params, action, nameState }: UseGetListProps) {
+export default function useGetList<T>({ params, action, nameState }: IUseGetListProps) {
   const dispatch = useAppDispatch();
   const { listData, pagination, reloadList, loading } = useAppSelector(
     (state: TRootState) => state[nameState],

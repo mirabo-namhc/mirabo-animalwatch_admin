@@ -1,6 +1,7 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Layout } from 'antd';
+import { Layout, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '~/_lib/redux/hooks';
 import { useURLInfo } from '~/hooks';
 import AButton from '~atoms/a-button';
 import { TITLE_HEADER } from '~constants/endpoint';
@@ -8,11 +9,26 @@ import './OHeader.scss';
 
 export default function OHeader() {
   const { pathname, isCreate, isEdit } = useURLInfo();
+  const { hasAtLeastOneValue } = useAppSelector((state) => state.form);
+
   const navigate = useNavigate();
 
   const onBack = () => {
     if (pathname) {
-      navigate(-1);
+      if (hasAtLeastOneValue) {
+        Modal.confirm({
+          title: (
+            <span>
+              このページを離れてもよろしいですか? <br /> 入力したデータは失われます。
+            </span>
+          ),
+          okText: 'はい',
+          cancelText: 'いいえ',
+          onOk() {
+            navigate(-1);
+          },
+        });
+      } else navigate(-1);
     }
   };
 

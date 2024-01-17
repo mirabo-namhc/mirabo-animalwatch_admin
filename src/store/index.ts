@@ -1,11 +1,12 @@
 import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './rootSaga';
 import authReducer from './auth/authSlice';
-import facilityReducer from './facility/facilitySlice';
 import couponReducer from './coupon/couponSlice';
 import eventReducer from './event/eventSlice';
+import facilityReducer from './facility/facilitySlice';
+import formReducer from './form/formSlice';
 import quizReducer from './quiz/quiz.slice';
+import rootSaga from './rootSaga';
 
 const reducers = combineReducers({
   auth: authReducer,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   coupon: couponReducer,
   event: eventReducer,
   quiz: quizReducer,
+  form: formReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
