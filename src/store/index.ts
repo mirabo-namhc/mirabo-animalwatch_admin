@@ -5,12 +5,14 @@ import authReducer from './auth/authSlice';
 import facilityReducer from './facility/facilitySlice';
 import couponReducer from './coupon/couponSlice';
 import eventReducer from './event/eventSlice';
+import quizReducer from './quiz/quiz.slice';
 
 const reducers = combineReducers({
   auth: authReducer,
   facility: facilityReducer,
   coupon: couponReducer,
   event: eventReducer,
+  quiz: quizReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

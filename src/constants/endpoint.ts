@@ -23,19 +23,25 @@ export const APP_ROUTE_URL = {
     RANK: 'rank',
     BANNER: {
       INDEX: 'banner',
-      TABLE: "",
-      EDIT: "edit",
-      CREATE: "create",
-      DETAIL: "detail",
+      TABLE: '',
+      EDIT: 'edit',
+      CREATE: 'create',
+      DETAIL: 'detail',
     },
   },
   VIDEO: '/video',
-  QUIZ: '/quiz',
   EVENT: {
     INDEX: '/event',
     TABLE: '',
     EDIT: 'edit',
     CREATE: 'create',
+  },
+  QUIZ: {
+    INDEX: '/quiz',
+    TABLE: '',
+    EDIT: 'edit',
+    CREATE: 'create',
+    DETAIL: 'detail',
   },
 };
 
@@ -52,9 +58,12 @@ export const TITLE_HEADER = {
   [`${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`]: 'バナー設定',
 
   [APP_ROUTE_URL.VIDEO]: '動画データ同期',
-  [APP_ROUTE_URL.QUIZ]: 'クイズ・豆知識',
 
   [APP_ROUTE_URL.EVENT.INDEX]: 'イベント情報',
   [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.EDIT}`]: 'イベント情報',
   [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.CREATE}`]: 'イベント情報',
+  [APP_ROUTE_URL.QUIZ.INDEX]: 'クイズ・豆知識',
+  [`${APP_ROUTE_URL.QUIZ.INDEX}/${APP_ROUTE_URL.QUIZ.DETAIL}`]: 'クイズ詳細',
+  [`${APP_ROUTE_URL.QUIZ.INDEX}/${APP_ROUTE_URL.QUIZ.EDIT}`]: 'クーポン一覧',
+  [`${APP_ROUTE_URL.QUIZ.INDEX}/${APP_ROUTE_URL.QUIZ.CREATE}`]: '新規登録',
 };

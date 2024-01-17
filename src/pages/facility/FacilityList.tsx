@@ -21,7 +21,7 @@ export default function FacilityList() {
     listData: listFacility,
     pagination,
     loading,
-  } = useGetList({
+  } = useGetList<IFacility[]>({
     params: paramsQuery,
     action: facilityActions,
     nameState: 'facility',

@@ -12,6 +12,8 @@ import EventList from '~pages/event/EventList';
 import FacilityForm from '~pages/facility/FacilityForm';
 import FacilityList from '~pages/facility/FacilityList';
 import Loadable from './Loadable';
+import QuizList from '~pages/quiz/QuizList';
+import QuizForm from '~pages/quiz/QuizFrom';
 
 const DashboardDefault = Loadable(lazy(() => import('~pages/dashboard')));
 const FacilityPage = Loadable(lazy(() => import('~pages/facility')));
@@ -121,8 +123,30 @@ const MainRoutes = {
     },
     {
       key: 7,
-      path: APP_ROUTE_URL.QUIZ,
+      path: APP_ROUTE_URL.QUIZ.INDEX,
       element: <QuizPage />,
+      children: [
+        {
+          key: 7.1,
+          path: APP_ROUTE_URL.QUIZ.TABLE,
+          element: <QuizList />,
+        },
+        {
+          key: 7.2,
+          path: APP_ROUTE_URL.QUIZ.DETAIL,
+          element: <QuizForm />,
+        },
+        {
+          key: 7.3,
+          path: APP_ROUTE_URL.QUIZ.EDIT,
+          element: <QuizForm />,
+        },
+        {
+          key: 7.4,
+          path: APP_ROUTE_URL.QUIZ.CREATE,
+          element: <QuizForm />,
+        },
+      ],
     },
     {
       key: 8,

@@ -1,4 +1,5 @@
 import { IPagination } from './common.type';
+import { EActiveField } from './enum.type';
 
 export interface IFacilityState {
   loading: boolean;
@@ -18,7 +19,7 @@ export interface IFacility {
   instagram_token_id?: string;
   image_thumnail_url?: string;
   folder_id?: string;
-  is_active?: boolean;
+  is_active?: EActiveField;
   start_date?: string;
   end_date?: string;
   order?: number;
