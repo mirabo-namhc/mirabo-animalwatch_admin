@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { IEvent, IRemovePayload, IResponseApiDetail, IResponseApiList, TCreateEditPayload, TFilterParams } from '~/types';
+import { IEvent, IRemovePayload, IResponseApiDetailEvent, IResponseApiList, TCreateEditPayload, TFilterParams } from '~/types';
 import eventAPI from '~services/api/event.api';
 import { eventActions } from './eventSlice';
 
@@ -18,9 +18,12 @@ function* handleFetchData(action: PayloadAction<TFilterParams>) {
 function* handleGetDetail(action: PayloadAction<number>) {
     try {
         const id = action.payload;
-        const response: IResponseApiDetail<IEvent> = yield call(eventAPI.getDetail, id);
-
-        yield put(eventActions.getDetailSuccess(response.data || {}));
+        const response: IResponseApiDetailEvent<IEvent> = yield call(eventAPI.getDetail, id);
+        const dataEvent = {
+            ...response.data,
+            ...response.data?.content
+        }
+        yield put(eventActions.getDetailSuccess(dataEvent || {}));
     } catch (error) {
         yield put(eventActions.fetchDataFalse('An error occurred, please try again'));
     }
