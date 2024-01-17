@@ -35,6 +35,12 @@ export interface IResponseApiDetail<T> {
   message?: string;
 }
 
+export interface IResponseApiListWithoutPagination<T> {
+  code?: string;
+  data?: T[];
+  message?: string;
+}
+
 export interface IPagination {
   total_page?: number;
   per_page?: number;

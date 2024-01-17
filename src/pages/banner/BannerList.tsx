@@ -1,55 +1,39 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OBannerLayout from '~organisms/o-banner-layout';
 import AButton from '~atoms/a-button';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { APP_ROUTE_URL } from '~constants/endpoint';
-import { Modal } from 'antd';
-import { useState } from 'react';
+import { Modal, Spin } from 'antd';
+import { useGetList } from '~/hooks';
+import { IBanner, TFilterParams } from '~types';
+import { bannerActions } from '~store/banner/bannerSlice';
+import { useAppDispatch } from '~/_lib/redux/hooks';
 
 export default function BannerList() {
   const navigate = useNavigate();
-  const [banners, setBanners] = useState([
-    {
-      key: 1,
-      name: '画像1',
-      imageUrl:
-        'https://www.shutterstock.com/image-photo/example-word-written-on-wooden-260nw-1765482248.jpg',
-      link: 'https://www.shutterstock.com/',
-      startDate: '2023/11/13',
-      endDate: '2023/11/13',
-      status: 'ON',
-    },
-    {
-      key: 2,
-      name: '画像2',
-      imageUrl:
-        'https://st5.depositphotos.com/3003449/63896/i/380/depositphotos_638962942-stock-photo-examples-word-written-wood-block.jpg',
-      link: 'https://www.shutterstock.com/',
-      startDate: '2023/11/13',
-      endDate: '2023/11/13',
-      status: 'ON',
-    },
-    {
-      key: 3,
-      name: '画像3',
-      imageUrl:
-        'https://st5.depositphotos.com/73724230/62419/i/450/depositphotos_624195698-stock-photo-wooden-blocks-example-text-concept.jpg',
-      link: 'https://www.shutterstock.com/',
-      startDate: '2023/11/13',
-      endDate: '2023/11/13',
-      status: 'OFF',
-    },
-  ]);
+  const dispatch = useAppDispatch();
+
+  const [paramsQuery, setParamsQuery] = useState<TFilterParams<IBanner>>({});
+
+  const {
+    listData: listBanner,
+    loading,
+  } = useGetList({
+    params: paramsQuery,
+    action: bannerActions,
+    nameState: 'banner',
+  });
 
   const onNavigateCreate = () => {
     navigate(APP_ROUTE_URL.SETTING.BANNER.CREATE);
   };
 
-  const handleEditBanner = (id: number) => {
+  const handleEditBanner = (id?: number) => {
     navigate(`${APP_ROUTE_URL.SETTING.BANNER.EDIT}?id=${id}`);
   };
 
-  const handleDeleteBanner = (id: number) => {
+  const handleDeleteBanner = (id?: number) => {
     Modal.confirm({
       title: 'バナー削除の確​​認',
       content: 'このバナーを削除してもよろしいですか?',
@@ -57,7 +41,12 @@ export default function BannerList() {
       okType: 'danger',
       cancelText: 'いいえ',
       onOk() {
-        setBanners(banners.filter((banner) => banner.key != id));
+        dispatch(
+          bannerActions.remove({
+            id: Number(id),
+            onNavigate: () => navigate(0),
+          }),
+        );
       },
     });
   };
@@ -75,19 +64,19 @@ export default function BannerList() {
         </AButton>
       </div>
 
-      {banners.map((item) => (
-        <OBannerLayout
-          key={item.key}
-          name={item.name}
-          imageUrl={item.imageUrl}
-          link={item.link}
-          startDate={item.startDate}
-          endDate={item.endDate}
-          status={item.status}
-          handleEditBanner={() => handleEditBanner(item.key)}
-          handleDeleteBanner={() => handleDeleteBanner(item.key)}
-        />
-      ))}
+      {loading ? (
+        <div className="mt-30 dis-flex jc-center">
+          <Spin size="large" />
+        </div>
+      ) : (
+        listBanner as IBanner[]).map((item) =>
+          <OBannerLayout
+            key={item.id}
+            banner={item}
+            handleEditBanner={() => handleEditBanner(item.id)}
+            handleDeleteBanner={() => handleDeleteBanner(item.id)}
+          />
+      )}
     </div>
   );
 }
