@@ -19,7 +19,11 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { getMessageErrorRequired, handleCheckDataForm } from '~utils/funcHelper';
+import {
+  messageErrorRequired,
+  handleCheckDataForm,
+  messageErrorMaxCharacter,
+} from '~utils/funcHelper';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
@@ -59,6 +63,7 @@ export default function FacilityForm() {
       name: 'name',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -66,11 +71,11 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('施設名'),
+          message: messageErrorRequired('施設名'),
         },
         {
-          max: 225,
-          message: '',
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -88,7 +93,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -98,6 +103,7 @@ export default function FacilityForm() {
       name: 'youtube_channel_id',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -105,11 +111,11 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('Youtube Video ID'),
+          message: messageErrorRequired('Youtube Video ID'),
         },
         {
-          max: 225,
-          message: '',
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -119,6 +125,7 @@ export default function FacilityForm() {
       name: 'instagram_token_id',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -126,11 +133,11 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('Instagramトークン'),
+          message: messageErrorRequired('Instagramトークン'),
         },
         {
-          max: 225,
-          message: '',
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -146,7 +153,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('ロゴ', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('ロゴ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -156,6 +163,7 @@ export default function FacilityForm() {
       name: 'folder_id',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -163,7 +171,11 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('動画フォルダID'),
+          message: messageErrorRequired('動画フォルダID'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -181,7 +193,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -198,7 +210,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('公開日', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('公開日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -264,7 +276,7 @@ export default function FacilityForm() {
 
   const handleDelete = () => {
     Modal.confirm({
-      title: 'このカテゴリを削除してもよろしいですか?',
+      title: '施設を削除しますか。よろしいでしょうか。',
       okText: 'はい',
       cancelText: 'いいえ',
       onOk() {

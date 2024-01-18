@@ -28,7 +28,7 @@ export const checkBeforeUpload = (file: FileError, fileSize: number): boolean | 
   // check size file
   const isLt8M = file.size / 1024 / 1024 < fileSize;
   if (!isLt8M) {
-    message.error('todo');
+    message.error('ファイルサイズの上限 5MBを超えています。');
     return isLt8M || Upload.LIST_IGNORE;
   }
 
@@ -78,10 +78,14 @@ export const handleCheckDataForm = (form?: FormInstance) => {
   return hasAtLeastOneValue
 };
 
-export const getMessageErrorRequired = (title: string, type?: EMessageErrorRequired) => {
-  if (type === EMessageErrorRequired.SELECT) return `${title}を選択してください`
-  return `${title}を入力してください`
+export const messageErrorRequired = (title: string, type?: EMessageErrorRequired) => {
+  if (type === EMessageErrorRequired.SELECT) return `${title}.を選択してください`
+  return `${title}.を入力してください`
 }
+export const messageErrorMaxCharacter = (number: number) => {
+  return `最大 ${number} 文字です。`
+}
+
 
 
 export const numberPreventInput = (value: string, field: string, fixNumber: number, form?: FormInstance) => {

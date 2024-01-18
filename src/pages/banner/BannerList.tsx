@@ -16,10 +16,7 @@ export default function BannerList() {
 
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IBanner>>({});
 
-  const {
-    listData: listBanner,
-    loading,
-  } = useGetList({
+  const { listData: listBanner, loading } = useGetList({
     params: paramsQuery,
     action: bannerActions,
     nameState: 'banner',
@@ -35,8 +32,7 @@ export default function BannerList() {
 
   const handleDeleteBanner = (id?: number) => {
     Modal.confirm({
-      title: 'バナー削除の確​​認',
-      content: 'このバナーを削除してもよろしいですか?',
+      title: 'バナーを削除しますか。よろしいでしょうか。',
       okText: 'はい',
       okType: 'danger',
       cancelText: 'いいえ',
@@ -69,13 +65,14 @@ export default function BannerList() {
           <Spin size="large" />
         </div>
       ) : (
-        listBanner as IBanner[]).map((item) =>
+        (listBanner as IBanner[]).map((item) => (
           <OBannerLayout
             key={item.id}
             banner={item}
             handleEditBanner={() => handleEditBanner(item.id)}
             handleDeleteBanner={() => handleDeleteBanner(item.id)}
           />
+        ))
       )}
     </div>
   );

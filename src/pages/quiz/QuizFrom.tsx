@@ -299,7 +299,7 @@ export default function QuizForm() {
 
   const handleDeleteQuiz = () => {
     Modal.confirm({
-      title: 'このカテゴリを削除してもよろしいですか?',
+      title: 'クイズを削除しますか。よろしいでしょうか。',
       okText: 'はい',
       cancelText: 'いいえ',
       onOk() {
