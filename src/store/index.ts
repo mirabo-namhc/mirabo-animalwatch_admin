@@ -7,6 +7,7 @@ import facilityReducer from './facility/facilitySlice';
 import formReducer from './form/formSlice';
 import quizReducer from './quiz/quiz.slice';
 import rootSaga from './rootSaga';
+import bannerReducer from './banner/bannerSlice';
 
 const reducers = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   event: eventReducer,
   quiz: quizReducer,
   form: formReducer,
+  banner: bannerReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

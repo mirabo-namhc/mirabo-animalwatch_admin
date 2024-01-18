@@ -1,37 +1,27 @@
 import type { AnyObject } from 'antd/es/_util/type';
 import React from 'react';
-
 import './OBannerLayout.scss';
 import { Image } from 'antd';
 import AButton from '~atoms/a-button';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { IBanner } from '~types';
 
 interface TOBannerLayout<T> {
   className?: string;
-  name: string;
-  imageUrl: string;
-  link: string;
-  startDate: string;
-  endDate: string;
-  status: string;
+  banner: IBanner;
   handleEditBanner: React.MouseEventHandler<HTMLElement>;
   handleDeleteBanner: React.MouseEventHandler<HTMLElement>;
 }
 
 export function OBannerLayout<T extends AnyObject>({
-  name,
-  imageUrl,
-  link,
-  startDate,
-  endDate,
-  status,
+  banner,
   handleEditBanner,
   handleDeleteBanner,
 }: TOBannerLayout<T>) {
   return (
     <div className="dis-flex mb-40">
         <div className='banner-side-left'>
-          <span>{name}</span>
+          <span>画像{banner.order}</span>
         </div>
         <div className='banner-side-right'>
           <div className="banner-side-right-content">
@@ -39,22 +29,22 @@ export function OBannerLayout<T extends AnyObject>({
               <Image
                 width={600}
                 height={250}
-                src={imageUrl}
+                src={banner.image_url}
               />
             </div>
 
             <div className='mt-6'>
-              <span className='banner-side-right-content-link'>{link}</span>
+              <span className='banner-side-right-content-link'>{banner.link}</span>
             </div>
 
             <div className='mt-6'>
-              <span>開始日: {startDate}</span>
-              <span className='ml-40'>終了日: {endDate}</span>
+              <span>開始日: {banner.start_date} </span>
+              <span className='ml-40'>終了日: {banner.end_date}</span>
             </div>
 
             <div className='mt-6'>
               <span>表示状態</span>
-              <span className='ml-20'>{status}</span>
+              <span className='ml-20'>{banner.is_active ? 'ON' : 'OFF'}</span>
             </div>
           </div>
 
