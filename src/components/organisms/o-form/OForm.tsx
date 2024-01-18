@@ -91,7 +91,7 @@ export default function OForm<Values extends Record<string, any>>({
           ) : (
             <>
               <AButton type="default" onClick={onCancel}>
-                プレビュ
+                キャンセル
               </AButton>
               <Form.Item>
                 <AButton type="primary" htmlType="submit" loading={loading} disabled={loading}>

@@ -12,7 +12,7 @@ const initialState: IQuizState = {
   loadingUpdate: false,
   listData: [],
   pagination: {},
-  detailData: {},
+  detailData: null,
 };
 
 const quizSlice = createSlice({
