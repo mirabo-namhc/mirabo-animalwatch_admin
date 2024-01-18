@@ -26,30 +26,37 @@ export default function OLoginForm({
   return (
     <Form form={form} onFinish={handleSubmit} className="login-form">
       <div className="login-form-input">
+        <b>ユーザー</b>
         <MFormInput
           placeholder="ユーザー名"
-          isRequired={true}
-          message="ユーザー名を入力してください"
           type="text"
           id="username"
           name="username"
           value={username}
           onChange={handleUsernameChange}
           prefix={<UserOutlined className="site-form-item-icon" />}
+          rules={[{
+            required: true,
+            message: "ユーザー名を入力してください",
+            whitespace: true,
+          }]}
         />
       </div>
 
       <div className="login-form-input mt-20">
+        <b>パスワード</b>
         <MFormInput
           placeholder="パスワード"
-          isRequired={true}
-          message="パスワードを入力してください"
           type="password"
           id="password"
           name="password"
           value={password}
           onChange={handlePasswordChange}
           prefix={<LockOutlined className="site-form-item-icon" />}
+          rules={[{
+            required: true,
+            message: "パスワードを入力してください",
+          }]}
         />
       </div>
 

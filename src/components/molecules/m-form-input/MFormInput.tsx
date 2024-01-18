@@ -1,18 +1,15 @@
-import { LockOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
+import { Rule } from 'antd/es/form';
 import React from 'react';
 import AInput from '~atoms/a-input';
 import { IAInput } from '~atoms/a-input/AInput';
 
 export interface IMFormInputProps extends IAInput {
   name: string;
-  message: string;
-  isRequired: boolean;
+  rules: Rule[] | undefined;
 }
 
 function MFormInput({
-  isRequired,
-  message,
   placeholder,
   name,
   type,
@@ -20,10 +17,14 @@ function MFormInput({
   value,
   onChange,
   prefix,
+  rules,
   ...props
 }: IMFormInputProps) {
   return (
-    <Form.Item name={name} rules={[{ required: isRequired, message: message }]}>
+    <Form.Item
+      name={name}
+      rules={rules}
+    >
       <AInput
         prefix={prefix}
         placeholder={placeholder}
