@@ -3,6 +3,7 @@ import { ETypeFieldForm } from "./enum.type";
 import type {
     ColProps,
     DatePickerProps,
+    FormInstance,
     FormItemProps,
     InputNumberProps,
     InputProps,
@@ -18,6 +19,9 @@ interface ICustomMappedFormItems {
     length?: number;
     isDisable?: boolean;
 }
+interface ICustomInputNumber extends InputProps {
+    formControl: FormInstance;
+}
 
 export interface IAtomFormItemsProps {
     [ETypeFieldForm.TEXT_FIELD]: InputProps;
@@ -29,7 +33,7 @@ export interface IAtomFormItemsProps {
     [ETypeFieldForm.TEXT_AREA]: TextAreaProps;
     [ETypeFieldForm.UPLOAD]: UploadProps;
     [ETypeFieldForm.PASSWORD]: PasswordProps;
-    [ETypeFieldForm.INPUT_NUMBER]: InputNumberProps;
+    [ETypeFieldForm.INPUT_NUMBER]: ICustomInputNumber;
 }
 
 export type TMappedFormItems = {

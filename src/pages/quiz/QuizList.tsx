@@ -9,6 +9,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { quizActions } from '~store/quiz/quiz.slice';
 import { IQuiz, TFilterParams } from '~types';
+import { getNoTable } from '~utils/tableHelper';
 
 interface IQuizTables extends IQuiz {
   key: string | number;
@@ -37,7 +38,9 @@ export default function QuizList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: IQuiz, index: number) => <span>{index + 1}</span>,
+      render: (_: unknown, record: IQuiz, index: number) => (
+        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
+      ),
     },
     {
       title: 'タイトル',

@@ -15,3 +15,8 @@ export enum EActiveField {
   ACTIVE = 1,
   INACTIVE = 0,
 }
+
+export enum EMessageErrorRequired {
+  INPUT = 'input',
+  SELECT = 'select',
+}

@@ -41,6 +41,8 @@ export default function OForm<Values extends Record<string, any>>({
       switch (item.type) {
         case ETypeFieldForm.TEXT_FIELD:
           return <MFormField.TextField key={`${item.name}-${index}`} {...item} />;
+        case ETypeFieldForm.INPUT_NUMBER:
+          return <MFormField.InputNumber key={`${item.name}-${index}`} {...item} />;
         case ETypeFieldForm.TEXT_AREA:
           return <MFormField.TextArea key={`${item.name}-${index}`} {...item} />;
         case ETypeFieldForm.SELECT:

@@ -1,6 +1,8 @@
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
 import { FormInstance, Upload, message } from "antd";
 import { IPagination, IResponseApiList } from '~types';
+import { EMessageErrorRequired } from '~/types/enum.type';
+import { replacePositionRangeNumber } from './number';
 
 export function getItemSideMenu(
   label: React.ReactNode,
@@ -74,4 +76,19 @@ export const handleCheckDataForm = (form?: FormInstance) => {
   const hasAtLeastOneValue = Object.values(values).some((value) => value !== undefined && value !== null && value !== '');
 
   return hasAtLeastOneValue
+};
+
+export const getMessageErrorRequired = (title: string, type?: EMessageErrorRequired) => {
+  if (type === EMessageErrorRequired.SELECT) return `${title}を選択してください`
+  return `${title}を入力してください`
+}
+
+
+export const numberPreventInput = (value: string, field: string, fixNumber: number, form?: FormInstance) => {
+  if (form) {
+    form.setFieldValue(
+      field,
+      replacePositionRangeNumber(value, undefined, undefined, fixNumber),
+    );
+  }
 };

@@ -37,7 +37,7 @@ export default function OHeader() {
       {TITLE_HEADER[pathname]}
       {(isCreate || isEdit) && (
         <AButton className="button-back-header" leftIcon={<ArrowLeftOutlined />} onClick={onBack}>
-          戻ってくる
+          戻る
         </AButton>
       )}
     </Layout.Header>
