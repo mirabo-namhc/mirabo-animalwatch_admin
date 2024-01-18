@@ -147,7 +147,7 @@ export default function CouponForm() {
 
   const handleDeleteCoupon = () => {
     Modal.confirm({
-      title: 'このカテゴリを削除してもよろしいですか?',
+      title: 'このクーポンーを削除しますか。よろしいでしょうか。',
       okText: 'はい',
       cancelText: 'いいえ',
       onOk() {

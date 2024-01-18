@@ -21,7 +21,11 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { getMessageErrorRequired, handleCheckDataForm } from '~utils/funcHelper';
+import {
+  messageErrorRequired,
+  handleCheckDataForm,
+  messageErrorMaxCharacter,
+} from '~utils/funcHelper';
 
 export default function EventForm() {
   const dispatch = useAppDispatch();
@@ -76,7 +80,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('施設名', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('施設名', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -86,6 +90,7 @@ export default function EventForm() {
       name: 'name',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -93,11 +98,11 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('イベント名'),
+          message: messageErrorRequired('イベント名'),
         },
         {
           max: 255,
-          message: '',
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -107,6 +112,7 @@ export default function EventForm() {
       name: 'title',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -114,11 +120,11 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('タイトル'),
+          message: messageErrorRequired('タイトル'),
         },
         {
           max: 255,
-          message: '',
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -134,7 +140,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('画像', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('画像', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -144,6 +150,7 @@ export default function EventForm() {
       name: 'overview',
       atomProps: {
         placeholder: '',
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -151,11 +158,11 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('概要'),
+          message: messageErrorRequired('概要'),
         },
         {
-          max: 65535,
-          message: '',
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -172,7 +179,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('公開日', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('公開日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -202,7 +209,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -257,7 +264,7 @@ export default function EventForm() {
 
   const handleDelete = () => {
     Modal.confirm({
-      title: 'このイベントを削除してもよろしいですか?',
+      title: 'このイベントを削除しますか。よろしいでしょうか。',
       okText: 'はい',
       cancelText: 'いいえ',
       onOk() {

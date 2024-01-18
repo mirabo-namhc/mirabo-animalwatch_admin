@@ -9,7 +9,7 @@ import OForm from '~organisms/o-form';
 import OTable from '~organisms/o-table';
 import { TFilterParams } from '~types';
 import { convertToSelectOptions } from '~utils/arrayHelper';
-import { getMessageErrorRequired } from '~utils/funcHelper';
+import { messageErrorRequired } from '~utils/funcHelper';
 
 interface IUser {
   name: string;
@@ -60,7 +60,7 @@ export default function DashboardDefault() {
       rules: [
         {
           required: true,
-          message: getMessageErrorRequired('イベント名'),
+          message: messageErrorRequired('イベント名'),
         },
       ],
     },
