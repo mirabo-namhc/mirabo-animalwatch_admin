@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
 import useURLInfo from '~/hooks/useURLInfo';
-import { ETypeFieldForm } from '~/types/enum.type';
+import { EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from '~constants/form';
@@ -19,7 +19,7 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { handleCheckDataForm } from '~utils/funcHelper';
+import { getMessageErrorRequired, handleCheckDataForm } from '~utils/funcHelper';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
@@ -40,6 +40,7 @@ export default function FacilityForm() {
     ...detailData,
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
+    is_active: detailData?.is_active ?? 1,
   };
 
   const handleValuesChange = (value: IFacility) => {
@@ -65,7 +66,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('施設名'),
         },
         {
           max: 225,
@@ -87,7 +88,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -104,7 +105,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('Youtube Video ID'),
         },
         {
           max: 225,
@@ -125,7 +126,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('Instagramトークン'),
         },
         {
           max: 225,
@@ -145,7 +146,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('ロゴ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -162,7 +163,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('動画フォルダID'),
         },
       ],
     },
@@ -173,7 +174,6 @@ export default function FacilityForm() {
       atomProps: {
         placeholder: '',
         options: isActiveFacilityOptions,
-        defaultValue: 1,
       },
       colProps: {
         span: COLDEF,
@@ -181,7 +181,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -198,7 +198,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('公開日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -213,24 +213,6 @@ export default function FacilityForm() {
       colProps: {
         span: COL_HAFT,
       },
-    },
-    {
-      type: ETypeFieldForm.SELECT,
-      label: '表示順',
-      name: 'order',
-      atomProps: {
-        placeholder: '',
-        options: [{ label: 1, value: 1 }],
-      },
-      colProps: {
-        span: COLDEF,
-      },
-      rules: [
-        {
-          required: true,
-          message: '',
-        },
-      ],
     },
   ];
 
@@ -314,7 +296,7 @@ export default function FacilityForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={isCreate ? {} : initValues}
+          initialValues={initValues}
           onCancel={handleCancel}
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}

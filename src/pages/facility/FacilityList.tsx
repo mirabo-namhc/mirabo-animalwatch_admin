@@ -16,7 +16,7 @@ export default function FacilityList() {
   const navigate = useNavigate();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IFacility>>({
     current_page: 1,
-    per_page: 5,
+    per_page: 10,
   });
 
   const {
@@ -49,10 +49,10 @@ export default function FacilityList() {
     {
       title: '表示状態',
       dataIndex: 'is_active',
-      render: (value) => (value ? '画面' : '非表示'),
+      render: (value) => (value ? '表示' : '非表示'),
     },
     {
-      title: '表示状態',
+      title: '表示順',
       dataIndex: 'order',
     },
     {

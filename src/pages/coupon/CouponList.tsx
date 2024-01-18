@@ -10,6 +10,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { couponActions } from '~store/coupon/couponSlice';
 import { TFilterParams } from '~types';
+import { getNoTable } from '~utils/tableHelper';
 
 interface ICouponTables extends ICoupon {
   key: string | number;
@@ -53,7 +54,9 @@ export default function CouponList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: ICoupon, index: number) => <span>{index + 1}</span>,
+      render: (_: unknown, record: ICoupon, index: number) => (
+        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
+      ),
     },
     {
       title: '施設名',

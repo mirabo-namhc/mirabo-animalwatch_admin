@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail, useGetList } from '~/hooks';
 import useURLInfo from '~/hooks/useURLInfo';
-import { ETypeFieldForm } from '~/types/enum.type';
+import { EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, isActiveFacilityOptions } from '~constants/form';
@@ -21,7 +21,7 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { handleCheckDataForm } from '~utils/funcHelper';
+import { getMessageErrorRequired, handleCheckDataForm } from '~utils/funcHelper';
 
 export default function EventForm() {
   const dispatch = useAppDispatch();
@@ -47,6 +47,7 @@ export default function EventForm() {
     ...detailData,
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
+    is_active: detailData?.is_active ?? 1,
   };
 
   const handleValuesChange = (value: IEvent) => {
@@ -75,7 +76,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('施設名', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -92,7 +93,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('イベント名'),
         },
         {
           max: 255,
@@ -113,7 +114,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('タイトル'),
         },
         {
           max: 255,
@@ -133,7 +134,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('画像', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -150,7 +151,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('概要'),
         },
         {
           max: 65535,
@@ -171,7 +172,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('公開日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -193,7 +194,6 @@ export default function EventForm() {
       name: 'is_active',
       atomProps: {
         placeholder: '',
-        defaultValue: 1,
         options: isActiveFacilityOptions,
       },
       colProps: {
@@ -202,7 +202,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: '',
+          message: getMessageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -289,7 +289,7 @@ export default function EventForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={isCreate ? {} : initValues}
+          initialValues={initValues}
           onCancel={handleCancel}
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}

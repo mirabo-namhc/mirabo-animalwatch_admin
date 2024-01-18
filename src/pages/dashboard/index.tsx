@@ -9,6 +9,7 @@ import OForm from '~organisms/o-form';
 import OTable from '~organisms/o-table';
 import { TFilterParams } from '~types';
 import { convertToSelectOptions } from '~utils/arrayHelper';
+import { getMessageErrorRequired } from '~utils/funcHelper';
 
 interface IUser {
   name: string;
@@ -48,6 +49,21 @@ export default function DashboardDefault() {
   ];
 
   const listFieldForm: TMappedFormItems[] = [
+    {
+      type: ETypeFieldForm.INPUT_NUMBER,
+      label: 'test number',
+      name: 'number',
+      atomProps: {
+        placeholder: '',
+        formControl,
+      },
+      rules: [
+        {
+          required: true,
+          message: getMessageErrorRequired('イベント名'),
+        },
+      ],
+    },
     {
       type: ETypeFieldForm.TEXT_FIELD,
       label: 'テストID',

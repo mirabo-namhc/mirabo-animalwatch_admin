@@ -10,7 +10,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { eventActions } from '~store/event/eventSlice';
 import { TFilterParams } from '~types';
-import { getTotal } from '~utils/tableHelper';
+import { getNoTable, getTotal } from '~utils/tableHelper';
 
 export default function EventList() {
   const navigate = useNavigate();
@@ -33,7 +33,9 @@ export default function EventList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: IEvent, index: number) => <span>{record.id}</span>,
+      render: (_: unknown, record: IEvent, index: number) => (
+        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
+      ),
     },
     {
       title: '施設名',
