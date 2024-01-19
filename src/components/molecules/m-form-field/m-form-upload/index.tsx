@@ -8,6 +8,7 @@ import { IMFormItemProps } from '~/types/form.type';
 import uploadAPI from '~services/api/upload.api';
 import { IResponseApiUpload } from '~types';
 import { checkBeforeUpload, handleAppendFormDataFile } from '~utils/funcHelper';
+import './MFormUpload.scss';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -90,6 +91,7 @@ function MFormUpload({
         footer={null}
         onCancel={handleCancel}
         destroyOnClose
+        className="modal-preview-img"
       >
         <img alt="example" className="full-width" src={previewImage} />
       </Modal>
