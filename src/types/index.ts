@@ -7,3 +7,4 @@ export * from './coupon.type';
 export * from './event.type';
 export * from './quiz.type';
 export * from './banner.type';
+export * from './upload.type';
