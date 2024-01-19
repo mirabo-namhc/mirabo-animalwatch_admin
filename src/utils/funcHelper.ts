@@ -1,7 +1,8 @@
-import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { FormInstance, Upload, message } from 'antd';
-import { IPagination, IResponseApiList } from '~types';
+import { FormInstance, Upload, message } from "antd";
+import { UploadFile } from 'antd/lib';
 import { EMessageErrorRequired } from '~/types/enum.type';
+import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
+import { IPagination, IResponseApiList } from '~types';
 import { replacePositionRangeNumber } from './number';
 
 export function getItemSideMenu(
@@ -25,18 +26,10 @@ interface FileError extends File {
 }
 
 export const checkBeforeUpload = (file: FileError, fileSize: number): boolean | string => {
-  // check size file
-  const isLt8M = file.size / 1024 / 1024 < fileSize;
-  if (!isLt8M) {
-    message.error('ファイルサイズの上限 5MBを超えています。');
-    return isLt8M || Upload.LIST_IGNORE;
-  }
-
   // check type file
   const isJpgOrPng = ['image/jpeg', 'image/png'].includes(file.type);
-
   if (!isJpgOrPng) {
-    message.error('todo');
+    message.error('画像のフォーマットは正しくないです。');
     return isJpgOrPng || Upload.LIST_IGNORE;
   }
 
@@ -44,10 +37,16 @@ export const checkBeforeUpload = (file: FileError, fileSize: number): boolean | 
   const checkLastNameFile = ['jpg', 'png', 'jpeg'].includes(
     (file?.name?.split('.')?.pop() || '').toLowerCase(),
   );
-
   if (!checkLastNameFile) {
-    message.error('todo');
+    message.error('画像のフォーマットは正しくないです。');
     return checkLastNameFile || Upload.LIST_IGNORE;
+  }
+
+  // check size file
+  const isLt8M = file.size / 1024 / 1024 < fileSize;
+  if (!isLt8M) {
+    message.error('ファイルサイズの上限 5MBを超えています。');
+    return isLt8M || Upload.LIST_IGNORE;
   }
 
   return false;
@@ -126,3 +125,9 @@ export const messageCud = (
       };
   }
 };
+export const handleAppendFormDataFile = (file: UploadFile<any>) => {
+  const formData = new FormData();
+  if (file?.originFileObj) formData.append('file', file.originFileObj as Blob);
+
+  return formData
+}

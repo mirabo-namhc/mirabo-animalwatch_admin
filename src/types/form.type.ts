@@ -9,6 +9,7 @@ import type {
     InputProps,
     RadioGroupProps,
     SelectProps,
+    UploadFile,
     UploadProps,
 } from 'antd';
 import { RangePickerProps } from "antd/es/date-picker";
@@ -22,6 +23,10 @@ interface ICustomMappedFormItems {
 interface ICustomInputNumber extends InputProps {
     formControl: FormInstance;
 }
+interface ICustomUpload extends UploadProps {
+    initialFileList: UploadFile<any>[];
+    setUrlFile: (file: string | undefined) => void;
+}
 
 export interface IAtomFormItemsProps {
     [ETypeFieldForm.TEXT_FIELD]: InputProps;
@@ -31,7 +36,7 @@ export interface IAtomFormItemsProps {
     [ETypeFieldForm.RADIO]: RadioGroupProps;
     [ETypeFieldForm.RANGE_DATE]: RangePickerProps;
     [ETypeFieldForm.TEXT_AREA]: TextAreaProps;
-    [ETypeFieldForm.UPLOAD]: UploadProps;
+    [ETypeFieldForm.UPLOAD]: ICustomUpload;
     [ETypeFieldForm.PASSWORD]: PasswordProps;
     [ETypeFieldForm.INPUT_NUMBER]: ICustomInputNumber;
 }

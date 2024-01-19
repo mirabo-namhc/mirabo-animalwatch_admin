@@ -136,7 +136,18 @@ export default function EventForm() {
       colProps: {
         span: COLDEF,
       },
-      atomProps: {},
+      atomProps: {
+        setUrlFile: (file) => formControl.setFieldValue('image_url', file),
+        initialFileList: initValues?.image_url
+          ? [
+              {
+                uid: initValues?.image_url,
+                url: initValues?.image_url,
+                name: initValues?.image_url,
+              },
+            ]
+          : [],
+      },
       rules: [
         {
           required: true,

@@ -2,15 +2,12 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Col, Form, Modal, Upload, UploadFile, UploadProps } from 'antd';
 import { RcFile } from 'antd/lib/upload';
 import { useState } from 'react';
+import { useAppDispatch } from '~/_lib/redux/hooks';
 import { ETypeFieldForm } from '~/types/enum.type';
 import { IMFormItemProps } from '~/types/form.type';
-import { checkBeforeUpload } from '~utils/funcHelper';
-
-interface IMFormUploadProps extends IMFormItemProps<ETypeFieldForm.UPLOAD> {
-  deletedArr?: string[];
-  setAddedArr?: (files: RcFile[]) => void;
-  setDeletedArr?: (deleted: string[]) => void;
-}
+import uploadAPI from '~services/api/upload.api';
+import { IResponseApiUpload } from '~types';
+import { checkBeforeUpload, handleAppendFormDataFile } from '~utils/funcHelper';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -24,15 +21,13 @@ function MFormUpload({
   colProps,
   atomProps,
   length = 1,
-  //   deletedArr = [],
-  //   setAddedArr,
-  //   setDeletedArr,
   ...formItemProps
-}: IMFormUploadProps) {
+}: IMFormItemProps<ETypeFieldForm.UPLOAD>) {
+  const dispatch = useAppDispatch();
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>(atomProps?.defaultFileList || []);
+  const [fileList, setFileList] = useState<UploadFile[]>(atomProps?.initialFileList || []);
 
   const handleCancel = () => setPreviewVisible(false);
 
@@ -46,8 +41,26 @@ function MFormUpload({
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
+  const fetchDataFile = async (file: FormData) => {
+    try {
+      if (file) {
+        const response: IResponseApiUpload = await uploadAPI.image(file);
+        atomProps?.setUrlFile(response?.data?.url);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+
+    if (newFileList.length < 1) atomProps?.setUrlFile(undefined);
+    if (newFileList[0]) {
+      const paramFile = handleAppendFormDataFile(newFileList[0]);
+      fetchDataFile(paramFile);
+    }
+  };
 
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
@@ -71,7 +84,13 @@ function MFormUpload({
           {fileList.length >= length ? null : uploadButton}
         </Upload>
       </Form.Item>
-      <Modal open={previewVisible} title={'image'} footer={null} onCancel={handleCancel}>
+      <Modal
+        open={previewVisible}
+        title={'画像'}
+        footer={null}
+        onCancel={handleCancel}
+        destroyOnClose
+      >
         <img alt="example" className="full-width" src={previewImage} />
       </Modal>
     </Col>

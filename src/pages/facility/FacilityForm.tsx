@@ -20,9 +20,9 @@ import {
   disableDateBefore,
 } from '~utils/datetime';
 import {
-  messageErrorRequired,
   handleCheckDataForm,
   messageErrorMaxCharacter,
+  messageErrorRequired,
 } from '~utils/funcHelper';
 
 export default function FacilityForm() {
@@ -45,6 +45,7 @@ export default function FacilityForm() {
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
     is_active: detailData?.is_active ?? 1,
+    img_thumbnail_url: detailData?.img_thumbnail_url,
   };
 
   const handleValuesChange = (value: IFacility) => {
@@ -144,12 +145,23 @@ export default function FacilityForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: 'ロゴ',
-      name: 'image_thumnail_url',
+      name: 'img_thumbnail_url',
       length: 1,
       colProps: {
         span: COLDEF,
       },
-      atomProps: {},
+      atomProps: {
+        setUrlFile: (file) => formControl.setFieldValue('img_thumbnail_url', file),
+        initialFileList: initValues?.img_thumbnail_url
+          ? [
+              {
+                uid: initValues?.img_thumbnail_url,
+                url: initValues?.img_thumbnail_url,
+                name: initValues?.img_thumbnail_url,
+              },
+            ]
+          : [],
+      },
       rules: [
         {
           required: true,
@@ -158,12 +170,12 @@ export default function FacilityForm() {
       ],
     },
     {
-      type: ETypeFieldForm.TEXT_FIELD,
+      type: ETypeFieldForm.INPUT_NUMBER,
       label: '動画フォルダID',
       name: 'folder_id',
       atomProps: {
         placeholder: '',
-        maxLength: 255,
+        formControl,
       },
       colProps: {
         span: COLDEF,
@@ -172,10 +184,6 @@ export default function FacilityForm() {
         {
           required: true,
           message: messageErrorRequired('動画フォルダID'),
-        },
-        {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -308,7 +316,7 @@ export default function FacilityForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={initValues}
+          initialValues={isEdit ? initValues : { is_active: 1 }}
           onCancel={handleCancel}
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}
