@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
 import useURLInfo from '~/hooks/useURLInfo';
-import { EActiveField, ETypeFieldForm } from '~/types/enum.type';
+import { EActiveField, EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, isActiveFacilityOptions } from '~constants/form';
@@ -19,7 +19,7 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { isNullable } from '~utils/funcHelper';
+import { isNullable, messageErrorRequired } from '~utils/funcHelper';
 
 export default function QuizForm() {
   const [quiz, setQuiz] = React.useState<IQuiz>({} as IQuiz);
@@ -51,7 +51,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('タイトル'),
         },
       ],
     },
@@ -68,7 +68,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('質問'),
         },
       ],
     },
@@ -83,7 +83,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('設問画像'),
         },
       ],
     },
@@ -112,7 +112,7 @@ export default function QuizForm() {
                 rules={[
                   {
                     required: true,
-                    message: 'Required',
+                    message: messageErrorRequired('選択肢1'),
                   },
                 ]}
               />
@@ -135,7 +135,7 @@ export default function QuizForm() {
                 rules={[
                   {
                     required: true,
-                    message: 'Required',
+                    message: messageErrorRequired('選択肢2'),
                   },
                 ]}
               />
@@ -158,7 +158,7 @@ export default function QuizForm() {
                 rules={[
                   {
                     required: true,
-                    message: 'Required',
+                    message: messageErrorRequired('選択肢3'),
                   },
                 ]}
               />
@@ -170,7 +170,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('正解', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -185,7 +185,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('解説画像'),
         },
       ],
     },
@@ -203,7 +203,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('答え'),
         },
       ],
     },
@@ -215,33 +215,26 @@ export default function QuizForm() {
       colProps: {
         span: COL_HAFT,
       },
-      atomProps: {
-        disabledDate: disableDateBefore,
-      },
+      atomProps: { placeholder: '', disabledDate: disableDateBefore },
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('公開日'),
         },
       ],
     },
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '終了日',
+      label: '公開終了日',
       name: 'end_date',
       colProps: {
         span: COL_HAFT,
       },
       atomProps: {
+        placeholder: '',
         disabledDate: (current) =>
           disableBeforeDateWithParams(current, formControl.getFieldValue('start_date')),
       },
-      rules: [
-        {
-          required: true,
-          message: 'Required',
-        },
-      ],
     },
     {
       type: ETypeFieldForm.SELECT,
@@ -258,7 +251,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: 'Required',
+          message: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -318,20 +311,22 @@ export default function QuizForm() {
   const handleCancel = () => {
     const currentValues = formControl.getFieldsValue();
 
+    const fieldSkipCheckChange = ['is_active', 'end_date'];
+
     const hasValueChanged = Object.keys(currentValues).some(
-      (key) => !isNullable(currentValues[key]) && key !== 'is_active',
+      (key) => !isNullable(currentValues[key]) && !fieldSkipCheckChange.includes(key),
     );
 
     if (hasValueChanged) {
       Modal.confirm({
-        title: 'このカテ��リをキャンセルしてもよ��しいですか?',
+        title: '変更は保存されません。 まだページを離れますか?',
         okText: 'はい',
+        cancelText: 'いいえ',
+        onOk() {
+          navigateToQuizList();
+        },
       });
-
-      return;
-    }
-
-    navigateToQuizList();
+    } else navigateToQuizList();
   };
 
   const navigateToQuizList = () => {
@@ -343,8 +338,8 @@ export default function QuizForm() {
     if (quizDetail) {
       setQuiz({
         ...quizDetail,
-        start_date: dayjs(new Date()),
-        end_date: dayjs(new Date()),
+        start_date: quizDetail?.start_date && dayjs(quizDetail?.start_date),
+        end_date: quizDetail?.end_date && dayjs(quizDetail?.end_date),
       });
     }
   }, [quizDetail]);

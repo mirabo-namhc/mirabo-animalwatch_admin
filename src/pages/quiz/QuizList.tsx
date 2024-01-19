@@ -92,8 +92,8 @@ export default function QuizList() {
     <div className="gray fs-20">
       <div className="dis-flex mb-10 ai-center jc-space-between mb-30">
         <div className="dis-flex ai-center">
-          <h4 className="mr-10">施設:</h4>{' '}
-          <MInputSearch setParamsQuery={setParamsQuery} paramsQuery={paramsQuery} />
+          {/* <h4 className="mr-10">施設:</h4>{' '}
+          <MInputSearch setParamsQuery={setParamsQuery} paramsQuery={paramsQuery} /> */}
         </div>
         <AButton
           size="middle"

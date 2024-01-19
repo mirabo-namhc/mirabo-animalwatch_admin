@@ -10,7 +10,7 @@ export interface IQuizState {
   loadingUpdate: boolean;
   listData: IQuiz[];
   pagination?: IPagination;
-  detailData?: IQuiz;
+  detailData?: IQuiz | null;
 }
 
 export interface IQuiz {

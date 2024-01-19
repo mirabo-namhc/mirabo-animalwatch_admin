@@ -4,6 +4,8 @@ import { IResponseApiList, IResponseApiDetail, TFilterParams } from '~/types';
 import { quizActions } from './quiz.slice';
 import { IQuiz } from '~/types/quiz.type';
 import quizAPI from '~services/api/quiz.api';
+import { messageCud } from '~utils/funcHelper';
+import { QUIZ_INDEX_SCREEN_NAME } from '~constants/endpoint';
 
 function* handleFetchData(action: PayloadAction<TFilterParams>) {
   try {
@@ -32,44 +34,53 @@ function* handleGetDetail(action: PayloadAction<number>) {
 }
 
 function* handleCreate(action: PayloadAction<{ params: IQuiz; onCreatedSuccess: () => void }>) {
+  const { failedMessage, successMessage } = messageCud(QUIZ_INDEX_SCREEN_NAME, 'CREATE');
   try {
     const { params, onCreatedSuccess } = action.payload;
     const response: IQuiz = yield call(quizAPI.create, params);
 
     if (response) {
-      yield put(quizActions.createSuccess('Create Coupon Success'));
+      yield put(quizActions.createSuccess(successMessage));
       onCreatedSuccess();
+    } else {
+      yield put(quizActions.createFalse(failedMessage));
     }
   } catch (error) {
-    yield put(quizActions.createFalse('An error occurred, please try again'));
+    yield put(quizActions.createFalse(failedMessage));
   }
 }
 
 function* handleEdit(action: PayloadAction<{ params: IQuiz; onUpdateSuccess: () => void }>) {
+  const { failedMessage, successMessage } = messageCud(QUIZ_INDEX_SCREEN_NAME, 'UPDATE');
   try {
     const { params, onUpdateSuccess } = action.payload;
     const response: IQuiz = yield call(quizAPI.edit, params);
 
     if (response) {
-      yield put(quizActions.editSuccess('Update Coupon Success'));
+      yield put(quizActions.editSuccess(successMessage));
       onUpdateSuccess();
+    } else {
+      yield put(quizActions.editFailed(failedMessage));
     }
   } catch (error) {
-    yield put(quizActions.editFailed('An error occurred, please try again'));
+    yield put(quizActions.editFailed(failedMessage));
   }
 }
 
 function* handleDelete(action: PayloadAction<{ params: number; onDeleteSuccess: () => void }>) {
+  const { failedMessage, successMessage } = messageCud(QUIZ_INDEX_SCREEN_NAME, 'DELETE');
   try {
     const { params: couponId, onDeleteSuccess } = action.payload;
     const response: IQuiz = yield call(quizAPI.remove, couponId);
 
     if (response) {
-      yield put(quizActions.deleteSuccess('Deleted Coupon Success'));
+      yield put(quizActions.deleteSuccess(successMessage));
       onDeleteSuccess();
+    } else {
+      yield put(quizActions.deleteFailed(failedMessage));
     }
   } catch (error) {
-    yield put(quizActions.deleteFailed('An error occurred, please try again'));
+    yield put(quizActions.deleteFailed(failedMessage));
   }
 }
 
