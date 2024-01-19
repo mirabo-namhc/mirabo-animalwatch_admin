@@ -53,11 +53,11 @@ const facilitySlice = createSlice({
     },
     createSuccess(state, action) {
       state.loadingForm = false;
-      message.success("");
+      message.success("カテゴリーを登録に成功しました。");
     },
     createFalse(state, action) {
       state.loadingForm = false;
-      message.error("");
+      message.error("カテゴリーを登録に失敗しました。");
     },
 
     // EDIT
@@ -66,11 +66,11 @@ const facilitySlice = createSlice({
     },
     editSuccess(state, action) {
       state.loadingForm = false;
-      message.success("");
+      message.success("カテゴリーを編集に成功しました。");
     },
     editFalse(state, action) {
       state.loadingForm = false;
-      message.error("");
+      message.error("カテゴリー編集に失敗しました。");
     },
 
     // REMOVE
@@ -79,11 +79,11 @@ const facilitySlice = createSlice({
     },
     removeSuccess(state) {
       state.loading = false;
-      message.success("");
+      message.success("カテゴリーを削除に成功しました。");
     },
     removeFalse(state) {
       state.loading = false;
-      message.error("");
+      message.error("カテゴリーを削除に成功しました。");
     },
   },
 });

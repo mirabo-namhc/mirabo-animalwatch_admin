@@ -53,11 +53,11 @@ const eventSlice = createSlice({
         },
         createSuccess(state, action) {
             state.loadingForm = false;
-            message.success("");
+            message.success("イベントを登録に成功しました。");
         },
         createFalse(state, action) {
             state.loadingForm = false;
-            message.error("");
+            message.error("イベントを登録に失敗しました。");
         },
 
         // EDIT
@@ -66,11 +66,11 @@ const eventSlice = createSlice({
         },
         editSuccess(state, action) {
             state.loadingForm = false;
-            message.success("");
+            message.success("イベントを編集に成功しました。");
         },
         editFalse(state, action) {
             state.loadingForm = false;
-            message.error("");
+            message.error("イベント編集に失敗しました。");
         },
 
         // REMOVE
@@ -79,11 +79,11 @@ const eventSlice = createSlice({
         },
         removeSuccess(state) {
             state.loading = false;
-            message.success("");
+            message.success("イベントを削除に成功しました。");
         },
         removeFalse(state) {
             state.loading = false;
-            message.error("");
+            message.error("イベントを削除に失敗しました。");
         },
     },
 });
