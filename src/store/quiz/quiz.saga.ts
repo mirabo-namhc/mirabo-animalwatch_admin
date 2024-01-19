@@ -70,8 +70,8 @@ function* handleEdit(action: PayloadAction<{ params: IQuiz; onUpdateSuccess: () 
 function* handleDelete(action: PayloadAction<{ params: number; onDeleteSuccess: () => void }>) {
   const { failedMessage, successMessage } = messageCud(QUIZ_INDEX_SCREEN_NAME, 'DELETE');
   try {
-    const { params: couponId, onDeleteSuccess } = action.payload;
-    const response: IQuiz = yield call(quizAPI.remove, couponId);
+    const { params: quizId, onDeleteSuccess } = action.payload;
+    const response: IQuiz = yield call(quizAPI.remove, quizId);
 
     if (response) {
       yield put(quizActions.deleteSuccess(successMessage));
