@@ -1,44 +1,32 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import { ICoupon } from '~/types/coupon.type';
+import { EActiveField } from '~/types/enum.type';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { couponActions } from '~store/coupon/couponSlice';
 import { TFilterParams } from '~types';
-import { getNoTable } from '~utils/tableHelper';
+import { getNoTable, getTotal } from '~utils/tableHelper';
 
 interface ICouponTables extends ICoupon {
   key: string | number;
 }
 
-const dataTable: ICouponTables[] = [
-  {
-    key: '1',
-    id: 1,
-    facility_name: 'てんのうじ動物園',
-    status: '非表示',
-    title: 'クーポンタイトル',
-  },
-  {
-    key: '2',
-    id: 2,
-    facility_name: 'てんのうじ動物園',
-    status: '非公開',
-    title: 'タイトル写真',
-  },
-];
-
 export default function CouponList() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<ICoupon>>({
     current_page: 1,
-    per_page: 20,
+    per_page: 10,
   });
+
+  const [dataCouponList, setDataCouponList] = React.useState<Array<ICouponTables>>([]);
 
   const {
     listData: listCoupon,
@@ -54,25 +42,26 @@ export default function CouponList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: ICoupon, index: number) => (
+      render: (_: unknown, record: ICouponTables, index: number) => (
         <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
       ),
     },
     {
       title: '施設名',
-      dataIndex: 'facility_name',
-    },
-    {
-      title: 'タイトル',
-      dataIndex: 'title',
+      render: (_: unknown, record: ICouponTables, index: number) => (
+        <span>{record.content?.facility?.name}</span>
+      ),
     },
     {
       title: '表示状態',
-      dataIndex: 'status',
+      dataIndex: 'is_active',
+      render: (_: unknown, record: ICouponTables, index: number) => (
+        <span>{record.content?.is_active === EActiveField.ACTIVE ? '非表示' : '非公開'}</span>
+      ),
     },
     {
       dataIndex: 'action',
-      render: (_: unknown, record: ICoupon) => (
+      render: (_: unknown, record: ICouponTables) => (
         <div className="dis-flex ai-flex-center jc-center">
           <AButton
             size="small"
@@ -95,6 +84,19 @@ export default function CouponList() {
     navigate(APP_ROUTE_URL.COUPON.CREATE);
   };
 
+  React.useEffect(() => {
+    if (listCoupon.length) {
+      setDataCouponList(() => {
+        return listCoupon.map((item) => {
+          return {
+            ...item,
+            key: item.id,
+          } as ICouponTables;
+        });
+      });
+    }
+  }, [listCoupon]);
+
   return (
     <div className="gray fs-20">
       <div className="dis-flex mb-10 ai-center jc-space-between mb-30">
@@ -113,9 +115,9 @@ export default function CouponList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={dataTable}
-        pageSize={10}
-        total={pagination?.total_page}
+        dataSource={dataCouponList}
+        pageSize={pagination?.per_page}
+        total={getTotal(pagination?.total_page, pagination?.per_page)}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}

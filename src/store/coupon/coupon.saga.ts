@@ -1,9 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { IResponseApiList, TFilterParams } from '~/types';
+import { IResponseApiDetail, IResponseApiList, TFilterParams } from '~/types';
 import { couponActions } from './couponSlice';
 import { ICoupon } from '~/types/coupon.type';
 import couponAPI from '~services/api/coupon.api';
+import { COUPON_INDEX_SCREEN_NAME } from '~constants/endpoint';
+import { messageCud } from '~utils/funcHelper';
 
 function* handleFetchData(action: PayloadAction<TFilterParams>) {
   try {
@@ -19,53 +21,69 @@ function* handleFetchData(action: PayloadAction<TFilterParams>) {
 function* handleGetDetail(action: PayloadAction<number>) {
   try {
     const id = action.payload;
-    const response: ICoupon = yield call(couponAPI.getDetail, id);
+    const response: IResponseApiDetail<ICoupon> = yield call(couponAPI.getDetail, id);
 
-    yield put(couponActions.getDetailSuccess(response));
+    if (response.data) {
+      yield put(couponActions.getDetailSuccess(response.data));
+    } else {
+      yield put(couponActions.getDetailFalse('Coupon Not Found'));
+    }
   } catch (error) {
     yield put(couponActions.fetchDataFalse('An error occurred, please try again'));
   }
 }
 
 function* handleCreate(action: PayloadAction<{ params: ICoupon; onCreatedSuccess: () => void }>) {
+  const { failedMessage, successMessage } = messageCud(COUPON_INDEX_SCREEN_NAME, 'CREATE');
+
   try {
     const { params, onCreatedSuccess } = action.payload;
     const response: ICoupon = yield call(couponAPI.create, params);
 
     if (response) {
-      yield put(couponActions.createSuccess('Create Coupon Success'));
+      yield put(couponActions.createSuccess(successMessage));
       onCreatedSuccess();
+    } else {
+      yield put(couponActions.createFalse(failedMessage));
     }
   } catch (error) {
-    yield put(couponActions.createFalse('An error occurred, please try again'));
+    yield put(couponActions.createFalse(failedMessage));
   }
 }
 
 function* handleEdit(action: PayloadAction<{ params: ICoupon; onUpdateSuccess: () => void }>) {
+  const { failedMessage, successMessage } = messageCud(COUPON_INDEX_SCREEN_NAME, 'UPDATE');
+
   try {
     const { params, onUpdateSuccess } = action.payload;
     const response: ICoupon = yield call(couponAPI.edit, params);
 
     if (response) {
-      yield put(couponActions.editSuccess('Update Coupon Success'));
+      yield put(couponActions.editSuccess(successMessage));
       onUpdateSuccess();
+    } else {
+      yield put(couponActions.editFailed(failedMessage));
     }
   } catch (error) {
-    yield put(couponActions.editFailed('An error occurred, please try again'));
+    yield put(couponActions.editFailed(failedMessage));
   }
 }
 
 function* handleDelete(action: PayloadAction<{ params: number; onDeleteSuccess: () => void }>) {
+  const { failedMessage, successMessage } = messageCud(COUPON_INDEX_SCREEN_NAME, 'DELETE');
+
   try {
     const { params: couponId, onDeleteSuccess } = action.payload;
     const response: ICoupon = yield call(couponAPI.remove, couponId);
 
-    if (response.status) {
-      yield put(couponActions.deleteSuccess('Deleted Coupon Success'));
+    if (response) {
+      yield put(couponActions.deleteSuccess(successMessage));
       onDeleteSuccess();
+    } else {
+      yield put(couponActions.deleteFailed(failedMessage));
     }
   } catch (error) {
-    yield put(couponActions.deleteFailed('An error occurred, please try again'));
+    yield put(couponActions.deleteFailed(failedMessage));
   }
 }
 

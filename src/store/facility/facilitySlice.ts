@@ -24,7 +24,7 @@ const facilitySlice = createSlice({
     fetchDataSuccess(state, action: PayloadAction<IResponseApiList<IFacility>>) {
       state.loading = false;
       state.listData = action?.payload?.data?.data || [];
-      state.pagination = getPaginationInfo(action?.payload?.data)
+      state.pagination = getPaginationInfo(action?.payload?.data);
     },
     fetchDataFalse(state, action) {
       state.loading = false;
@@ -44,7 +44,7 @@ const facilitySlice = createSlice({
       state.loading = false;
     },
     clearData(state, action) {
-      state.detailData = {}
+      state.detailData = {};
     },
 
     // CREATE
@@ -53,11 +53,11 @@ const facilitySlice = createSlice({
     },
     createSuccess(state, action) {
       state.loadingForm = false;
-      message.success("カテゴリーを登録に成功しました。");
+      message.success('カテゴリーを登録に成功しました。');
     },
     createFalse(state, action) {
       state.loadingForm = false;
-      message.error("カテゴリーを登録に失敗しました。");
+      message.error('カテゴリーを登録に失敗しました。');
     },
 
     // EDIT
@@ -66,11 +66,11 @@ const facilitySlice = createSlice({
     },
     editSuccess(state, action) {
       state.loadingForm = false;
-      message.success("カテゴリーを編集に成功しました。");
+      message.success('カテゴリーを編集に成功しました。');
     },
     editFalse(state, action) {
       state.loadingForm = false;
-      message.error("カテゴリー編集に失敗しました。");
+      message.error('カテゴリー編集に失敗しました。');
     },
 
     // REMOVE
@@ -79,11 +79,11 @@ const facilitySlice = createSlice({
     },
     removeSuccess(state) {
       state.loading = false;
-      message.success("カテゴリーを削除に成功しました。");
+      message.success('カテゴリーを削除に成功しました。');
     },
     removeFalse(state) {
       state.loading = false;
-      message.error("カテゴリーを削除に成功しました。");
+      message.error('カテゴリーを削除に成功しました。');
     },
   },
 });

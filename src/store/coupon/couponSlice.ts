@@ -12,7 +12,7 @@ const initialState: ICouponState = {
   loadingUpdate: false,
   listData: [],
   pagination: {},
-  detailData: {},
+  detailData: null,
 };
 
 const couponSlice = createSlice({
@@ -46,7 +46,7 @@ const couponSlice = createSlice({
       state.loading = false;
     },
     clearData(state, action) {
-      state.detailData = {};
+      state.detailData = null;
     },
 
     // CREATE
@@ -67,11 +67,11 @@ const couponSlice = createSlice({
     },
     editSuccess(state, action: PayloadAction<string>) {
       state.loadingUpdate = false;
-      message.success('Update Coupon Successfully');
+      message.success(action.payload);
     },
     editFailed(state, action: PayloadAction<string>) {
       state.loadingUpdate = false;
-      message.error('Update Coupon Failed');
+      message.error(action.payload);
     },
 
     // DELETE
@@ -80,7 +80,7 @@ const couponSlice = createSlice({
     },
     deleteSuccess(state, action: PayloadAction<string>) {
       state.loadingDelete = false;
-      message.success('Delete Coupon Successfully');
+      message.success(action.payload);
     },
     deleteFailed(state, action: PayloadAction<string>) {
       state.loadingDelete = false;
