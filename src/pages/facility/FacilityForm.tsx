@@ -24,6 +24,7 @@ import {
   messageErrorMaxCharacter,
   messageErrorRequired,
 } from '~utils/funcHelper';
+import { empty } from '~utils/validate';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
@@ -63,7 +64,7 @@ export default function FacilityForm() {
       label: '施設名',
       name: 'name',
       atomProps: {
-        placeholder: '',
+        placeholder: '施設名.を入力してください',
         maxLength: 255,
       },
       colProps: {
@@ -78,6 +79,7 @@ export default function FacilityForm() {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
+        empty(messageErrorRequired('施設名')),
       ],
     },
     {
@@ -85,7 +87,7 @@ export default function FacilityForm() {
       label: 'カテゴリ',
       name: 'group_id',
       atomProps: {
-        placeholder: '',
+        placeholder: 'カテゴリ.を選択してください',
         options: groupsFacilityOptions,
       },
       colProps: {
@@ -96,6 +98,7 @@ export default function FacilityForm() {
           required: true,
           message: messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
         },
+        empty(messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT)),
       ],
     },
     {
@@ -103,7 +106,7 @@ export default function FacilityForm() {
       label: 'Youtube Video ID',
       name: 'youtube_channel_id',
       atomProps: {
-        placeholder: '',
+        placeholder: 'Youtube Video ID.を入力してください',
         maxLength: 255,
       },
       colProps: {
@@ -118,6 +121,7 @@ export default function FacilityForm() {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
+        empty(messageErrorRequired('Youtube Video ID')),
       ],
     },
     {
@@ -125,7 +129,7 @@ export default function FacilityForm() {
       label: 'Instagramトークン',
       name: 'instagram_token_id',
       atomProps: {
-        placeholder: '',
+        placeholder: 'Instagramトークン.を入力してください',
         maxLength: 255,
       },
       colProps: {
@@ -140,6 +144,7 @@ export default function FacilityForm() {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
+        empty(messageErrorRequired('Instagramトークン')),
       ],
     },
     {
@@ -174,7 +179,7 @@ export default function FacilityForm() {
       label: '動画フォルダID',
       name: 'folder_id',
       atomProps: {
-        placeholder: '',
+        placeholder: '動画フォルダID.を入力してください',
         formControl,
       },
       colProps: {
@@ -192,7 +197,7 @@ export default function FacilityForm() {
       label: '非表示フラグ',
       name: 'is_active',
       atomProps: {
-        placeholder: '',
+        placeholder: '非表示フラグ.を選択してください',
         options: isActiveFacilityOptions,
       },
       colProps: {
@@ -284,7 +289,7 @@ export default function FacilityForm() {
 
   const handleDelete = () => {
     Modal.confirm({
-      title: '施設を削除しますか。よろしいでしょうか。',
+      title: 'このカテゴリーを削除してもよろしいですか?',
       okText: 'はい',
       cancelText: 'いいえ',
       onOk() {

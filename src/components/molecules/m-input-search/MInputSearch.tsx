@@ -27,7 +27,7 @@ export default function MInputSearch({ setParamsQuery, paramsQuery }: IMInputSea
   return (
     <Search
       value={value}
-      placeholder="input search text"
+      placeholder="施設を入力してください"
       allowClear
       onSearch={onSearch}
       onChange={onChange}
