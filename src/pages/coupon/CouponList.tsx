@@ -57,7 +57,7 @@ export default function CouponList() {
       title: '表示状態',
       dataIndex: 'is_active',
       render: (_: unknown, record: ICouponTables, index: number) => (
-        <span>{record.content?.is_active === EActiveField.ACTIVE ? '非表示' : '非公開'}</span>
+        <span>{record.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}</span>
       ),
     },
     {
@@ -88,7 +88,7 @@ export default function CouponList() {
   };
 
   React.useEffect(() => {
-    if (listCoupon.length) {
+    if (Array.isArray(listCoupon)) {
       setDataCouponList(() => {
         return listCoupon.map((item) => {
           return {

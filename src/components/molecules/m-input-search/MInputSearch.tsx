@@ -11,11 +11,18 @@ interface IMInputSearch {
 }
 
 export default function MInputSearch({ setParamsQuery, paramsQuery }: IMInputSearch) {
+  const [initParamsFilterQuery] = useState(
+    paramsQuery ?? {
+      per_page: 1,
+      current_page: 10,
+      keyword: '',
+    },
+  );
   const [value, setValue] = useState(paramsQuery?.keyword ?? '');
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
     setParamsQuery?.((pre) => ({
-      ...pre,
+      ...initParamsFilterQuery,
       keyword: value,
     }));
   };
