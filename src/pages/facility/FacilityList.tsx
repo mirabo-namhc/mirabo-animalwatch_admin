@@ -87,7 +87,7 @@ export default function FacilityList() {
   };
 
   React.useEffect(() => {
-    if (listFacility.length) {
+    if (Array.isArray(listFacility)) {
       setDataFacilityTable(() => {
         return listFacility.map((item) => {
           return {

@@ -76,7 +76,7 @@ export default function QuizList() {
   };
 
   useEffect(() => {
-    if (listQuiz) {
+    if (Array.isArray(listQuiz)) {
       setDataQuizList(() => {
         return listQuiz.map((item) => {
           return {
