@@ -119,11 +119,22 @@ export default function CouponForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: 'クーポン写真',
-      name: 'image_url',
+      name: 'image_path',
       colProps: {
         span: COLDEF,
       },
-      atomProps: {},
+      atomProps: {
+        setUrlFile: (file) => formControl.setFieldValue('image_path', file),
+        initialFileList: formCouponData?.image_url
+          ? [
+              {
+                uid: formCouponData?.image_url,
+                url: formCouponData?.image_url,
+                name: formCouponData?.image_url,
+              },
+            ]
+          : [],
+      },
       rules: [
         {
           required: true,
@@ -194,8 +205,7 @@ export default function CouponForm() {
   const handleSubmit = (values: ICouponMutate) => {
     const params = {
       ...values,
-      // TODO: remove this when we have functional upload files
-      image_url: 'https://example.com/assets/images/test.png',
+      image_url: formControl.getFieldValue('image_path'),
       start_date: convertDateToFormat(values.start_date),
       end_date: convertDateToFormat(values.end_date),
     };
@@ -288,8 +298,8 @@ export default function CouponForm() {
         },
       ]);
       setFormCouponData({
-        //TODO: with real links assets
-        image_url: 'https://example.com/assets/images/test.png',
+        image_path: couponDetail.image_path,
+        image_url: couponDetail.image_url,
         facility_id: couponDetail.content?.facility_id,
         is_active: couponDetail.content?.is_active,
         start_date: couponDetail.content?.start_date && dayjs(couponDetail.content?.start_date),

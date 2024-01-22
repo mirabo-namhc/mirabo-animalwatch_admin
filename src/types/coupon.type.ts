@@ -38,6 +38,7 @@ export interface ICouponContent {
 export interface ICoupon {
   content?: ICouponContent;
   id?: number;
+  image_path?: string;
   image_url?: string;
   created_at?: string;
   updated_at?: string;
@@ -47,6 +48,7 @@ export interface ICouponMutate {
   is_active?: EActiveField;
   facility_id?: number;
   image_url?: string;
+  image_path?: string;
   end_date?: string | dayjs.Dayjs;
   start_date?: string | dayjs.Dayjs;
 }
