@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Col, Form, Modal, Upload, UploadFile, UploadProps } from 'antd';
 import { RcFile } from 'antd/lib/upload';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { ETypeFieldForm } from '~/types/enum.type';
 import { IMFormItemProps } from '~/types/form.type';
@@ -46,7 +46,7 @@ function MFormUpload({
     try {
       if (file) {
         const response: IResponseApiUpload = await uploadAPI.image(file);
-        atomProps?.setUrlFile(response?.data?.url);
+        atomProps?.setUrlFile(response?.data?.path);
       }
     } catch (error) {
       console.error(error);
@@ -69,6 +69,10 @@ function MFormUpload({
       <div className="mt-8 fs-14">アップロード</div>
     </button>
   );
+
+  React.useEffect(() => {
+    if (atomProps?.initialFileList.length) setFileList(atomProps?.initialFileList);
+  }, [atomProps?.initialFileList]);
 
   return (
     <Col className="form-image-input" {...colProps}>

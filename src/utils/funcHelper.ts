@@ -80,7 +80,7 @@ export const handleCheckDataForm = (form?: FormInstance) => {
 };
 
 export const messageErrorRequired = (title: string, type?: EMessageErrorRequired) => {
-  if (type === EMessageErrorRequired.SELECT) return `${title}.を選択してください`;
+  if (type === EMessageErrorRequired.SELECT) return `${title}を選択してください`;
   return `${title}を入力してください`;
 };
 export const messageErrorMaxCharacter = (number: number) => {

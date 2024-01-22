@@ -87,15 +87,27 @@ export default function QuizForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: '設問画像',
-      name: 'image_url',
+      name: 'image_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
+      atomProps: {
+        setUrlFile: (file) => formControl.setFieldValue('image_path', file),
+        initialFileList: quiz?.image_url
+          ? [
+              {
+                uid: quiz?.image_url,
+                url: quiz?.image_url,
+                name: quiz?.image_url,
+              },
+            ]
+          : [],
+      },
       rules: [
         {
           required: true,
-          message: messageErrorRequired('設問画像'),
+          message: messageErrorRequired('設問画像', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -207,15 +219,27 @@ export default function QuizForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: '解説画像',
-      name: 'explanation_image_url',
+      name: 'explanation_image_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
+      atomProps: {
+        setUrlFile: (file) => formControl.setFieldValue('explanation_image_path', file),
+        initialFileList: quiz?.explanation_image_url
+          ? [
+              {
+                uid: quiz?.explanation_image_url,
+                url: quiz?.explanation_image_url,
+                name: quiz?.explanation_image_url,
+              },
+            ]
+          : [],
+      },
       rules: [
         {
           required: true,
-          message: messageErrorRequired('解説画像'),
+          message: messageErrorRequired('解説画像', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -293,14 +317,19 @@ export default function QuizForm() {
     },
   ];
 
+  const handleValuesChange = (value: IQuiz) => {
+    if (!!Object.keys(value).includes('start_date') && !!value.start_date) {
+      formControl.setFieldValue('end_date', null);
+    }
+  };
+
   const handleSubmit = (values: IQuiz) => {
     const params = {
       ...values,
-      // TODO: remove this when we have functional upload files
-      explanation_image_url: 'https://example.com/assets/images/a.png',
-      image_url: 'https://example.com/assets/images/test.png',
       start_date: convertDateToFormat(values.start_date),
       end_date: convertDateToFormat(values.end_date),
+      image_url: formControl.getFieldValue('image_path'),
+      explanation_image_url: formControl.getFieldValue('explanation_image_path'),
     };
 
     if (isCreate) {
@@ -391,8 +420,9 @@ export default function QuizForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={isCreate && quiz ? {} : quiz}
+          initialValues={isCreate ? {} : quiz}
           onCancel={handleCancel}
+          onValuesChange={handleValuesChange}
           onDelete={handleDeleteQuiz}
         />
       )}

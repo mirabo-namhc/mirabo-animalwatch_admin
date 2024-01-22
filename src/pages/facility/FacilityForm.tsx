@@ -149,13 +149,13 @@ export default function FacilityForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: 'ロゴ',
-      name: 'img_thumbnail_url',
+      name: 'img_thumbnail_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
       atomProps: {
-        setUrlFile: (file) => formControl.setFieldValue('img_thumbnail_url', file),
+        setUrlFile: (file) => formControl.setFieldValue('img_thumbnail_path', file),
         initialFileList: initValues?.img_thumbnail_url
           ? [
               {
@@ -244,6 +244,7 @@ export default function FacilityForm() {
     try {
       const params = {
         ...values,
+        img_thumbnail_url: formControl.getFieldValue('img_thumbnail_path'),
         start_date: convertDateToFormat(values.start_date),
         end_date: convertDateToFormat(values.end_date),
       };
