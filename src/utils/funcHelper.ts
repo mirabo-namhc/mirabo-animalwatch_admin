@@ -1,4 +1,4 @@
-import { FormInstance, Upload, message } from "antd";
+import { FormInstance, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib';
 import { EMessageErrorRequired } from '~/types/enum.type';
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
@@ -81,7 +81,7 @@ export const handleCheckDataForm = (form?: FormInstance) => {
 
 export const messageErrorRequired = (title: string, type?: EMessageErrorRequired) => {
   if (type === EMessageErrorRequired.SELECT) return `${title}.を選択してください`;
-  return `${title}.を入力してください`;
+  return `${title}を入力してください`;
 };
 export const messageErrorMaxCharacter = (number: number) => {
   return `最大 ${number} 文字です。`;
@@ -129,5 +129,5 @@ export const handleAppendFormDataFile = (file: UploadFile<any>) => {
   const formData = new FormData();
   if (file?.originFileObj) formData.append('file', file.originFileObj as Blob);
 
-  return formData
-}
+  return formData;
+};

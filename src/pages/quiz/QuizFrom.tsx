@@ -19,7 +19,7 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { isNullable, messageErrorRequired } from '~utils/funcHelper';
+import { isNullable, messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
 
 export default function QuizForm() {
   const [quiz, setQuiz] = React.useState<IQuiz>({} as IQuiz);
@@ -43,7 +43,8 @@ export default function QuizForm() {
       label: 'タイトル',
       name: 'title',
       atomProps: {
-        placeholder: 'タイトル',
+        placeholder: messageErrorRequired('タイトル'),
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -51,7 +52,12 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('タイトル'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -60,7 +66,8 @@ export default function QuizForm() {
       label: '質問',
       name: 'question',
       atomProps: {
-        placeholder: '質問',
+        placeholder: messageErrorRequired('質問'),
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -68,7 +75,12 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('質問'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -104,7 +116,8 @@ export default function QuizForm() {
                 name="answer_a"
                 className="input_field_answer"
                 atomProps={{
-                  placeholder: '選択肢1',
+                  placeholder: messageErrorRequired('選択肢1'),
+                  maxLength: 255,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -112,7 +125,12 @@ export default function QuizForm() {
                 rules={[
                   {
                     required: true,
+                    whitespace: true,
                     message: messageErrorRequired('選択肢1'),
+                  },
+                  {
+                    max: 255,
+                    message: messageErrorMaxCharacter(255),
                   },
                 ]}
               />
@@ -127,7 +145,8 @@ export default function QuizForm() {
                 name="answer_b"
                 className="input_field_answer"
                 atomProps={{
-                  placeholder: '選択肢2',
+                  placeholder: messageErrorRequired('選択肢2'),
+                  maxLength: 255,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -135,7 +154,12 @@ export default function QuizForm() {
                 rules={[
                   {
                     required: true,
+                    whitespace: true,
                     message: messageErrorRequired('選択肢2'),
+                  },
+                  {
+                    max: 255,
+                    message: messageErrorMaxCharacter(255),
                   },
                 ]}
               />
@@ -150,7 +174,8 @@ export default function QuizForm() {
                 name="answer_c"
                 className="input_field_answer"
                 atomProps={{
-                  placeholder: '選択肢3',
+                  placeholder: messageErrorRequired('選択肢3'),
+                  maxLength: 255,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -158,7 +183,12 @@ export default function QuizForm() {
                 rules={[
                   {
                     required: true,
+                    whitespace: true,
                     message: messageErrorRequired('選択肢3'),
+                  },
+                  {
+                    max: 255,
+                    message: messageErrorMaxCharacter(255),
                   },
                 ]}
               />
@@ -195,7 +225,8 @@ export default function QuizForm() {
       label: '答え',
       name: 'explanation_content',
       atomProps: {
-        placeholder: '答え',
+        placeholder: messageErrorRequired('答え'),
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -203,7 +234,12 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('答え'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -242,7 +278,7 @@ export default function QuizForm() {
       name: 'is_active',
       initialValue: EActiveField.ACTIVE,
       atomProps: {
-        placeholder: '非表示フラグ',
+        placeholder: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         options: isActiveFacilityOptions,
       },
       colProps: {

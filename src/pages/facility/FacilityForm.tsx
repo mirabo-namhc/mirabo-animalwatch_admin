@@ -73,13 +73,13 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('施設名'),
         },
         {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
-        empty(messageErrorRequired('施設名')),
       ],
     },
     {
@@ -98,7 +98,6 @@ export default function FacilityForm() {
           required: true,
           message: messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
         },
-        empty(messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT)),
       ],
     },
     {
@@ -115,13 +114,13 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('Youtube Video ID'),
         },
         {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
-        empty(messageErrorRequired('Youtube Video ID')),
       ],
     },
     {
@@ -138,13 +137,13 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('Instagramトークン'),
         },
         {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
-        empty(messageErrorRequired('Instagramトークン')),
       ],
     },
     {
