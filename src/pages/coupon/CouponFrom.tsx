@@ -152,7 +152,6 @@ export default function CouponForm() {
         span: COL_HAFT,
       },
       atomProps: {
-        placeholder: '',
         disabledDate: disableDateBefore,
       },
       rules: [
@@ -170,7 +169,6 @@ export default function CouponForm() {
         span: COL_HAFT,
       },
       atomProps: {
-        placeholder: '',
         disabledDate: (current) =>
           disableBeforeDateWithParams(current, formControl.getFieldValue('start_date')),
       },
