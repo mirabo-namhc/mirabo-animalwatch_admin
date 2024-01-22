@@ -275,7 +275,7 @@ export default function QuizForm() {
       colProps: {
         span: COL_HAFT,
       },
-      atomProps: { placeholder: '', disabledDate: disableDateBefore },
+      atomProps: { disabledDate: disableDateBefore },
       rules: [
         {
           required: true,
@@ -291,7 +291,6 @@ export default function QuizForm() {
         span: COL_HAFT,
       },
       atomProps: {
-        placeholder: '',
         disabledDate: (current) =>
           disableBeforeDateWithParams(current, formControl.getFieldValue('start_date')),
       },
