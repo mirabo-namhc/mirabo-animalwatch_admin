@@ -17,6 +17,7 @@ const facilitySlice = createSlice({
   name: 'facility',
   initialState,
   reducers: {
+    reset: () => initialState,
     // GET LIST
     fetchData(state, action: PayloadAction<TFilterParams>) {
       state.loading = true;

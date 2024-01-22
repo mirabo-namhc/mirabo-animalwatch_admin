@@ -9,7 +9,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { quizActions } from '~store/quiz/quiz.slice';
 import { IQuiz, TFilterParams } from '~types';
-import { getNoTable } from '~utils/tableHelper';
+import { getNoTable, getTotal } from '~utils/tableHelper';
 
 interface IQuizTables extends IQuiz {
   key: string | number;
@@ -19,7 +19,7 @@ export default function QuizList() {
   const navigate = useNavigate();
   const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IQuiz>>({
     current_page: 1,
-    per_page: 20,
+    per_page: 10,
   });
 
   const [dataQuizList, setDataQuizList] = React.useState<Array<IQuizTables>>([]);
@@ -107,8 +107,8 @@ export default function QuizList() {
       <OTable
         columns={columns}
         dataSource={dataQuizList}
-        pageSize={10}
-        total={pagination?.total_page}
+        pageSize={pagination?.per_page}
+        total={getTotal(pagination?.total_page, pagination?.per_page)}
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}

@@ -11,6 +11,7 @@ import { APP_ROUTE_URL } from '~constants/endpoint';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { couponActions } from '~store/coupon/couponSlice';
+import { facilityActions } from '~store/facility/facilitySlice';
 import { TFilterParams } from '~types';
 import { getNoTable, getTotal } from '~utils/tableHelper';
 
@@ -78,9 +79,11 @@ export default function CouponList() {
   ];
 
   const onNavigateDetail = (id: number) => {
+    dispatch(facilityActions.reset());
     navigate(`${APP_ROUTE_URL.COUPON.EDIT}?id=${id}`);
   };
   const onNavigateCreateCoupon = () => {
+    dispatch(facilityActions.reset());
     navigate(APP_ROUTE_URL.COUPON.CREATE);
   };
 

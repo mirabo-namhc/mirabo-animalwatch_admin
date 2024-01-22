@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
-import { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetList } from '~/hooks';
 import AButton from '~atoms/a-button';
@@ -12,12 +12,18 @@ import { facilityActions } from '~store/facility/facilitySlice';
 import { IFacility, TFilterParams } from '~types';
 import { getNoTable, getTotal } from '~utils/tableHelper';
 
+interface IFacilityTables extends IFacility {
+  key: string | number;
+}
+
 export default function FacilityList() {
   const navigate = useNavigate();
-  const [paramsQuery, setParamsQuery] = useState<TFilterParams<IFacility>>({
+  const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IFacility>>({
     current_page: 1,
     per_page: 10,
   });
+
+  const [dataFacilityTable, setDataFacilityTable] = React.useState<Array<IFacilityTables>>([]);
 
   const {
     listData: listFacility,
@@ -80,6 +86,19 @@ export default function FacilityList() {
     navigate(APP_ROUTE_URL.FACILITY.CREATE);
   };
 
+  React.useEffect(() => {
+    if (listFacility.length) {
+      setDataFacilityTable(() => {
+        return listFacility.map((item) => {
+          return {
+            ...item,
+            key: item.id,
+          } as IFacilityTables;
+        });
+      });
+    }
+  }, [listFacility]);
+
   return (
     <div className="gray fs-20">
       <div className="dis-flex mb-10 ai-center jc-space-between mb-30">
@@ -98,7 +117,7 @@ export default function FacilityList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={listFacility as IFacility[]}
+        dataSource={dataFacilityTable}
         pageSize={pagination?.per_page}
         total={getTotal(pagination?.total_page, pagination?.per_page)}
         setParamsQuery={setParamsQuery}

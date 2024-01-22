@@ -19,7 +19,7 @@ import {
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
-import { isNullable, messageErrorRequired } from '~utils/funcHelper';
+import { isNullable, messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
 
 const searchFacilityOptions: TFilterParams<IFacility> = { current_page: 1, per_page: 10 };
 
@@ -98,7 +98,7 @@ export default function CouponForm() {
       label: '施設名',
       name: 'facility_id',
       atomProps: {
-        placeholder: '施設',
+        placeholder: messageErrorRequired('施設名', EMessageErrorRequired.SELECT),
         options: optionsFacility,
         showSearch: true,
         filterOption: false,
@@ -170,7 +170,7 @@ export default function CouponForm() {
       name: 'is_active',
       initialValue: EActiveField.ACTIVE,
       atomProps: {
-        placeholder: '非表示フラグ',
+        placeholder: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         options: isActiveFacilityOptions,
       },
       colProps: {
@@ -313,6 +313,12 @@ export default function CouponForm() {
         setOptionFacility([...optionsFacility, ...filteredOptions]);
     }
   }, [listFacility, formCouponData, loadingOptionFacility]);
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(facilityActions.reset());
+    };
+  }, []);
 
   return (
     <div>
