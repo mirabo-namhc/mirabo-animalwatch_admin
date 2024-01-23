@@ -17,8 +17,8 @@ export interface IFacility {
   group_id?: EGroupFacility;
   youtube_channel_id?: string;
   instagram_token_id?: string;
-  img_thumbnail_url?: string;
-  img_thumbnail_path?: string;
+  img_cover_url?: string;
+  img_cover_path?: string;
   folder_id?: string;
   is_active?: EActiveField;
   start_date?: string;
