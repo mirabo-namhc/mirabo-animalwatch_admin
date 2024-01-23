@@ -173,12 +173,12 @@ export default function FacilityForm() {
       ],
     },
     {
-      type: ETypeFieldForm.INPUT_NUMBER,
+      type: ETypeFieldForm.TEXT_FIELD,
       label: '動画フォルダID',
       name: 'folder_id',
       atomProps: {
         placeholder: '動画フォルダID.を入力してください',
-        formControl,
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -186,7 +186,12 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('動画フォルダID'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
