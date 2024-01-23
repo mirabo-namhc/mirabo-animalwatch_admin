@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import AButton from '~atoms/a-button';
 
 export default function VideoPage() {
-    return (
-        <div className='gray fs-20'>
-            <h1 className='mb-20'>Video Page</h1>
-        </div>
-    )
+  return (
+    <div className="h-full w-full dis-flex jc-center ai-center">
+      <AButton className="w-350 h-100 mb-100" type="primary">
+        <span className="fs-20">動画データを同期する</span>
+      </AButton>
+    </div>
+  );
 }

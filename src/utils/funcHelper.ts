@@ -69,11 +69,11 @@ export const isNullable = (value: any): boolean => {
   return value === undefined || value === null || value === '';
 };
 
-export const handleCheckDataForm = (form?: FormInstance) => {
+export const handleCheckDataForm = (form?: FormInstance, fieldSkip?: string[]) => {
   if (!form) return false;
   const values = form.getFieldsValue();
-  const hasAtLeastOneValue = Object.values(values).some(
-    (value) => value !== undefined && value !== null && value !== '',
+  const hasAtLeastOneValue = Object.keys(values).some(
+    (key) => !isNullable(values[key]) && !fieldSkip?.includes(key),
   );
 
   return hasAtLeastOneValue;

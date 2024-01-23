@@ -24,7 +24,6 @@ import {
   messageErrorMaxCharacter,
   messageErrorRequired,
 } from '~utils/funcHelper';
-import { empty } from '~utils/validate';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
@@ -238,6 +237,24 @@ export default function FacilityForm() {
         span: COL_HAFT,
       },
     },
+    {
+      type: ETypeFieldForm.INPUT_NUMBER,
+      label: '表示順',
+      name: 'order',
+      atomProps: {
+        placeholder: '表示順.を入力してください',
+        formControl,
+      },
+      colProps: {
+        span: COLDEF,
+      },
+      rules: [
+        {
+          required: true,
+          message: messageErrorRequired('表示順'),
+        },
+      ],
+    },
   ];
 
   const handleSubmit = (values: IFacility) => {
@@ -270,14 +287,10 @@ export default function FacilityForm() {
   };
 
   const handleCancel = () => {
-    const hasAtLeastOneValue = handleCheckDataForm(formControl);
+    const hasAtLeastOneValue = handleCheckDataForm(formControl, ['is_active', 'end_date']);
     if (hasAtLeastOneValue) {
       Modal.confirm({
-        title: (
-          <span>
-            このページを離れてもよろしいですか? <br /> 入力したデータは失われます。
-          </span>
-        ),
+        title: '変更は保存されません。 まだページを離れますか?',
         okText: 'はい',
         cancelText: 'いいえ',
         onOk() {

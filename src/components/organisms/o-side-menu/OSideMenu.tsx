@@ -2,9 +2,10 @@ import { Layout, Menu, Modal } from 'antd';
 import type { MenuProps } from 'antd/lib';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { IconArrowNext, IconArrowPrev } from '~/assets/icon';
+import { useURLInfo } from '~/hooks';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { authActions } from '~store/auth/authSlice';
@@ -21,8 +22,7 @@ interface IOSideMenu {
 function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname } = location;
+  const { pageName, pathname } = useURLInfo();
 
   const [collapsed, setCollapsed] = useState(false);
   const classBtnExpand = clsx('dis-flex pt-12 px-12', {
@@ -77,7 +77,7 @@ function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
         mode="inline"
         onSelect={({ key, keyPath }) => onSelectMenuItem(key, keyPath)}
         expandIcon={null}
-        selectedKeys={[pathname]}
+        selectedKeys={[pageName, pathname]}
         items={items}
         style={{ borderRight: 0 }}
       />
