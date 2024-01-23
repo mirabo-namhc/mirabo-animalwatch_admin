@@ -60,6 +60,9 @@ export default function FacilityList() {
     {
       title: '表示順',
       dataIndex: 'order',
+      render: (_: unknown, record: IFacility, index: number) => (
+        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
+      ),
     },
     {
       dataIndex: 'action',

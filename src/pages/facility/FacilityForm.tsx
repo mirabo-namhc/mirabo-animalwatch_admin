@@ -24,7 +24,6 @@ import {
   messageErrorMaxCharacter,
   messageErrorRequired,
 } from '~utils/funcHelper';
-import { empty } from '~utils/validate';
 
 export default function FacilityForm() {
   const dispatch = useAppDispatch();
@@ -46,7 +45,7 @@ export default function FacilityForm() {
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
     is_active: detailData?.is_active ?? 1,
-    img_thumbnail_url: detailData?.img_thumbnail_url,
+    img_cover_url: detailData?.img_cover_url,
   };
 
   const handleValuesChange = (value: IFacility) => {
@@ -149,19 +148,19 @@ export default function FacilityForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: 'ロゴ',
-      name: 'img_thumbnail_path',
+      name: 'img_cover_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
       atomProps: {
-        setUrlFile: (file) => formControl.setFieldValue('img_thumbnail_path', file),
-        initialFileList: initValues?.img_thumbnail_url
+        setUrlFile: (file) => formControl.setFieldValue('img_cover_path', file),
+        initialFileList: initValues?.img_cover_url
           ? [
               {
-                uid: initValues?.img_thumbnail_url,
-                url: initValues?.img_thumbnail_url,
-                name: initValues?.img_thumbnail_url,
+                uid: initValues?.img_cover_url,
+                url: initValues?.img_cover_url,
+                name: initValues?.img_cover_url,
               },
             ]
           : [],
@@ -244,7 +243,7 @@ export default function FacilityForm() {
     try {
       const params = {
         ...values,
-        img_thumbnail_url: formControl.getFieldValue('img_thumbnail_path'),
+        img_cover_url: formControl.getFieldValue('img_cover_path'),
         start_date: convertDateToFormat(values.start_date),
         end_date: convertDateToFormat(values.end_date),
       };
