@@ -10,8 +10,11 @@ function useURLInfo() {
 
     const isFormPage = isEdit || isCreate
 
+    const pageName = `/${location.pathname.split('/')[1]}`
+
     return {
         pathname: location.pathname,
+        pageName,
         id,
         isCreate,
         isEdit,

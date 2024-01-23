@@ -259,11 +259,7 @@ export default function EventForm() {
     const hasAtLeastOneValue = handleCheckDataForm(formControl);
     if (hasAtLeastOneValue) {
       Modal.confirm({
-        title: (
-          <span>
-            このページを離れてもよろしいですか? <br /> 入力したデータは失われます。
-          </span>
-        ),
+        title: '変更は保存されません。 まだページを離れますか?',
         okText: 'はい',
         cancelText: 'いいえ',
         onOk() {
