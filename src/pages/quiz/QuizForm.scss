@@ -1,0 +1,26 @@
+div[type='RADIO'] .correct_answer_group {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+
+  > label {
+    flex-direction: row-reverse;
+
+    span:nth-child(2) {
+      flex: 1;
+    }
+  }
+
+  div.input_field_answer {
+    .ant-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .ant-form-item-control {
+      width: auto !important;
+      flex: 1;
+    }
+  }
+}
