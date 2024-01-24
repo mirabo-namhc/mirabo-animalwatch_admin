@@ -16,7 +16,7 @@ export default function EventList() {
   const navigate = useNavigate();
   const [paramsQuery, setParamsQuery] = useState<TFilterParams<IEvent>>({
     current_page: 1,
-    per_page: 5,
+    per_page: 10,
   });
 
   const {

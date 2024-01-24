@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { RootState } from '~store/index';
 import { TFilterParams } from '~types';
 
-type TRootState = Omit<RootState, 'auth' | 'form'>;
+type TRootState = Omit<RootState, 'auth' | 'form' | 'video'>;
 
 interface IUseGetListProps {
   params?: TFilterParams;
