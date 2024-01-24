@@ -83,7 +83,10 @@ const MFormUpload = React.forwardRef<any, IMFormItemProps<ETypeFieldForm.UPLOAD>
     );
 
     React.useEffect(() => {
-      if (atomProps?.initialFileList.length) setFileList(atomProps?.initialFileList);
+      if (atomProps?.initialFileList.length) {
+        setFileList(atomProps?.initialFileList);
+        setStatus(EStatusFileUpload.SUCCESS);
+      }
     }, [atomProps?.initialFileList]);
 
     React.useImperativeHandle(
