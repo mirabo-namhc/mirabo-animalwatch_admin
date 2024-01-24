@@ -242,24 +242,24 @@ export default function FacilityForm() {
         span: COL_HAFT,
       },
     },
-    {
-      type: ETypeFieldForm.INPUT_NUMBER,
-      label: '表示順',
-      name: 'order',
-      atomProps: {
-        placeholder: '表示順.を入力してください',
-        formControl,
-      },
-      colProps: {
-        span: COLDEF,
-      },
-      rules: [
-        {
-          required: true,
-          message: messageErrorRequired('表示順'),
-        },
-      ],
-    },
+    // {
+    //   type: ETypeFieldForm.INPUT_NUMBER,
+    //   label: '表示順',
+    //   name: 'order',
+    //   atomProps: {
+    //     placeholder: '表示順.を入力してください',
+    //     formControl,
+    //   },
+    //   colProps: {
+    //     span: COLDEF,
+    //   },
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: messageErrorRequired('表示順'),
+    //     },
+    //   ],
+    // },
   ];
 
   const handleSubmit = (values: IFacility) => {

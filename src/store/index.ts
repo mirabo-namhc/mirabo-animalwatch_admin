@@ -8,6 +8,7 @@ import formReducer from './form/formSlice';
 import quizReducer from './quiz/quiz.slice';
 import rootSaga from './rootSaga';
 import bannerReducer from './banner/bannerSlice';
+import videoReducer from './video/videoSlice';
 
 const reducers = combineReducers({
   auth: authReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   quiz: quizReducer,
   form: formReducer,
   banner: bannerReducer,
+  video: videoReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
