@@ -38,11 +38,11 @@ export default function EventList() {
       ),
     },
     {
-      title: '施設名',
+      title: 'イベント名',
       dataIndex: 'name',
     },
     {
-      title: 'タイトル',
+      title: '施設名',
       dataIndex: 'facility_name',
     },
     {
@@ -64,10 +64,10 @@ export default function EventList() {
   ];
 
   const onNavigateDetail = (id: number) => {
-    navigate(`${APP_ROUTE_URL.EVENT.EDIT}?id=${id}`);
+    navigate(`${APP_ROUTE_URL.EVENT.INFOR.EDIT}?id=${id}`);
   };
   const onNavigateCreate = () => {
-    navigate(APP_ROUTE_URL.EVENT.CREATE);
+    navigate(APP_ROUTE_URL.EVENT.INFOR.CREATE);
   };
 
   return (

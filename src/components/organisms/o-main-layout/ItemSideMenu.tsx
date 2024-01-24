@@ -71,6 +71,22 @@ export const itemsSideMenu: MenuItem[] = [
     <span>
       <ScheduleFilled />
     </span>,
+    [
+      getItemSideMenu(
+        'イベント情報',
+        `${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`,
+        <span>
+          <ScheduleFilled />
+        </span>,
+      ),
+      // getItemSideMenu(
+      //   'プロモーション',
+      //   `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`,
+      //   <span>
+      //     <FileImageOutlined />
+      //   </span>,
+      // ),
+    ],
   ),
 ];
 

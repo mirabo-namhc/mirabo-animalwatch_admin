@@ -77,7 +77,7 @@ function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
         mode="inline"
         onSelect={({ key, keyPath }) => onSelectMenuItem(key, keyPath)}
         expandIcon={null}
-        selectedKeys={[pageName, pathname]}
+        selectedKeys={[...pageName, pathname]}
         items={items}
         style={{ borderRight: 0 }}
       />

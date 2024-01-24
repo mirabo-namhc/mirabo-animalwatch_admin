@@ -32,9 +32,13 @@ export const APP_ROUTE_URL = {
   VIDEO: '/video',
   EVENT: {
     INDEX: '/event',
-    TABLE: '',
-    EDIT: 'edit',
-    CREATE: 'create',
+    INFOR: {
+      INDEX: 'infor',
+      TABLE: '',
+      EDIT: 'edit',
+      CREATE: 'create',
+      DETAIL: 'detail',
+    },
   },
   QUIZ: {
     INDEX: '/quiz',
@@ -64,9 +68,9 @@ export const TITLE_HEADER = {
 
   [APP_ROUTE_URL.VIDEO]: '動画データ同期',
 
-  [APP_ROUTE_URL.EVENT.INDEX]: 'イベント情報',
-  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.EDIT}`]: 'イベント詳細',
-  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.CREATE}`]: '新規登録',
+  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`]: 'イベント一覧',
+  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.EDIT}`]: 'イベント詳細',
+  [`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.CREATE}`]: '新規イベント',
 
   [APP_ROUTE_URL.QUIZ.INDEX]: QUIZ_INDEX_SCREEN_NAME,
   [`${APP_ROUTE_URL.QUIZ.INDEX}/${APP_ROUTE_URL.QUIZ.DETAIL}`]: 'クイズ詳細',
