@@ -151,22 +151,28 @@ const MainRoutes = {
     {
       key: 8,
       path: APP_ROUTE_URL.EVENT.INDEX,
-      element: <EventPage />,
       children: [
         {
           key: 8.1,
-          path: APP_ROUTE_URL.EVENT.TABLE,
-          element: <EventList />,
-        },
-        {
-          key: 8.3,
-          path: APP_ROUTE_URL.EVENT.CREATE,
-          element: <EventForm />,
-        },
-        {
-          key: 8.4,
-          path: APP_ROUTE_URL.EVENT.EDIT,
-          element: <EventForm />,
+          path: `${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`,
+          element: <EventPage />,
+          children: [
+            {
+              key: 8.1,
+              path: APP_ROUTE_URL.EVENT.INFOR.TABLE,
+              element: <EventList />,
+            },
+            {
+              key: 8.1,
+              path: APP_ROUTE_URL.EVENT.INFOR.CREATE,
+              element: <EventForm />,
+            },
+            {
+              key: 8.1,
+              path: APP_ROUTE_URL.EVENT.INFOR.EDIT,
+              element: <EventForm />,
+            },
+          ],
         },
       ],
     },
