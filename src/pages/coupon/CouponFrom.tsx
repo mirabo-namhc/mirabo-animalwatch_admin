@@ -1,4 +1,4 @@
-import { Form, Modal, Spin } from 'antd';
+import { Form, Modal, Spin, message } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { EActiveField, EMessageErrorRequired, ETypeFieldForm } from '~/types/enu
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, isActiveFacilityOptions } from '~constants/form';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 import OForm from '~organisms/o-form';
 import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
@@ -24,6 +25,8 @@ import { isNullable, messageErrorMaxCharacter, messageErrorRequired } from '~uti
 const searchFacilityOptions: TFilterParams<IFacility> = { current_page: 1, per_page: 10 };
 
 export default function CouponForm() {
+  const uploadImageRef = React.useRef<IRefFormUpload>(null);
+
   const [formCouponData, setFormCouponData] = React.useState<ICouponMutate | undefined>(undefined);
   const [optionsFacility, setOptionFacility] = React.useState<
     Array<{ label: string | undefined; value: number | undefined }>
@@ -120,6 +123,7 @@ export default function CouponForm() {
       type: ETypeFieldForm.UPLOAD,
       label: 'クーポン写真',
       name: 'image_path',
+      ref: uploadImageRef,
       colProps: {
         span: COLDEF,
       },
@@ -207,6 +211,11 @@ export default function CouponForm() {
       start_date: convertDateToFormat(values.start_date),
       end_date: convertDateToFormat(values.end_date),
     };
+
+    if (uploadImageRef.current?.status !== EStatusFileUpload.SUCCESS) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
 
     if (isCreate) {
       dispatch(

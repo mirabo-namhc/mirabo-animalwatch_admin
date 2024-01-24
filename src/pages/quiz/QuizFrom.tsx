@@ -1,4 +1,4 @@
-import { Form, Modal, Spin } from 'antd';
+import { Form, Modal, Spin, message } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,8 +20,12 @@ import {
   disableDateBefore,
 } from '~utils/datetime';
 import { isNullable, messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 
 export default function QuizForm() {
+  const uploadImageQuestionRef = React.useRef<IRefFormUpload>(null);
+  const uploadImageExplanationRef = React.useRef<IRefFormUpload>(null);
+
   const [quiz, setQuiz] = React.useState<IQuiz>({} as IQuiz);
 
   const dispatch = useAppDispatch();
@@ -89,6 +93,7 @@ export default function QuizForm() {
       label: '設問画像',
       name: 'image_path',
       length: 1,
+      ref: uploadImageQuestionRef,
       colProps: {
         span: COLDEF,
       },
@@ -221,6 +226,7 @@ export default function QuizForm() {
       label: '解説画像',
       name: 'explanation_image_path',
       length: 1,
+      ref: uploadImageExplanationRef,
       colProps: {
         span: COLDEF,
       },
@@ -330,6 +336,16 @@ export default function QuizForm() {
       image_url: formControl.getFieldValue('image_path'),
       explanation_image_url: formControl.getFieldValue('explanation_image_path'),
     };
+
+    const isUploadImageQuestionSuccess =
+      uploadImageQuestionRef.current?.status === EStatusFileUpload.SUCCESS;
+    const isUploadImageExplanationSuccess =
+      uploadImageExplanationRef.current?.status === EStatusFileUpload.SUCCESS;
+
+    if (!isUploadImageQuestionSuccess || !isUploadImageExplanationSuccess) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
 
     if (isCreate) {
       dispatch(
