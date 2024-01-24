@@ -1,7 +1,7 @@
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
@@ -10,6 +10,7 @@ import { EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from '~constants/form';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 import OForm from '~organisms/o-form';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { formActions } from '~store/form/formSlice';
@@ -26,6 +27,8 @@ import {
 } from '~utils/funcHelper';
 
 export default function FacilityForm() {
+  const uploadImageCoverRef = useRef<IRefFormUpload>(null);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -153,6 +156,7 @@ export default function FacilityForm() {
       colProps: {
         span: COLDEF,
       },
+      ref: uploadImageCoverRef,
       atomProps: {
         setUrlFile: (file) => formControl.setFieldValue('img_cover_path', file),
         initialFileList: initValues?.img_cover_url
@@ -263,6 +267,11 @@ export default function FacilityForm() {
   ];
 
   const handleSubmit = (values: IFacility) => {
+    if (uploadImageCoverRef.current?.status !== EStatusFileUpload.SUCCESS) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
+
     try {
       const params = {
         ...values,
