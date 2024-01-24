@@ -35,11 +35,11 @@ function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
 
   const onLogout = () => {
     Modal.confirm({
-      title: 'Confirm Logout',
-      content: 'Are you sure you want to logout?',
-      okText: 'Yes',
+      title: 'ログアウト確認',
+      content: 'ログアウトします。よろしいでしょうか。',
+      okText: 'はい',
       okType: 'danger',
-      cancelText: 'No',
+      cancelText: 'いいえ',
       onOk() {
         dispatch(
           authActions.logout({
