@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
+  IErrorAPI,
   IFacility,
   IRemovePayload,
   IResponseApiDetail,
@@ -42,7 +43,7 @@ function* handleCreate(action: PayloadAction<TCreateEditPayload<IFacility>>) {
 
     action.payload.onNavigate?.();
   } catch (error) {
-    yield put(facilityActions.createFalse('An error occurred, please try again'));
+    yield put(facilityActions.createFalse(error as IErrorAPI));
   }
 }
 
@@ -55,7 +56,7 @@ function* handleEdit(action: PayloadAction<TCreateEditPayload<IFacility>>) {
 
     action.payload.onNavigate?.();
   } catch (error) {
-    yield put(facilityActions.editFalse('An error occurred, please try again'));
+    yield put(facilityActions.editFalse(error as IErrorAPI));
   }
 }
 

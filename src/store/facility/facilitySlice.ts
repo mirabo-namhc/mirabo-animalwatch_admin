@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import { IFacility, IFacilityState } from '~/types/facility.type';
-import { IRemovePayload, IResponseApiList, TFilterParams } from '~types';
+import { IErrorAPI, IRemovePayload, IResponseApiList, TFilterParams } from '~types';
 import { getPaginationInfo } from '~utils/funcHelper';
 
 const initialState: IFacilityState = {
@@ -56,9 +56,11 @@ const facilitySlice = createSlice({
       state.loadingForm = false;
       message.success('カテゴリーを登録に成功しました。');
     },
-    createFalse(state, action) {
+    createFalse(state, action: PayloadAction<IErrorAPI>) {
       state.loadingForm = false;
-      message.error('カテゴリーを登録に失敗しました。');
+      if (action.payload?.response?.data?.message === "instagram_token_id_is_invalid") {
+        message.error('Instagramトークンは無効です');
+      } else message.error('カテゴリーを登録に失敗しました。');
     },
 
     // EDIT
@@ -69,9 +71,11 @@ const facilitySlice = createSlice({
       state.loadingForm = false;
       message.success('カテゴリーを編集に成功しました。');
     },
-    editFalse(state, action) {
+    editFalse(state, action: PayloadAction<IErrorAPI>) {
       state.loadingForm = false;
-      message.error('カテゴリー編集に失敗しました。');
+      if (action.payload?.response?.data?.message === "instagram_token_id_is_invalid") {
+        message.error('Instagramトークンは無効です');
+      } else message.error('カテゴリー編集に失敗しました。');
     },
 
     // REMOVE

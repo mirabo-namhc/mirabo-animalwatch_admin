@@ -1,4 +1,4 @@
-import { FormInstance, Upload, message } from 'antd';
+import { FormInstance, Upload, message } from "antd";
 import { UploadFile } from 'antd/lib';
 import { EMessageErrorRequired } from '~/types/enum.type';
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
