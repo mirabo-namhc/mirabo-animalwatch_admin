@@ -8,6 +8,7 @@ import {
   IResponseApiList,
   TCreateEditPayload,
   TFilterParams,
+  TParamsSort,
 } from '~/types';
 import facilityAPI from '~services/api/facility.api';
 import { facilityActions } from './facilitySlice';
@@ -72,6 +73,17 @@ function* handleRemove(action: PayloadAction<IRemovePayload>) {
   }
 }
 
+function* handleSortOrder(action: PayloadAction<TParamsSort>) {
+  try {
+    const params = action.payload;
+    yield call(facilityAPI.sortOrder, params);
+
+    yield put(facilityActions.sortOrderSuccess());
+  } catch (error) {
+    yield put(facilityActions.sortOrderFalse());
+  }
+}
+
 function* watchApiFlow() {
   yield all([
     takeLatest(facilityActions.fetchData.type, handleFetchData),
@@ -79,6 +91,7 @@ function* watchApiFlow() {
     takeLatest(facilityActions.create.type, handleCreate),
     takeLatest(facilityActions.edit.type, handleEdit),
     takeLatest(facilityActions.remove.type, handleRemove),
+    takeLatest(facilityActions.sortOrder.type, handleSortOrder),
   ]);
 }
 

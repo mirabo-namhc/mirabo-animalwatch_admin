@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
-import { IFacility, IFacilityState } from '~/types/facility.type';
+import { IFacility, IFacilityState, TParamsSort } from '~/types/facility.type';
 import { IErrorAPI, IRemovePayload, IResponseApiList, TFilterParams } from '~types';
 import { getPaginationInfo } from '~utils/funcHelper';
 
@@ -89,6 +89,20 @@ const facilitySlice = createSlice({
     removeFalse(state) {
       state.loading = false;
       message.error('カテゴリーを削除に成功しました。');
+    },
+
+    // SORT
+    sortOrder(state, action: PayloadAction<TParamsSort>) {
+      state.loading = true;
+    },
+    sortOrderSuccess(state) {
+      state.loading = false;
+      state.reloadList = !state.reloadList;
+      message.success('施設の表示順番を変更しました。');
+    },
+    sortOrderFalse(state) {
+      state.loading = false;
+      message.error('施設の表示順番を変更できません。もう一度試してください');
     },
   },
 });
