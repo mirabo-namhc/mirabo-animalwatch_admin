@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OBannerLayout from '~organisms/o-banner-layout';
 import AButton from '~atoms/a-button';
@@ -9,12 +9,16 @@ import { useGetList } from '~/hooks';
 import { IBanner, TFilterParams } from '~types';
 import { bannerActions } from '~store/banner/bannerSlice';
 import { useAppDispatch } from '~/_lib/redux/hooks';
+import { eventActions } from '~store/event/eventSlice';
+import { couponActions } from '~store/coupon/couponSlice';
+import { facilityActions } from '~store/facility/facilitySlice';
+import { quizActions } from '~store/quiz/quiz.slice';
 
 export default function BannerList() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [paramsQuery, setParamsQuery] = useState<TFilterParams<IBanner>>({});
+  const [paramsQuery] = useState<TFilterParams<IBanner>>({});
 
   const { listData: listBanner, loading } = useGetList({
     params: paramsQuery,
@@ -32,7 +36,13 @@ export default function BannerList() {
 
   const handleDeleteBanner = (id?: number) => {
     Modal.confirm({
-      title: 'バナーを削除しますか。よろしいでしょうか。',
+      title: (
+        <span>
+          バナーを削除しますか。
+          <br />
+          よろしいでしょうか。
+        </span>
+      ),
       okText: 'はい',
       okType: 'danger',
       cancelText: 'いいえ',
@@ -46,6 +56,15 @@ export default function BannerList() {
       },
     });
   };
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(eventActions.clearData());
+      dispatch(couponActions.clearData());
+      dispatch(facilityActions.clearData());
+      dispatch(quizActions.clearData());
+    };
+  }, []);
 
   return (
     <div className="gray fs-20">

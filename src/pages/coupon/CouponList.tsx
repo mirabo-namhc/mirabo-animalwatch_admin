@@ -79,11 +79,9 @@ export default function CouponList() {
   ];
 
   const onNavigateDetail = (id: number) => {
-    dispatch(facilityActions.reset());
     navigate(`${APP_ROUTE_URL.COUPON.EDIT}?id=${id}`);
   };
   const onNavigateCreateCoupon = () => {
-    dispatch(facilityActions.reset());
     navigate(APP_ROUTE_URL.COUPON.CREATE);
   };
 
@@ -99,6 +97,12 @@ export default function CouponList() {
       });
     }
   }, [listCoupon]);
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(facilityActions.clearData());
+    };
+  }, []);
 
   return (
     <div className="gray fs-20">

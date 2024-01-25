@@ -2,6 +2,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
@@ -17,6 +18,8 @@ interface IQuizTables extends IQuiz {
 
 export default function QuizList() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IQuiz>>({
     current_page: 1,
     per_page: 10,
