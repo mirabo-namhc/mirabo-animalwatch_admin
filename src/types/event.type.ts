@@ -16,6 +16,7 @@ export interface IEvent {
     name?: string
     overview?: string
     image_url?: string
+    image_path?: string
     is_active?: boolean
     start_date?: string
     end_date?: string
