@@ -134,14 +134,14 @@ export default function EventForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: '画像',
-      name: 'image_url',
+      name: 'image_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
       ref: uploadImageCoverRef,
       atomProps: {
-        setUrlFile: (file) => formControl.setFieldValue('image_url', file),
+        setUrlFile: (file) => formControl.setFieldValue('image_path', file),
         initialFileList: initValues?.image_url
           ? [
               {
@@ -235,10 +235,10 @@ export default function EventForm() {
       message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
       return;
     }
-
     try {
       const params = {
         ...values,
+        image_url: formControl.getFieldValue('image_path'),
         start_date: convertDateToFormat(values.start_date),
         end_date: convertDateToFormat(values.end_date),
       };
