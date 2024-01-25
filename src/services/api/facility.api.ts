@@ -1,5 +1,5 @@
 import request from "~/_lib/axios";
-import { IFacility } from "~/types/facility.type";
+import { IFacility, TParamsSort } from "~/types/facility.type";
 import { TFilterParams } from '~types';
 
 const facilityAPI = {
@@ -22,6 +22,10 @@ const facilityAPI = {
     remove(id: IFacility['id']) {
         const url = `/facility/${id}`;
         return request.delete(url);
+    },
+    sortOrder(params: TParamsSort) {
+        const url = `/facilitySort`;
+        return request.put(url, params);
     },
 };
 

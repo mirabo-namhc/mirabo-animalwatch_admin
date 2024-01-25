@@ -26,10 +26,19 @@ export interface IFacility {
   order?: number;
 }
 
+export type TParamsSort = { id?: number, order?: number }[]
+
 export enum EGroupFacility {
   ZOO = 1,
   AQUARIUM,
   JCOM,
   PET,
   WORLD_ANIMAL,
+}
+
+export enum ETypeSortFacility {
+  MOVE_UP = 1,
+  MOVE_DOWN,
+  TO_TOP,
+  DOWN_BOTTOM,
 }

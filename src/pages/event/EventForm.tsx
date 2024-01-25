@@ -165,7 +165,7 @@ export default function EventForm() {
       name: 'overview',
       atomProps: {
         placeholder: '概要.を入力してください',
-        maxLength: 255,
+        maxLength: 65535,
       },
       colProps: {
         span: COLDEF,
@@ -176,8 +176,8 @@ export default function EventForm() {
           message: messageErrorRequired('概要'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 65535,
+          message: messageErrorMaxCharacter(65535),
         },
       ],
     },
