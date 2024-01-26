@@ -47,7 +47,7 @@ export default function QuizList() {
       dataIndex: 'title',
     },
     {
-      title: '施設名',
+      title: '質問',
       dataIndex: 'question',
     },
     {
