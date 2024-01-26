@@ -28,7 +28,7 @@ export interface ICouponContent {
   end_date?: string;
   start_date?: string;
   type?: string;
-  facility_id?: number;
+  facility_id: number;
   facility?: IFacility;
   data?: ICouponFile;
   created_at?: string;

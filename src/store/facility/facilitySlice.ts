@@ -44,8 +44,9 @@ const facilitySlice = createSlice({
       console.error(action.payload);
       state.loading = false;
     },
-    clearData(state, action) {
+    clearData(state) {
       state.detailData = {};
+      state.listData = [];
     },
 
     // CREATE
@@ -58,7 +59,7 @@ const facilitySlice = createSlice({
     },
     createFalse(state, action: PayloadAction<IErrorAPI>) {
       state.loadingForm = false;
-      if (action.payload?.response?.data?.message === "instagram_token_id_is_invalid") {
+      if (action.payload?.response?.data?.message === 'instagram_token_id_is_invalid') {
         message.error('Instagramトークンは無効です');
       } else message.error('カテゴリーを登録に失敗しました。');
     },
@@ -73,7 +74,7 @@ const facilitySlice = createSlice({
     },
     editFalse(state, action: PayloadAction<IErrorAPI>) {
       state.loadingForm = false;
-      if (action.payload?.response?.data?.message === "instagram_token_id_is_invalid") {
+      if (action.payload?.response?.data?.message === 'instagram_token_id_is_invalid') {
         message.error('Instagramトークンは無効です');
       } else message.error('カテゴリー編集に失敗しました。');
     },

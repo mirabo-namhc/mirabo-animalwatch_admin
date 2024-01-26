@@ -13,9 +13,8 @@
 
   &-content {
     font-size: 16px;
-
-    &-link {
-      text-decoration: underline;
+    a {
+      font-weight: 800;
     }
   }
 

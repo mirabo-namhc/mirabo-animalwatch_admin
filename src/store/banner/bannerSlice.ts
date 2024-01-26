@@ -9,7 +9,7 @@ const initialState: IBannerState = {
   loadingForm: false,
   listData: [],
   pagination: {},
-  detailData: {},
+  detailData: null,
 };
 
 const bannerSlice = createSlice({
@@ -22,7 +22,6 @@ const bannerSlice = createSlice({
     },
     fetchDataSuccess(state, action: PayloadAction<IResponseApiListWithoutPagination<IBanner>>) {
       state.loading = false;
-      
       state.listData = action?.payload?.data || [];
     },
     fetchDataFalse(state, action) {
@@ -43,46 +42,46 @@ const bannerSlice = createSlice({
       state.loading = false;
     },
     clearData(state, action) {
-      state.detailData = {};
+      state.detailData = null;
     },
 
     // CREATE
     create(state, action) {
       state.loadingForm = true;
     },
-    createSuccess(state, action) {
+    createSuccess(state, action: PayloadAction<string>) {
       state.loadingForm = false;
-      message.success("");
+      message.success(action.payload);
     },
-    createFalse(state, action) {
+    createFalse(state, action: PayloadAction<string>) {
       state.loadingForm = false;
-      message.error("");
+      message.error('');
     },
 
     // EDIT
     edit(state, action) {
       state.loadingForm = true;
     },
-    editSuccess(state, action) {
+    editSuccess(state, action: PayloadAction<string>) {
       state.loadingForm = false;
-      message.success("");
+      message.success(action.payload);
     },
-    editFalse(state, action) {
+    editFalse(state, action: PayloadAction<string>) {
       state.loadingForm = false;
-      message.error("");
+      message.error(action.payload);
     },
 
     // REMOVE
-    remove(state, action: PayloadAction<IRemovePayload>) {
+    remove(state, action) {
       state.loading = true;
     },
-    removeSuccess(state) {
+    removeSuccess(state, action: PayloadAction<string>) {
       state.loading = false;
-      message.success("");
+      message.success(action.payload);
     },
-    removeFalse(state) {
+    removeFalse(state, action: PayloadAction<string>) {
       state.loading = false;
-      message.error("");
+      message.success(action.payload);
     },
   },
 });
