@@ -50,10 +50,10 @@ export const BANNER_REFERENCE_TYPE = [
     label: 'QUIZ',
     value: EBannerTypeEnum.QUIZ,
   },
-  {
-    label: 'COUPON',
-    value: EBannerTypeEnum.COUPON,
-  },
+  // {
+  //   label: 'COUPON',
+  //   value: EBannerTypeEnum.COUPON,
+  // },
   {
     label: 'EVENT',
     value: EBannerTypeEnum.EVENT,

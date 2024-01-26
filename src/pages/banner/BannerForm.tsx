@@ -251,8 +251,7 @@ export default function BannerForm() {
     } else if (isEdit) {
       dispatch(
         bannerActions.edit({
-          id: bannerId,
-          ...params,
+          params: { id: bannerId, ...params },
           onUpdateSuccess: () =>
             navigate(`../${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`, {
               replace: true,
@@ -331,7 +330,12 @@ export default function BannerForm() {
           value: detailData!.reference_id,
         },
       ]);
-      setStateOption(stateOptions[detailData.type as BannerStateOptions]);
+
+      setStateOption(
+        stateOptions[
+          (detailData.type === 'coupon' ? 'facility' : detailData.type) as BannerStateOptions
+        ],
+      );
       setInitFormValues({
         ...detailData,
         start_date: detailData?.start_date && dayjs(detailData?.start_date),
