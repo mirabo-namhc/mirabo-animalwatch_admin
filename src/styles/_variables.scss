@@ -131,6 +131,7 @@ $atomicMap: (
   ('w', 'width', $width-atomics),
   ('min-w', 'min-width', $space-amounts, px),
   ('max-w', 'max-width', $space-amounts, px),
+  ('max-w-percent', 'max-width', $space-amounts, '%'),
   ('h', 'height', $space-amounts, px),
   ('min-h', 'min-height', $space-amounts, px),
   ('max-h', 'max-height', $space-amounts, px),
