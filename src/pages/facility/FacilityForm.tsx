@@ -66,7 +66,7 @@ export default function FacilityForm() {
       label: '施設名',
       name: 'name',
       atomProps: {
-        placeholder: '施設名.を入力してください',
+        placeholder: messageErrorRequired('施設名'),
         maxLength: 255,
       },
       colProps: {
@@ -89,7 +89,7 @@ export default function FacilityForm() {
       label: 'カテゴリ',
       name: 'group_id',
       atomProps: {
-        placeholder: 'カテゴリ.を選択してください',
+        placeholder: messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
         options: groupsFacilityOptions,
       },
       colProps: {
@@ -107,7 +107,7 @@ export default function FacilityForm() {
       label: 'Youtube Video ID',
       name: 'youtube_channel_id',
       atomProps: {
-        placeholder: 'Youtube Video ID.を入力してください',
+        placeholder: messageErrorRequired('Youtube Video ID'),
         maxLength: 255,
       },
       colProps: {
@@ -130,7 +130,7 @@ export default function FacilityForm() {
       label: 'Instagramトークン',
       name: 'instagram_token_id',
       atomProps: {
-        placeholder: 'Instagramトークン.を入力してください',
+        placeholder: messageErrorRequired('Instagramトークン'),
         maxLength: 255,
       },
       colProps: {
@@ -181,7 +181,7 @@ export default function FacilityForm() {
       label: '動画フォルダID',
       name: 'folder_id',
       atomProps: {
-        placeholder: '動画フォルダID.を入力してください',
+        placeholder: messageErrorRequired('動画フォルダID'),
         maxLength: 255,
       },
       colProps: {
@@ -204,7 +204,7 @@ export default function FacilityForm() {
       label: '非表示フラグ',
       name: 'is_active',
       atomProps: {
-        placeholder: '非表示フラグ.を選択してください',
+        placeholder: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         options: isActiveFacilityOptions,
       },
       colProps: {

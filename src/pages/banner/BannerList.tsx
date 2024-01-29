@@ -21,7 +21,7 @@ export default function BannerList() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [isActiveBtnCreateBanner, setIsActiveBtnCreateBanner] = useState(true);
+  const [isActiveBtnCreateBanner, setIsActiveBtnCreateBanner] = useState(false);
   const [paramsQuery] = useState<TFilterParams<IBanner>>({
     current_page: 1,
     per_page: MAX_BANNER_SIZE,
@@ -67,7 +67,7 @@ export default function BannerList() {
   };
 
   React.useEffect(() => {
-    if (Array.isArray(listBanner) && listBanner.length <= MAX_BANNER_SIZE) {
+    if (Array.isArray(listBanner) && listBanner.length < MAX_BANNER_SIZE) {
       setIsActiveBtnCreateBanner(true);
     } else {
       setIsActiveBtnCreateBanner(false);

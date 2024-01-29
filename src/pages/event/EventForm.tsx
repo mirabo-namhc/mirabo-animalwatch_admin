@@ -72,7 +72,7 @@ export default function EventForm() {
       label: '施設名',
       name: 'facility_id',
       atomProps: {
-        placeholder: '施設名.を選択してください',
+        placeholder: messageErrorRequired('施設名', EMessageErrorRequired.SELECT),
         defaultValue: initValues.facility_id,
         options: convertToSelectOptions(listFacility, 'name', 'id'),
         loading: loadingListFacility,
@@ -92,7 +92,7 @@ export default function EventForm() {
       label: 'イベント名',
       name: 'name',
       atomProps: {
-        placeholder: 'イベント名.を入力してください',
+        placeholder: messageErrorRequired('イベント名'),
         maxLength: 255,
       },
       colProps: {
@@ -114,7 +114,7 @@ export default function EventForm() {
       label: 'タイトル',
       name: 'title',
       atomProps: {
-        placeholder: 'タイトル.を入力してください',
+        placeholder: messageErrorRequired('タイトル'),
         maxLength: 255,
       },
       colProps: {
@@ -164,7 +164,7 @@ export default function EventForm() {
       label: '概要',
       name: 'overview',
       atomProps: {
-        placeholder: '概要.を入力してください',
+        placeholder: messageErrorRequired('概要'),
         maxLength: 65535,
       },
       colProps: {
@@ -215,7 +215,7 @@ export default function EventForm() {
       label: '非表示フラグ',
       name: 'is_active',
       atomProps: {
-        placeholder: '非表示フラグ.を選択してください',
+        placeholder: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         options: isActiveFacilityOptions,
       },
       colProps: {
