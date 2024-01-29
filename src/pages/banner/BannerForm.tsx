@@ -161,7 +161,7 @@ export default function BannerForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: 'バナー写真',
-      name: 'image_url',
+      name: 'image_path',
       colProps: {
         span: COLDEF,
       },
@@ -334,11 +334,7 @@ export default function BannerForm() {
           value: detailData!.reference_id,
         },
       ]);
-      setStateOption(
-        stateOptions[
-          (detailData.type === 'coupon' ? 'facility' : detailData.type) as BannerStateOptions
-        ],
-      );
+      setStateOption(stateOptions[detailData.type]);
       setInitFormValues({
         ...detailData,
         start_date: detailData?.start_date && dayjs(detailData?.start_date),

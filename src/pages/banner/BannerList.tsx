@@ -103,10 +103,11 @@ export default function BannerList() {
           <Spin size="large" />
         </div>
       ) : (
-        (listBanner as IBanner[]).map((item) => (
+        (listBanner as IBanner[]).map((item, idx) => (
           <OBannerLayout
             key={item.id}
             banner={item}
+            index={idx + 1}
             handleEditBanner={() => handleEditBanner(item.id)}
             handleDeleteBanner={() => handleDeleteBanner(item.id)}
           />

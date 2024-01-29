@@ -1,27 +1,22 @@
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Image } from 'antd';
 import type { AnyObject } from 'antd/es/_util/type';
 import React from 'react';
-import './OBannerLayout.scss';
-import { Image } from 'antd';
 import AButton from '~atoms/a-button';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { EBannerTypeEnum, IBanner } from '~types';
-import {
-  APP_ROUTE_URL,
-  ROUTE_COUPON_EDIT,
-  ROUTE_EVENT_INFOR_EDIT,
-  ROUTE_FACILITY_EDIT,
-  ROUTE_QUIZ_EDIT,
-} from '~constants/endpoint';
+import { IBanner } from '~types';
+import './OBannerLayout.scss';
 
 interface TOBannerLayout<T> {
   className?: string;
   banner: IBanner;
+  index: number;
   handleEditBanner: React.MouseEventHandler<HTMLElement>;
   handleDeleteBanner: React.MouseEventHandler<HTMLElement>;
 }
 
 export function OBannerLayout<T extends AnyObject>({
   banner,
+  index,
   handleEditBanner,
   handleDeleteBanner,
 }: TOBannerLayout<T>) {
@@ -55,7 +50,7 @@ export function OBannerLayout<T extends AnyObject>({
     <div className="dis-flex mb-40">
       <div className="banner-side-left">
         {/* <span>画像{banner.order}</span> */}
-        <span>画像</span>
+        <span>画像{index}</span>
       </div>
       <div className="banner-side-right">
         <div className="banner-side-right-content">
