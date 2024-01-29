@@ -35,13 +35,13 @@ export const itemsSideMenu: MenuItem[] = [
       <SettingFilled />
     </span>,
     [
-      getItemSideMenu(
-        'ランキング設定',
-        `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
-        <span>
-          <BarChartOutlined />
-        </span>,
-      ),
+      // getItemSideMenu(
+      //   'ランキング設定',
+      //   `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
+      //   <span>
+      //     <BarChartOutlined />
+      //   </span>,
+      // ),
       getItemSideMenu(
         'バナー設定',
         `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`,
