@@ -5,6 +5,7 @@ import React from 'react';
 import AButton from '~atoms/a-button';
 import { IBanner } from '~types';
 import './OBannerLayout.scss';
+import dayjs from 'dayjs';
 
 interface TOBannerLayout<T> {
   className?: string;
@@ -70,8 +71,10 @@ export function OBannerLayout<T extends AnyObject>({
           </div> */}
 
           <div className="mt-6">
-            <span>開始日: {banner.start_date as string} </span>
-            <span className="ml-40">終了日: {banner.end_date as string}</span>
+            <span>開始日: {dayjs(banner.start_date).format('YYYY/MM/DD') as string} </span>
+            <span className="ml-40">
+              終了日: {dayjs(banner.end_date).format('YYYY/MM/DD') as string}
+            </span>
           </div>
 
           <div className="mt-6">
