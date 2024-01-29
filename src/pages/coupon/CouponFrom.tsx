@@ -82,9 +82,11 @@ export default function CouponForm() {
         options: optionsFacility,
         showSearch: true,
         filterOption: false,
+        allowClear: true,
         loading: isLoadingSelect,
         onPopupScroll: onSelectScrollToLoadMore,
         onSearch: handleSearch,
+        onClear: handleSearch,
       },
       colProps: {
         span: COLDEF,

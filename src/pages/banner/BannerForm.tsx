@@ -83,7 +83,6 @@ export default function BannerForm() {
     loading: isLoadingSelect,
     onSelectScrollToLoadMore,
     handleSearch,
-    setOption,
     onReset: onSelectReset,
   } = useSelectOptions({
     ...stateOption,
@@ -144,9 +143,11 @@ export default function BannerForm() {
         options: optionsReferences,
         showSearch: true,
         filterOption: false,
+        allowClear: true,
         loading: isLoadingSelect,
         onPopupScroll: onSelectScrollToLoadMore,
         onSearch: handleSearch,
+        onClear: handleSearch,
       },
       colProps: {
         span: COLDEF,

@@ -15,8 +15,6 @@ export interface IUseSelectOptions extends IUseGetListProps {
 }
 
 export function useSelectOptions({ params, action, nameState }: IUseSelectOptions) {
-  const { isEdit, isCreate } = useURLInfo();
-
   const [options, setOption] = React.useState<Array<SelectOption>>([]);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const [isSearching, setIsSearching] = React.useState<boolean>(false);
@@ -57,6 +55,7 @@ export function useSelectOptions({ params, action, nameState }: IUseSelectOption
     ) {
       setParamsQuery({
         ...defaultSearchOptions,
+        keyword: searchValue,
         current_page: pagination.current_page + 1,
       });
     }
@@ -65,7 +64,7 @@ export function useSelectOptions({ params, action, nameState }: IUseSelectOption
   const handleSearch = (value: string) => {
     setSearchValue(value);
     setIsSearching(true);
-    setOption(isEdit ? [options[0]] : []);
+    setOption([]);
   };
 
   const onReset = () => {
