@@ -22,11 +22,16 @@ const bannerSlice = createSlice({
     },
     fetchDataSuccess(state, action: PayloadAction<IResponseApiListWithoutPagination<IBanner>>) {
       state.loading = false;
+      state.reloadList = false;
       state.listData = action?.payload?.data || [];
     },
     fetchDataFalse(state, action) {
       state.loading = false;
       console.error(action.payload);
+    },
+
+    setReloadList(state, action) {
+      state.reloadList = action.payload;
     },
 
     // GET DETAIL

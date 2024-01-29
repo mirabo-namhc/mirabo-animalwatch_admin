@@ -1,7 +1,7 @@
 import { CaseReducerActions, SliceCaseReducers } from '@reduxjs/toolkit';
 import { Form, Modal, Spin } from 'antd';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
@@ -13,9 +13,11 @@ import { APP_ROUTE_URL } from '~constants/endpoint';
 import { BANNER_REFERENCE_TYPE, COLDEF, COL_HAFT, isActiveFacilityOptions } from '~constants/form';
 import OForm from '~organisms/o-form';
 import { bannerActions } from '~store/banner/bannerSlice';
+import { couponActions } from '~store/coupon/couponSlice';
 import { eventActions } from '~store/event/eventSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { quizActions } from '~store/quiz/quiz.slice';
+import { videoActions } from '~store/video/videoSlice';
 import { EBannerTypeEnum, IBanner } from '~types';
 import {
   convertDateToFormat,
@@ -24,7 +26,7 @@ import {
 } from '~utils/datetime';
 import { isNullable, messageErrorRequired } from '~utils/funcHelper';
 
-type BannerStateOptions = Exclude<NameStateOption, 'coupon'>;
+type BannerStateOptions = NameStateOption;
 
 const stateOptions: {
   [K in BannerStateOptions]: {
@@ -32,6 +34,14 @@ const stateOptions: {
     action: CaseReducerActions<SliceCaseReducers<K>, K>;
   };
 } = {
+  video: {
+    nameState: 'video',
+    action: videoActions,
+  },
+  coupon: {
+    nameState: 'coupon',
+    action: couponActions,
+  },
   event: {
     nameState: 'event',
     action: eventActions,
@@ -46,7 +56,7 @@ const stateOptions: {
   },
 };
 
-type StateOptionsType = (typeof stateOptions)[Exclude<NameStateOption, 'coupon'>];
+type StateOptionsType = (typeof stateOptions)[BannerStateOptions];
 
 export default function BannerForm() {
   const [initFormValues, setInitFormValues] = React.useState<IBanner | null>(null);
@@ -80,24 +90,24 @@ export default function BannerForm() {
   });
 
   const listFieldForm = [
-    {
-      type: ETypeFieldForm.INPUT_NUMBER,
-      label: '表示順',
-      name: 'order',
-      atomProps: {
-        placeholder: messageErrorRequired('表示順'),
-        formControl,
-      },
-      colProps: {
-        span: COLDEF,
-      },
-      rules: [
-        {
-          required: true,
-          message: messageErrorRequired('表示順'),
-        },
-      ],
-    },
+    // {
+    //   type: ETypeFieldForm.INPUT_NUMBER,
+    //   label: '表示順',
+    //   name: 'order',
+    //   atomProps: {
+    //     placeholder: messageErrorRequired('表示順'),
+    //     formControl,
+    //   },
+    //   colProps: {
+    //     span: COLDEF,
+    //   },
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: messageErrorRequired('表示順'),
+    //     },
+    //   ],
+    // },
     {
       type: ETypeFieldForm.SELECT,
       label: 'タイプ',
@@ -105,19 +115,13 @@ export default function BannerForm() {
       initialValue: EBannerTypeEnum.FACILITY,
       atomProps: {
         onChange: (option: EBannerTypeEnum) => {
-          if (
-            (option === EBannerTypeEnum.COUPON && currentSelectType === EBannerTypeEnum.FACILITY) ||
-            (option === EBannerTypeEnum.FACILITY && currentSelectType === EBannerTypeEnum.COUPON)
-          ) {
-            setStateOption(stateOptions['facility']);
-          } else {
-            onSelectReset();
-            setStateOption(stateOptions[option as BannerStateOptions]);
-          }
-
+          onSelectReset();
+          setStateOption(stateOptions[option as BannerStateOptions]);
           setCurrentSelectType(option);
+          dispatch(stateOption!.action.clearData([]));
           formControl.setFieldValue('reference_id', undefined);
         },
+
         placeholder: messageErrorRequired('タイプ', EMessageErrorRequired.SELECT),
         options: BANNER_REFERENCE_TYPE,
       },
@@ -156,7 +160,7 @@ export default function BannerForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
-      label: 'クーポン写真',
+      label: 'バナー写真',
       name: 'image_url',
       colProps: {
         span: COLDEF,
@@ -176,7 +180,7 @@ export default function BannerForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('クーポン写真', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('バナー写真', EMessageErrorRequired.SELECT),
         },
       ],
       length: 1,
@@ -324,13 +328,12 @@ export default function BannerForm() {
 
   React.useEffect(() => {
     if (detailData) {
-      setOption([
+      formControl.setFieldValue('reference_id', [
         {
           label: detailData.reference_name,
           value: detailData!.reference_id,
         },
       ]);
-
       setStateOption(
         stateOptions[
           (detailData.type === 'coupon' ? 'facility' : detailData.type) as BannerStateOptions
@@ -346,11 +349,14 @@ export default function BannerForm() {
 
   React.useEffect(() => {
     if (isCreate) setStateOption(stateOptions['facility']);
-  }, []);
 
-  React.useEffect(() => {
-    if (stateOption?.action) dispatch(stateOption?.action.clearData([]));
-  }, [stateOption]);
+    return () => {
+      dispatch(eventActions.clearData());
+      dispatch(couponActions.clearData());
+      dispatch(facilityActions.clearData());
+      dispatch(quizActions.clearData());
+    };
+  }, []);
 
   return (
     <div>

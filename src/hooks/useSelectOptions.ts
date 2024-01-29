@@ -8,10 +8,7 @@ import { useAppDispatch } from '~/_lib/redux/hooks';
 
 export const defaultSearchOptions: TFilterParams = { current_page: 1, per_page: 7 };
 
-export type NameStateOption = Exclude<
-  IUseGetListProps['nameState'],
-  'banner' | 'coupon' | undefined
->;
+export type NameStateOption = Exclude<IUseGetListProps['nameState'], 'banner' | undefined>;
 export interface IUseSelectOptions extends IUseGetListProps {
   params?: TFilterParams;
   nameState?: NameStateOption;
@@ -80,12 +77,16 @@ export function useSelectOptions({ params, action, nameState }: IUseSelectOption
   const mappingFieldSelectOption = (nameState: NameStateOption, item: any) => {
     if (nameState) {
       const mappingField: Record<typeof nameState, Option> = {
-        // coupon: {
-        //   label: item.name,
-        //   value: item.id,
-        // },
+        video: {
+          label: `[${item.facility_name ?? ''}] ${item.name}`,
+          value: item.id,
+        },
+        coupon: {
+          label: `[${item.facility_name ?? ''}] ${item.title}`,
+          value: item.id,
+        },
         event: {
-          label: item.name,
+          label: `[${item.facility_name ?? ''}] ${item.name}`,
           value: item.id,
         },
         facility: {
@@ -107,18 +108,9 @@ export function useSelectOptions({ params, action, nameState }: IUseSelectOption
   };
 
   React.useEffect(() => {
-    if (!loading && listData.length && nameState) {
-      setTimeout(() => {
-        const formatOptions = listData.map((item: any) =>
-          mappingFieldSelectOption(nameState, item),
-        );
-
-        const filteredOptions = isEdit
-          ? formatOptions.filter((item) => item.value !== options[0]?.value)
-          : formatOptions;
-
-        if (isEdit || isCreate) setOption([...options, ...filteredOptions]);
-      }, 0);
+    if (!loading && nameState) {
+      const formatOptions = listData.map((item: any) => mappingFieldSelectOption(nameState, item));
+      setOption([...options, ...formatOptions]);
     }
   }, [listData, loading]);
 

@@ -46,7 +46,7 @@ const quizSlice = createSlice({
       message.error(action.payload);
     },
     clearData(state) {
-      state.detailData = {};
+      state.detailData = null;
       state.listData = [];
     },
 

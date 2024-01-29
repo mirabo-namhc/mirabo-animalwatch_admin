@@ -8,5 +8,13 @@ import { bannerSaga } from './banner/bannerSaga';
 import { videoSaga } from './video/videoSaga';
 
 export default function* rootSaga() {
-  yield all([authSaga(), facilitySaga(), couponSaga(), eventSaga(), quizSaga(), bannerSaga(), videoSaga()]);
+  yield all([
+    authSaga(),
+    facilitySaga(),
+    couponSaga(),
+    eventSaga(),
+    quizSaga(),
+    bannerSaga(),
+    videoSaga(),
+  ]);
 }

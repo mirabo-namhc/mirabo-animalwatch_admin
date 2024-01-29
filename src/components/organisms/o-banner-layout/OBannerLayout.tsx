@@ -25,46 +25,54 @@ export function OBannerLayout<T extends AnyObject>({
   handleEditBanner,
   handleDeleteBanner,
 }: TOBannerLayout<T>) {
-  const renderReferencesLink = (): React.ReactNode => {
-    let pathname = '';
-    const origin = window.location.origin;
+  // const renderReferencesLink = (): React.ReactNode => {
+  //   let pathname = '';
+  //   const origin = window.location.origin;
 
-    switch (banner.type) {
-      case EBannerTypeEnum.FACILITY:
-        pathname = `${ROUTE_FACILITY_EDIT}?id=${banner.reference_id}`;
-        break;
-      case EBannerTypeEnum.COUPON:
-        pathname = `${ROUTE_FACILITY_EDIT}?id=${banner.reference_id}`;
-        break;
-      case EBannerTypeEnum.QUIZ:
-        pathname = `${ROUTE_QUIZ_EDIT}?id=${banner.reference_id}`;
-        break;
+  //   switch (banner.type) {
+  //     case EBannerTypeEnum.FACILITY:
+  //       pathname = `${ROUTE_FACILITY_EDIT}?id=${banner.reference_id}`;
+  //       break;
+  //     case EBannerTypeEnum.COUPON:
+  //       pathname = `${ROUTE_FACILITY_EDIT}?id=${banner.reference_id}`;
+  //       break;
+  //     case EBannerTypeEnum.QUIZ:
+  //       pathname = `${ROUTE_QUIZ_EDIT}?id=${banner.reference_id}`;
+  //       break;
 
-      case EBannerTypeEnum.EVENT:
-        pathname = `${ROUTE_EVENT_INFOR_EDIT}?id=${banner.reference_id}`;
-        break;
-    }
-    return (
-      <a href={`${origin}${pathname}`} target="_blank">
-        {String(banner.type).toUpperCase()}
-      </a>
-    );
-  };
+  //     case EBannerTypeEnum.EVENT:
+  //       pathname = `${ROUTE_EVENT_INFOR_EDIT}?id=${banner.reference_id}`;
+  //       break;
+  //   }
+  //   return (
+  //     <a href={`${origin}${pathname}`} target="_blank">
+  //       {String(banner.type).toUpperCase()}
+  //     </a>
+  //   );
+  // };
 
   return (
     <div className="dis-flex mb-40">
       <div className="banner-side-left">
-        <span>画像{banner.order}</span>
+        {/* <span>画像{banner.order}</span> */}
+        <span>画像</span>
       </div>
       <div className="banner-side-right">
         <div className="banner-side-right-content">
-          <div>
-            <Image width={600} height={250} src={banner.image_url} />
-          </div>
+          <Image
+            width={600}
+            src={banner.image_url}
+            alt="My Image"
+            style={{
+              minHeight: '300px',
+              maxHeight: '600px',
+            }}
+          />
 
+          {/* 
           <div className="mt-6">
             <span className="banner-side-right-content-link">{renderReferencesLink()}</span>
-          </div>
+          </div> */}
 
           <div className="mt-6">
             <span>開始日: {banner.start_date as string} </span>

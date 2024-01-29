@@ -45,7 +45,7 @@ const facilitySlice = createSlice({
       state.loading = false;
     },
     clearData(state) {
-      state.detailData = {};
+      state.detailData = null;
       state.listData = [];
     },
 

@@ -42,18 +42,18 @@ export const BANNER_REFERENCE_TYPE = [
     label: 'FACILITY',
     value: EBannerTypeEnum.FACILITY,
   },
-  // {
-  //   label: 'VIDEO',
-  //   value: EBannerTypeEnum.VIDEO,
-  // },
+  {
+    label: 'VIDEO',
+    value: EBannerTypeEnum.VIDEO,
+  },
   {
     label: 'QUIZ',
     value: EBannerTypeEnum.QUIZ,
   },
-  // {
-  //   label: 'COUPON',
-  //   value: EBannerTypeEnum.COUPON,
-  // },
+  {
+    label: 'COUPON',
+    value: EBannerTypeEnum.COUPON,
+  },
   {
     label: 'EVENT',
     value: EBannerTypeEnum.EVENT,

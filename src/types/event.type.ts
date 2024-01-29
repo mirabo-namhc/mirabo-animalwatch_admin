@@ -1,33 +1,33 @@
 import { IPagination } from './common.type';
 
 export interface IEventState {
-    loading: boolean;
-    reloadList: boolean;
-    loadingForm: boolean;
-    listData: IEvent[];
-    pagination?: IPagination;
-    detailData?: IEvent;
-    reloadDataDetail?: boolean;
+  loading: boolean;
+  reloadList: boolean;
+  loadingForm: boolean;
+  listData: IEvent[];
+  pagination?: IPagination;
+  detailData?: IEvent | null;
+  reloadDataDetail?: boolean;
 }
 
 export interface IEvent {
-    id?: number
-    title?: string
-    name?: string
-    overview?: string
-    image_url?: string
-    image_path?: string
-    is_active?: boolean
-    start_date?: string
-    end_date?: string
-    facility_id?: number
-    contentable_type?: string
+  id?: number;
+  title?: string;
+  name?: string;
+  overview?: string;
+  image_url?: string;
+  image_path?: string;
+  is_active?: boolean;
+  start_date?: string;
+  end_date?: string;
+  facility_id?: number;
+  contentable_type?: string;
 }
 
 export interface IResponseApiDetailEvent<T> {
-    code?: string;
-    data?: {
-        content?: T
-    } & T;
-    message?: string;
+  code?: string;
+  data?: {
+    content?: T;
+  } & T;
+  message?: string;
 }
