@@ -10,9 +10,10 @@ export default function MPagination({
   showSizeChanger = false,
   prevIcon,
   nextIcon,
+  onChange, 
   ...props
-}: PaginationProps) {
+}: PaginationProps   & { onChange?: (page: number) => void }){
   const classPagination = clsx('m-pagination', className);
 
-  return <Pagination className={classPagination} showSizeChanger={showSizeChanger} {...props} />;
+  return <Pagination className={classPagination} showSizeChanger={showSizeChanger} onChange={onChange} {...props} />;
 }

@@ -25,6 +25,8 @@ export interface ICouponContent {
   id?: number;
   title?: string;
   is_active?: EActiveField;
+  image_path?: string;
+  image_url?: string;
   end_date?: string;
   start_date?: string;
   type?: string;
