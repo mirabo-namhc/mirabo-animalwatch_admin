@@ -10,7 +10,7 @@ const initialState: IEventState = {
   loadingForm: false,
   listData: [],
   pagination: {},
-  detailData: {},
+  detailData: null,
 };
 
 const eventSlice = createSlice({
@@ -44,7 +44,7 @@ const eventSlice = createSlice({
       state.loading = false;
     },
     clearData(state) {
-      state.detailData = {};
+      state.detailData = null;
       state.listData = [];
     },
 

@@ -18,7 +18,6 @@ interface IQuizTables extends IQuiz {
 
 export default function QuizList() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IQuiz>>({
     current_page: 1,

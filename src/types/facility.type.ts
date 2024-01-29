@@ -7,26 +7,35 @@ export interface IFacilityState {
   loadingForm: boolean;
   listData: IFacility[];
   pagination?: IPagination;
-  detailData?: IFacility;
+  detailData?: IFacility | null;
   reloadDataDetail?: boolean;
 }
 
 export interface IFacility {
   id?: number;
   name?: string;
-  group_id?: EGroupFacility;
-  youtube_channel_id?: string;
-  instagram_token_id?: string;
+  description?: string | null;
   img_cover_url?: string;
-  img_cover_path?: string;
-  folder_id?: string;
-  is_active?: EActiveField;
   start_date?: string;
   end_date?: string;
+  is_active?: EActiveField;
+  group_id?: EGroupFacility;
   order?: number;
+  folder_id?: string;
+  instagram_token_id?: string;
+  youtube_channel_id?: string;
+  created_at?: string;
+  updated_at?: string;
+  is_active_movie?: number;
+  is_active_picture?: number;
+  is_active_deals?: number;
+  is_active_information?: number;
+  is_active_youtube?: number;
+  is_active_sns?: number;
+  img_cover_path?: string;
 }
 
-export type TParamsSort = { id?: number, order?: number }[]
+export type TParamsSort = { id?: number; order?: number }[];
 
 export enum EGroupFacility {
   ZOO = 1,

@@ -79,11 +79,11 @@ function* handleEdit(action: PayloadAction<{ params: IBanner; onUpdateSuccess: (
   }
 }
 
-function* handleRemove(action: PayloadAction<{ params: number; onDeleteSuccess: () => void }>) {
+function* handleRemove(action: PayloadAction<{ id: number; onDeleteSuccess: () => void }>) {
   const { failedMessage, successMessage } = messageCud(BANNER_INDEX_SCREEN_NAME, 'DELETE');
   try {
-    const { params, onDeleteSuccess } = action.payload;
-    const resposen: IResponseApiDetail<IBanner> = yield call(bannerAPI.remove, params);
+    const { id: bannerId, onDeleteSuccess } = action.payload;
+    const resposen: IResponseApiDetail<IBanner> = yield call(bannerAPI.remove, bannerId);
 
     if (resposen.data) {
       yield put(bannerActions.removeSuccess(successMessage));

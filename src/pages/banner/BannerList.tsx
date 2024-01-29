@@ -13,14 +13,21 @@ import { eventActions } from '~store/event/eventSlice';
 import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { quizActions } from '~store/quiz/quiz.slice';
+import { videoActions } from '~store/video/videoSlice';
+
+const MAX_BANNER_SIZE = 5;
 
 export default function BannerList() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [paramsQuery] = useState<TFilterParams<IBanner>>({});
+  const [isActiveBtnCreateBanner, setIsActiveBtnCreateBanner] = useState(true);
+  const [paramsQuery] = useState<TFilterParams<IBanner>>({
+    current_page: 1,
+    per_page: MAX_BANNER_SIZE,
+  });
 
-  const { listData: listBanner, loading } = useGetList({
+  const { listData: listBanner, loading } = useGetList<IBanner[]>({
     params: paramsQuery,
     action: bannerActions,
     nameState: 'banner',
@@ -50,7 +57,9 @@ export default function BannerList() {
         dispatch(
           bannerActions.remove({
             id: Number(id),
-            onNavigate: () => navigate(0),
+            onDeleteSuccess: () => {
+              dispatch(bannerActions.setReloadList(true));
+            },
           }),
         );
       },
@@ -58,11 +67,20 @@ export default function BannerList() {
   };
 
   React.useEffect(() => {
+    if (Array.isArray(listBanner) && listBanner.length <= MAX_BANNER_SIZE) {
+      setIsActiveBtnCreateBanner(true);
+    } else {
+      setIsActiveBtnCreateBanner(false);
+    }
+  }, [listBanner]);
+
+  React.useEffect(() => {
     return () => {
       dispatch(eventActions.clearData());
       dispatch(couponActions.clearData());
       dispatch(facilityActions.clearData());
       dispatch(quizActions.clearData());
+      dispatch(videoActions.clearData());
     };
   }, []);
 
@@ -73,6 +91,7 @@ export default function BannerList() {
           size="middle"
           onClick={onNavigateCreate}
           type="primary"
+          disabled={!isActiveBtnCreateBanner}
           leftIcon={<PlusCircleOutlined />}
         >
           新規登録
