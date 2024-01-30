@@ -288,7 +288,8 @@ export default function EventForm() {
         dispatch(
           eventActions.remove({
             id: Number(id),
-            onNavigate: () => navigate(APP_ROUTE_URL.EVENT.INDEX),
+            onNavigate: () =>
+              navigate(`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`),
           }),
         );
       },
