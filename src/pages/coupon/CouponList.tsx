@@ -38,38 +38,6 @@ export default function CouponList() {
     action: couponActions,
     nameState: 'coupon',
   });
-  // const columns: ColumnsType<ICouponTables> = [
-    
-  //   {
-  //     title: '施設名',
-  //     render: (_: unknown, record: ICouponTables, index: number) => (
-  //       <span>{record.content?.facility?.name}</span>
-  //     ),
-  //   },
-  //   {
-  //     title: '表示状態',
-  //     dataIndex: 'is_active',
-  //     render: (_: unknown, record: ICouponTables, index: number) => (
-  //       <span>{record.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}</span>
-  //     ),
-  //   },
-  //   {
-  //     dataIndex: 'action',
-  //     render: (_: unknown, record: ICouponTables) => (
-  //       <div className="dis-flex ai-flex-center jc-center">
-  //         <AButton
-  //           size="small"
-  //           className="h-32 w-97 gray-80"
-  //           onClick={() => record?.id && onNavigateDetail(record.id)}
-  //           type="primary"
-  //           data-testid="btn-preview"
-  //         >
-  //           詳細
-  //         </AButton>
-  //       </div>
-  //     ),
-  //   },
-  // ];
   const { Meta } = Card;
 
   const handlePageChange = (page: number) => {
@@ -154,14 +122,5 @@ export default function CouponList() {
       </div>
     </div>
     
-      /* <OTable
-        columns={columns}
-        dataSource={dataCouponList}
-        pageSize={pagination?.per_page}
-        total={getTotal(pagination?.total_page, pagination?.per_page)}
-        setParamsQuery={setParamsQuery}
-        paramsQuery={paramsQuery}
-        loading={loading}
-      /> */
   );
 }
