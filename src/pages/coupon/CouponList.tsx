@@ -14,6 +14,8 @@ import MPagination from '~molecules/m-pagination';
 import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { TFilterParams } from '~types';
+import { convertOnlyDate } from '~utils/datetime';
+import { getTextEActive } from '~utils/funcHelper';
 import { getTotal } from '~utils/tableHelper';
 
 interface ICouponTables extends ICoupon {
@@ -79,11 +81,14 @@ export default function CouponList() {
                 </div>
               }
               description={
-                <div>
-                  表示状態:{' '}
-                  <span>
-                    {coupon.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}
-                  </span>
+                <div
+                  style={{
+                    textAlign: 'left',
+                  }}
+                >
+                  <p> 非表示フラグ: {getTextEActive(coupon.content?.is_active)}</p>
+                  <p> 公開日: {convertOnlyDate(coupon.content?.start_date as string)}</p>
+                  <p> 公開終了日: {convertOnlyDate(coupon.content?.end_date as string)}</p>
                 </div>
               }
             />

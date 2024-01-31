@@ -10,6 +10,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { eventActions } from '~store/event/eventSlice';
 import { TFilterParams } from '~types';
+import { convertOnlyDate } from '~utils/datetime';
 import { getNoTable, getTotal } from '~utils/tableHelper';
 
 export default function EventList() {
@@ -44,6 +45,16 @@ export default function EventList() {
     {
       title: '施設名',
       dataIndex: 'facility_name',
+    },
+    {
+      title: '公開日',
+      dataIndex: 'start_date',
+      render: (value, record: IEvent) => convertOnlyDate(record.content.start_date),
+    },
+    {
+      title: '公開終了日',
+      dataIndex: 'end_date',
+      render: (value, record: IEvent) => convertOnlyDate(record.content.end_date),
     },
     {
       dataIndex: 'action',
@@ -88,7 +99,7 @@ export default function EventList() {
       </div>
       <OTable
         columns={columns}
-        dataSource={listEvent as IEvent[]}
+        dataSource={(listEvent as IEvent[]).map((item) => ({ ...item, key: item.id }))}
         pageSize={pagination?.per_page}
         total={getTotal(pagination?.total_page, pagination?.per_page)}
         setParamsQuery={setParamsQuery}

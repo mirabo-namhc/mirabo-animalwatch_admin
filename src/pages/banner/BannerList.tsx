@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OBannerLayout from '~organisms/o-banner-layout';
 import AButton from '~atoms/a-button';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { APP_ROUTE_URL } from '~constants/endpoint';
-import { Modal, Spin } from 'antd';
+import { Card, Modal, Spin, Tooltip } from 'antd';
 import { useGetList } from '~/hooks';
 import { IBanner, TFilterParams } from '~types';
 import { bannerActions } from '~store/banner/bannerSlice';
@@ -14,8 +14,22 @@ import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { quizActions } from '~store/quiz/quiz.slice';
 import { videoActions } from '~store/video/videoSlice';
+import MCard from '~molecules/m-card';
+import { getTextEActive } from '~utils/funcHelper';
+import { convertOnlyDate } from '~utils/datetime';
 
 const MAX_BANNER_SIZE = 5;
+const MIN_BANNER_SIZE = 0;
+
+const gridStyle: React.CSSProperties = {
+  width: '20%',
+  textAlign: 'center',
+  borderTopLeftRadius: '8px',
+  borderTopRightRadius: '8px',
+  backgroundColor: 'unset',
+  border: 'unset',
+  boxShadow: 'unset',
+};
 
 export default function BannerList() {
   const navigate = useNavigate();
@@ -32,6 +46,35 @@ export default function BannerList() {
     action: bannerActions,
     nameState: 'banner',
   });
+
+  const showListBanner = useMemo(
+    () => (
+      <Card style={{ background: 'unset', border: 'unset' }}>
+        {listBanner.map((banner, index) => (
+          <Card.Grid hoverable={false} style={gridStyle} key={index}>
+            <MCard
+              className="m-card-banner"
+              thumbnailUrl={banner.image_url}
+              onActionEdit={() => banner?.id && handleEditBanner(banner.id)}
+              onActionDelete={() => handleDeleteBanner(banner.id)}
+              description={
+                <div
+                  style={{
+                    textAlign: 'left',
+                  }}
+                >
+                  <p> 非表示フラグ: {getTextEActive(banner.is_active)}</p>
+                  <p> 公開日: {convertOnlyDate(banner.start_date as string)}</p>
+                  <p> 公開終了日: {convertOnlyDate(banner.end_date as string)}</p>
+                </div>
+              }
+            />
+          </Card.Grid>
+        ))}
+      </Card>
+    ),
+    [listBanner],
+  );
 
   const onNavigateCreate = () => {
     navigate(APP_ROUTE_URL.SETTING.BANNER.CREATE);
@@ -67,12 +110,17 @@ export default function BannerList() {
   };
 
   React.useEffect(() => {
-    if (Array.isArray(listBanner) && listBanner.length < MAX_BANNER_SIZE) {
+    if (
+      Array.isArray(listBanner) &&
+      !loading &&
+      listBanner.length > MIN_BANNER_SIZE &&
+      listBanner.length < MAX_BANNER_SIZE
+    ) {
       setIsActiveBtnCreateBanner(true);
     } else {
       setIsActiveBtnCreateBanner(false);
     }
-  }, [listBanner]);
+  }, [listBanner, loading]);
 
   React.useEffect(() => {
     return () => {
@@ -97,22 +145,13 @@ export default function BannerList() {
           新規登録
         </AButton>
       </div>
-
-      {loading ? (
-        <div className="mt-30 dis-flex jc-center">
-          <Spin size="large" />
-        </div>
-      ) : (
-        (listBanner as IBanner[]).map((item, idx) => (
-          <OBannerLayout
-            key={item.id}
-            banner={item}
-            index={idx + 1}
-            handleEditBanner={() => handleEditBanner(item.id)}
-            handleDeleteBanner={() => handleDeleteBanner(item.id)}
-          />
-        ))
-      )}
+      <div>
+        {loading ? (
+          <Card style={{ width: 300, marginTop: 16 }} loading={loading}></Card>
+        ) : (
+          <React.Fragment>{Array.isArray(listBanner) && showListBanner} </React.Fragment>
+        )}
+      </div>
     </div>
   );
 }

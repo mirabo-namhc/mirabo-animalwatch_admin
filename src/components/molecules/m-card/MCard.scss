@@ -1,4 +1,4 @@
-.m-card-coupon {
+.m-card-coupon,.m-card-banner {
     box-shadow: 1px 0 0 0 #f0f0f0, 0 1px 0 0 #f0f0f0, 1px 1px 0 0 #f0f0f0, 1px 0 0 0 #f0f0f0 inset, 0 1px 0 0 #f0f0f0 inset;
 
     &:hover {
@@ -9,7 +9,7 @@
     .ant-card-cover {
         img {
             height: 200px;
-            object-fit: contain;
+            object-fit: fill;
         }
     }
 

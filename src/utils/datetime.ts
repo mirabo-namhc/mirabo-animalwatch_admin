@@ -12,9 +12,11 @@ export const convertDateToFormat = (isoDateString?: string | dayjs.Dayjs) => {
 };
 
 export const convertOnlyDate = (dateTimeString: string): string => {
+  if (!dayjs(dateTimeString).isValid() || !dateTimeString) return '-';
+
   const formattedDate = dayjs(dateTimeString).format('YYYY-MM-DD');
   return formattedDate;
-}
+};
 
 export const disableDateBefore = (current: Dayjs) => {
   return current && current < dayjs().startOf('day');

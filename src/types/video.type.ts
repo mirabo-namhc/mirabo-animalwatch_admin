@@ -28,7 +28,7 @@ export interface IVideoPlayer {
   facility_name: string;
   content: Content;
 }
-interface Content {
+export interface Content {
   id: number;
   is_active: number;
   is_recommend: number;
