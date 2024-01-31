@@ -34,6 +34,7 @@ export default function EventList() {
     {
       title: '',
       dataIndex: 'index',
+      width: 80,
       render: (_: unknown, record: IEvent, index: number) => (
         <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
       ),
@@ -41,25 +42,30 @@ export default function EventList() {
     {
       title: 'イベント名',
       dataIndex: 'name',
+      width: 650,
     },
     {
       title: '施設名',
       dataIndex: 'facility_name',
+      width: 350,
     },
     {
       title: '公開日',
       dataIndex: 'start_date',
+      width: 150,
       render: (value, record: IEvent) =>
         convertOnlyDate((record.content as IContentEvent).start_date),
     },
     {
       title: '公開終了日',
       dataIndex: 'end_date',
+      width: 150,
       render: (value, record: IEvent) =>
         convertOnlyDate((record.content as IContentEvent).end_date),
     },
     {
       dataIndex: 'action',
+      width: 150,
       render: (_: unknown, record: IEvent) => (
         <div className="dis-flex ai-flex-center jc-center">
           <AButton

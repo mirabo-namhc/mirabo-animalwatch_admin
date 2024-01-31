@@ -23,7 +23,7 @@ interface ICouponTables extends ICoupon {
 }
 
 const gridStyle: React.CSSProperties = {
-  width: '20%',
+  width: '330px',
   textAlign: 'center',
   borderTopLeftRadius: '8px',
   borderTopRightRadius: '8px',
@@ -63,7 +63,7 @@ export default function CouponList() {
 
   const showListCoupon = useMemo(
     () => (
-      <Card style={{ background: 'unset', border: 'unset' }}>
+      <Card style={{ background: 'unset', border: 'unset', flexWrap: 'wrap' }}>
         {dataCouponList.map((coupon, index) => (
           <Card.Grid hoverable={false} style={gridStyle} key={index}>
             <MCard

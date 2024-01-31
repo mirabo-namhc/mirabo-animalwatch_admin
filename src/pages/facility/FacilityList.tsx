@@ -87,38 +87,46 @@ export default function FacilityList() {
     {
       title: '',
       dataIndex: 'index',
+      width: 80,
       render: (_: unknown, record: IFacility, index: number) => <span>{index + 1}</span>,
     },
     {
       title: '施設名',
       dataIndex: 'name',
+      width: 650,
     },
     {
       title: 'カテゴリ',
       dataIndex: 'group_id',
+      width: 100,
       render: (value) => (value ? groupsFacilityOptions[value - 1].label : ''),
     },
     {
       title: '非表示フラグ',
       dataIndex: 'is_active',
+      width: 100,
       render: (value) => getTextEActive(value),
     },
     {
       title: '表示順',
       dataIndex: 'order',
+      width: 100,
     },
     {
       title: '公開日',
       dataIndex: 'start_date',
-      render: (value) => (value ? convertOnlyDate(value) : '-'),
+      width: 150,
+      render: (value) => convertOnlyDate(value),
     },
     {
       title: '公開終了日',
       dataIndex: 'end_date',
-      render: (value) => (value ? convertOnlyDate(value) : '-'),
+      width: 150,
+      render: (value) => convertOnlyDate(value),
     },
     {
       dataIndex: 'action',
+      width: 150,
       render: (_: unknown, record: IFacility, index: number) => (
         <div className="dis-flex ai-flex-center jc-center">
           <div className="dis-flex ai-flex-center jc-center">

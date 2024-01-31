@@ -22,7 +22,7 @@ const MAX_BANNER_SIZE = 5;
 const MIN_BANNER_SIZE = 0;
 
 const gridStyle: React.CSSProperties = {
-  width: '20%',
+  width: '330px',
   textAlign: 'center',
   borderTopLeftRadius: '8px',
   borderTopRightRadius: '8px',
@@ -49,7 +49,7 @@ export default function BannerList() {
 
   const showListBanner = useMemo(
     () => (
-      <Card style={{ background: 'unset', border: 'unset' }}>
+      <Card style={{ background: 'unset', border: 'unset', flexWrap: 'wrap' }}>
         {listBanner.map((banner, index) => (
           <Card.Grid hoverable={false} style={gridStyle} key={index}>
             <MCard

@@ -39,23 +39,23 @@ export const isActiveFacilityOptions = [
 
 export const BANNER_REFERENCE_TYPE = [
   {
-    label: 'FACILITY',
+    label: 'カテゴリ一',
     value: EBannerTypeEnum.FACILITY,
   },
   {
-    label: 'VIDEO',
+    label: 'ビデオ',
     value: EBannerTypeEnum.VIDEO,
   },
   {
-    label: 'QUIZ',
+    label: 'クイズ',
     value: EBannerTypeEnum.QUIZ,
   },
   {
-    label: 'COUPON',
+    label: 'クーポン一',
     value: EBannerTypeEnum.COUPON,
   },
   {
-    label: 'EVENT',
+    label: 'イベント',
     value: EBannerTypeEnum.EVENT,
   },
 ];

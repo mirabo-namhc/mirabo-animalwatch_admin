@@ -39,6 +39,8 @@ export function MTable<T extends AnyObject>({
     <>
       <Table
         className="m-table"
+        scroll={{ x: 0 }}
+        sticky={true}
         pagination={isShowPagination ? { pageSize: pageSize } : false}
         {...props}
       />
