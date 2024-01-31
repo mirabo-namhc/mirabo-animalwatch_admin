@@ -100,7 +100,7 @@ export default function FacilityList() {
     {
       title: '表示状態',
       dataIndex: 'is_active',
-      render: (value) => (value ? '表示' : '非表示'),
+      render: (value) => (value ? 'ON' : 'OFF'),
     },
     {
       title: '表示順',
