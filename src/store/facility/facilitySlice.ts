@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
-import { IFacility, IFacilityState, TParamsSort } from '~/types/facility.type';
+import { IFacility, IFacilityState, IResponseSortFacility, TParamsSort } from '~/types/facility.type';
 import { IErrorAPI, IRemovePayload, IResponseApiList, TFilterParams } from '~types';
+import { swapItemsById } from '~utils/arrayHelper';
 import { getPaginationInfo } from '~utils/funcHelper';
 
 const initialState: IFacilityState = {
@@ -24,7 +25,7 @@ const facilitySlice = createSlice({
     },
     fetchDataSuccess(state, action: PayloadAction<IResponseApiList<IFacility>>) {
       state.loading = false;
-      state.listData = action?.payload?.data?.data || [];
+      state.listData = action?.payload?.data?.data ? [...state.listData, ...action?.payload?.data?.data] : [];
       state.pagination = getPaginationInfo(action?.payload?.data);
     },
     fetchDataFalse(state, action) {
@@ -96,9 +97,11 @@ const facilitySlice = createSlice({
     sortOrder(state, action: PayloadAction<TParamsSort>) {
       state.loading = true;
     },
-    sortOrderSuccess(state) {
+    sortOrderSuccess(state, action: PayloadAction<IResponseSortFacility>) {
       state.loading = false;
-      state.reloadList = !state.reloadList;
+      if (action.payload.data) {
+        state.listData = swapItemsById(state.listData, action.payload.data[0].id, action.payload.data[1].id)
+      }
       message.success('施設の表示順番を変更しました。');
     },
     sortOrderFalse(state) {

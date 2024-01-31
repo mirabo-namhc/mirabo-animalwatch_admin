@@ -35,6 +35,12 @@ export interface IFacility {
   img_cover_path?: string;
 }
 
+export interface IResponseSortFacility {
+  code?: string;
+  data?: TParamsSort;
+  message?: string;
+}
+
 export type TParamsSort = { id?: number; order?: number }[];
 
 export enum EGroupFacility {
