@@ -3,7 +3,6 @@
     width: 300px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
   }
   .card-cover img {
@@ -12,11 +11,25 @@
     object-fit: contain;
     object-position: center;
   }
-  .ant-card-meta-title,
+  .ant-card-meta-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    white-space: nowrap;
+    &:hover {
+      .ant-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
   .ant-card-meta-description {
     width: 100%;
     text-align: center;
-    text-overflow: ellipsis; 
-    overflow: hidden; 
     white-space: nowrap; 
+  }
+
+  .ant-tooltip {
+    white-space: normal;
+    max-width: 300px; 
   }

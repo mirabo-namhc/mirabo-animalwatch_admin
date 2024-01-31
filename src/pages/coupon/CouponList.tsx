@@ -84,22 +84,23 @@ export default function CouponList() {
         </AButton>
       </div>
       
-      <Row  gutter={[36,36]} >
+      <Row  gutter={[36,36]} justify="center">
       {dataCouponList.map((record, index) => (
             <Col key={record.key} >
-              <MCard
+             
+                <MCard
                 title={record.content?.facility?.name}
                 description={record.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}
-                imageUrl={record.image_url}
+                img={record.image_url}
                 onEdit={() => record?.id && onNavigateDetail(record.id)}
               />
+              
             </Col>
           ))}
       </Row>
       <div>
             <div className="pagination-container">
               <MPagination
-              
                 current={pagination?.current_page}
                 total={getTotal(pagination?.total_page, pagination?.per_page)}
                 pageSize={pagination?.per_page}
@@ -108,6 +109,5 @@ export default function CouponList() {
             </div>
       </div>
     </div>
-    
   );
 }
