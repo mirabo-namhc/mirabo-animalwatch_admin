@@ -28,13 +28,15 @@ interface IFacilityTables extends IFacility {
   key: string | number;
 }
 
+const initialParams = {
+  current_page: 1,
+  per_page: 10,
+};
+
 export default function FacilityList() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IFacility>>({
-    current_page: 1,
-    per_page: 10,
-  });
+  const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IFacility>>(initialParams);
   const [idFacility, setIdFacility] = React.useState<number | undefined>(undefined);
 
   const [dataFacilityTable, setDataFacilityTable] = React.useState<Array<IFacilityTables>>([]);
@@ -215,6 +217,10 @@ export default function FacilityList() {
       return pre;
     });
   };
+  const handleCollapse = () => {
+    dispatch(facilityActions.clearData());
+    setParamsQuery(initialParams);
+  };
 
   const onNavigateDetail = (id: number) => {
     navigate(`${APP_ROUTE_URL.FACILITY.EDIT}?id=${id}`);
@@ -239,6 +245,8 @@ export default function FacilityList() {
       });
     }
   }, [listFacility]);
+
+  const isLoadMore = Number(paramsQuery?.current_page) < Number(pagination?.total_page);
 
   return (
     <div className="gray fs-20">
@@ -270,15 +278,15 @@ export default function FacilityList() {
         loading={loading}
         isShowPagination={false}
       />
-      {!loading && Number(paramsQuery?.current_page) < Number(pagination?.total_page) && (
+      {!loading && (
         <div className="w-full dis-flex jc-center">
           <AButton
-            rightIcon={<ArrowDownOutlined />}
+            rightIcon={isLoadMore ? <ArrowDownOutlined /> : <ArrowUpOutlined />}
             type="default"
             className="h-40 dis-flex ai-center fs-12 fw-500"
-            onClick={handleLoadMore}
+            onClick={isLoadMore ? handleLoadMore : handleCollapse}
           >
-            さらに読み込み中
+            {isLoadMore ? 'さらに読み込み中' : '元に戻す'}
           </AButton>
         </div>
       )}
