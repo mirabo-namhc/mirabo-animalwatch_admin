@@ -1,7 +1,7 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Card, Row, Col} from 'antd';
+import MCard from '~molecules/m-card';
+import { Row, Col} from 'antd';
 import MPagination from '~molecules/m-pagination';
-import {  EditOutlined} from '@ant-design/icons'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
@@ -15,7 +15,6 @@ import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { TFilterParams } from '~types';
 import { getNoTable, getTotal } from '~utils/tableHelper';
-import './CouponCard.scss';
 
 interface ICouponTables extends ICoupon {
   key: string | number;
@@ -38,7 +37,6 @@ export default function CouponList() {
     action: couponActions,
     nameState: 'coupon',
   });
-  const { Meta } = Card;
 
   const handlePageChange = (page: number) => {
     setParamsQuery({
@@ -87,38 +85,27 @@ export default function CouponList() {
       </div>
       
       <Row  gutter={[36,36]} >
-        {dataCouponList.map((record) => (
-          <Col key={record.key} >
-          <Card  style={{ width: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
-            hoverable
-            cover={
-              <div className="card-cover">
-              <img src={record.image_url} alt="Coupon Image" />
-            </div>
-            }
-            actions={[
-              <EditOutlined key="edit" onClick={() => record?.id && onNavigateDetail(record.id)}/>,
-              ]}
-            >
-            <Meta
-            key={record.key}
-            title={record.content?.facility?.name}
-            description={record.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}
-          />
-          </Card>
-          </Col>
-        ))}
+      {dataCouponList.map((record, index) => (
+            <Col key={record.key} >
+              <MCard
+                title={record.content?.facility?.name}
+                description={record.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}
+                imageUrl={record.image_url}
+                onEdit={() => record?.id && onNavigateDetail(record.id)}
+              />
+            </Col>
+          ))}
       </Row>
       <div>
-      <div className="pagination-container">
-        <MPagination
-        
-          current={pagination?.current_page}
-          total={getTotal(pagination?.total_page, pagination?.per_page)}
-          pageSize={pagination?.per_page}
-          onChange={handlePageChange}
-        />
-      </div>
+            <div className="pagination-container">
+              <MPagination
+              
+                current={pagination?.current_page}
+                total={getTotal(pagination?.total_page, pagination?.per_page)}
+                pageSize={pagination?.per_page}
+                onChange={handlePageChange}
+              />
+            </div>
       </div>
     </div>
     

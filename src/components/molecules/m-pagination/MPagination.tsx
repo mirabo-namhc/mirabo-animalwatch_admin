@@ -5,6 +5,7 @@ import clsx from 'clsx';
 
 import './MPagination.scss';
 
+
 export default function MPagination({
   className = '',
   showSizeChanger = false,
