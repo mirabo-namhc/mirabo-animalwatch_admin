@@ -41,6 +41,7 @@ export default function QuizList() {
     {
       title: '',
       dataIndex: 'index',
+      width: 80,
       render: (_: unknown, record: IQuiz, index: number) => (
         <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
       ),
@@ -48,7 +49,7 @@ export default function QuizList() {
     {
       title: 'タイトル',
       dataIndex: 'title',
-      width: 250,
+      width: 350,
     },
     {
       title: '質問',
@@ -58,15 +59,18 @@ export default function QuizList() {
     {
       title: '公開日',
       dataIndex: 'start_date',
-      render: (value) => (value ? convertOnlyDate(value) : '-'),
+      width: 150,
+      render: (value) => convertOnlyDate(value),
     },
     {
       title: '公開終了日',
       dataIndex: 'end_date',
-      render: (value) => (value ? convertOnlyDate(value) : '-'),
+      width: 150,
+      render: (value) => convertOnlyDate(value),
     },
     {
       dataIndex: 'action',
+      width: 150,
       render: (_: unknown, record: IQuiz) => (
         <div className="dis-flex ai-flex-center jc-center">
           <AButton

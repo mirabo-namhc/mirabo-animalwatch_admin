@@ -12,7 +12,7 @@ export const convertDateToFormat = (isoDateString?: string | dayjs.Dayjs) => {
 };
 
 export const convertOnlyDate = (dateTimeString: string): string => {
-  if (!dayjs(dateTimeString).isValid() || !dateTimeString) return '-';
+  if (!dayjs(dateTimeString).isValid() || !dateTimeString) return '未定';
 
   const formattedDate = dayjs(dateTimeString).format('YYYY-MM-DD');
   return formattedDate;
