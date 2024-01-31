@@ -6,6 +6,7 @@ import {
   IRemovePayload,
   IResponseApiDetail,
   IResponseApiList,
+  IResponseSortFacility,
   TCreateEditPayload,
   TFilterParams,
   TParamsSort,
@@ -76,9 +77,9 @@ function* handleRemove(action: PayloadAction<IRemovePayload>) {
 function* handleSortOrder(action: PayloadAction<TParamsSort>) {
   try {
     const params = action.payload;
-    yield call(facilityAPI.sortOrder, params);
+    const response: IResponseSortFacility = yield call(facilityAPI.sortOrder, params);
 
-    yield put(facilityActions.sortOrderSuccess());
+    yield put(facilityActions.sortOrderSuccess(response));
   } catch (error) {
     yield put(facilityActions.sortOrderFalse());
   }

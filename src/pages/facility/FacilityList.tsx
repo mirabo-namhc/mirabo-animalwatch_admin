@@ -6,7 +6,7 @@ import {
   VerticalAlignBottomOutlined,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons';
-import { Dropdown } from 'antd';
+import { Dropdown, Modal } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { MenuProps } from 'antd/lib';
 import React from 'react';
@@ -19,8 +19,10 @@ import { groupsFacilityOptions } from '~constants/form';
 import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { facilityActions } from '~store/facility/facilitySlice';
-import { ETypeSortFacility, IFacility, TParamsSort, TFilterParams } from '~types';
-import { getNoTable, getTotal } from '~utils/tableHelper';
+import { ETypeSortFacility, IFacility, TFilterParams, TParamsSort } from '~types';
+import { filterDuplicateIds } from '~utils/arrayHelper';
+import { convertOnlyDate } from '~utils/datetime';
+import { getTotal } from '~utils/tableHelper';
 
 interface IFacilityTables extends IFacility {
   key: string | number;
@@ -47,30 +49,34 @@ export default function FacilityList() {
     nameState: 'facility',
   });
 
-  const itemsAction: MenuProps['items'] = [
+  const itemsAction = (index: number): MenuProps['items'] => [
     {
       key: ETypeSortFacility.MOVE_UP,
       label: '上に移動',
       icon: <ArrowUpOutlined />,
-      onClick: (info) => handleSortFacility(Number(info.key), idFacility),
+      onClick: (info) => onSortFacility(Number(info.key), idFacility),
+      disabled: index === 0,
     },
     {
       key: ETypeSortFacility.MOVE_DOWN,
       label: '下に移動',
       icon: <ArrowDownOutlined />,
-      onClick: (info) => handleSortFacility(Number(info.key), idFacility),
+      onClick: (info) => onSortFacility(Number(info.key), idFacility),
+      disabled: index === dataFacilityTable?.length - 1,
     },
     {
       key: ETypeSortFacility.TO_TOP,
       label: 'ページの先頭に移動',
       icon: <VerticalAlignTopOutlined />,
-      onClick: (info) => handleSortFacility(Number(info.key), idFacility),
+      onClick: (info) => onSortFacility(Number(info.key), idFacility),
+      disabled: index === 0,
     },
     {
       key: ETypeSortFacility.DOWN_BOTTOM,
       label: 'ページの一番下までスクロールします',
       icon: <VerticalAlignBottomOutlined />,
-      onClick: (info) => handleSortFacility(Number(info.key), idFacility),
+      onClick: (info) => onSortFacility(Number(info.key), idFacility),
+      disabled: index === dataFacilityTable?.length - 1,
     },
   ];
 
@@ -78,9 +84,7 @@ export default function FacilityList() {
     {
       title: '',
       dataIndex: 'index',
-      render: (_: unknown, record: IFacility, index: number) => (
-        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
-      ),
+      render: (_: unknown, record: IFacility, index: number) => <span>{index + 1}</span>,
     },
     {
       title: '施設名',
@@ -101,8 +105,18 @@ export default function FacilityList() {
       dataIndex: 'order',
     },
     {
+      title: '公開日',
+      dataIndex: 'start_date',
+      render: (value) => (value ? convertOnlyDate(value) : '-'),
+    },
+    {
+      title: '公開終了日',
+      dataIndex: 'end_date',
+      render: (value) => (value ? convertOnlyDate(value) : '-'),
+    },
+    {
       dataIndex: 'action',
-      render: (_: unknown, record: IFacility) => (
+      render: (_: unknown, record: IFacility, index: number) => (
         <div className="dis-flex ai-flex-center jc-center">
           <div className="dis-flex ai-flex-center jc-center">
             <AButton
@@ -117,29 +131,42 @@ export default function FacilityList() {
           </div>
           <Dropdown
             onOpenChange={(originNode) => originNode && setIdFacility(record.id)}
-            menu={{ items: itemsAction }}
+            menu={{ items: itemsAction(index) }}
             placement="bottomLeft"
             arrow
             trigger={['click']}
           >
-            <AButton size="small" className="ml-10" type="primary">
-              <MenuOutlined />
-            </AButton>
+            <div>
+              <AButton size="small" className="ml-10" type="primary">
+                <MenuOutlined />
+              </AButton>
+            </div>
           </Dropdown>
         </div>
       ),
     },
   ];
 
+  const onSortFacility = (type: ETypeSortFacility, idFacility?: number) => {
+    Modal.confirm({
+      title: '施設の表示順を変更します。よろしいでしょうか。',
+      okText: 'はい',
+      cancelText: 'いいえ',
+      onOk() {
+        handleSortFacility(type, idFacility);
+      },
+    });
+  };
+
   const handleSortFacility = (type: ETypeSortFacility, idFacility?: number) => {
     let paramsSort: TParamsSort = [];
     if (idFacility) {
-      const indexItem = listFacility.findIndex((facility) => facility.id === idFacility);
-      const orderFacility = listFacility[indexItem].order;
+      const indexItem = dataFacilityTable.findIndex((facility) => facility.id === idFacility);
+      const orderFacility = dataFacilityTable[indexItem].order;
 
       switch (type) {
         case ETypeSortFacility.MOVE_UP:
-          const itemReplaceUp = listFacility[indexItem - 1];
+          const itemReplaceUp = dataFacilityTable[indexItem - 1];
           paramsSort = [
             { id: idFacility, order: itemReplaceUp.order },
             { id: itemReplaceUp.id, order: orderFacility },
@@ -147,7 +174,7 @@ export default function FacilityList() {
           break;
 
         case ETypeSortFacility.MOVE_DOWN:
-          const itemReplaceDown = listFacility[indexItem + 1];
+          const itemReplaceDown = dataFacilityTable[indexItem + 1];
           paramsSort = [
             { id: idFacility, order: itemReplaceDown.order },
             { id: itemReplaceDown.id, order: orderFacility },
@@ -155,7 +182,7 @@ export default function FacilityList() {
           break;
 
         case ETypeSortFacility.TO_TOP:
-          const itemReplaceTop = listFacility[0];
+          const itemReplaceTop = dataFacilityTable[0];
           paramsSort = [
             { id: idFacility, order: itemReplaceTop.order },
             { id: itemReplaceTop.id, order: orderFacility },
@@ -163,7 +190,7 @@ export default function FacilityList() {
           break;
 
         case ETypeSortFacility.DOWN_BOTTOM:
-          const itemReplaceBottom = listFacility[listFacility.length - 1];
+          const itemReplaceBottom = dataFacilityTable[dataFacilityTable.length - 1];
           paramsSort = [
             { id: idFacility, order: itemReplaceBottom.order },
             { id: itemReplaceBottom.id, order: orderFacility },
@@ -177,6 +204,18 @@ export default function FacilityList() {
     dispatch(facilityActions.sortOrder(paramsSort));
   };
 
+  const handleLoadMore = () => {
+    setParamsQuery?.((pre) => {
+      if (Number(pre?.current_page) < Number(pagination?.total_page)) {
+        return {
+          ...pre,
+          current_page: Number(pre?.current_page) + 1,
+        };
+      }
+      return pre;
+    });
+  };
+
   const onNavigateDetail = (id: number) => {
     navigate(`${APP_ROUTE_URL.FACILITY.EDIT}?id=${id}`);
   };
@@ -184,10 +223,14 @@ export default function FacilityList() {
     navigate(APP_ROUTE_URL.FACILITY.CREATE);
   };
 
+  const handleBeforeSearch = () => {
+    dispatch(facilityActions.clearData());
+  };
+
   React.useEffect(() => {
     if (Array.isArray(listFacility)) {
       setDataFacilityTable(() => {
-        return listFacility.map((item) => {
+        return filterDuplicateIds(listFacility).map((item) => {
           return {
             ...item,
             key: item.id,
@@ -202,7 +245,11 @@ export default function FacilityList() {
       <div className="dis-flex mb-10 ai-center jc-space-between mb-30">
         <div className="dis-flex ai-center">
           <h4 className="mr-10">施設:</h4>{' '}
-          <MInputSearch setParamsQuery={setParamsQuery} paramsQuery={paramsQuery} />
+          <MInputSearch
+            handleBeforeSearch={handleBeforeSearch}
+            setParamsQuery={setParamsQuery}
+            paramsQuery={paramsQuery}
+          />
         </div>
         <AButton
           size="middle"
@@ -221,7 +268,20 @@ export default function FacilityList() {
         setParamsQuery={setParamsQuery}
         paramsQuery={paramsQuery}
         loading={loading}
+        isShowPagination={false}
       />
+      {!loading && Number(paramsQuery?.current_page) < Number(pagination?.total_page) && (
+        <div className="w-full dis-flex jc-center">
+          <AButton
+            rightIcon={<ArrowDownOutlined />}
+            type="default"
+            className="h-40 dis-flex ai-center fs-12 fw-500"
+            onClick={handleLoadMore}
+          >
+            さらに読み込み中
+          </AButton>
+        </div>
+      )}
     </div>
   );
 }

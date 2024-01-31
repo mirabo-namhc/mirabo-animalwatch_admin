@@ -131,3 +131,20 @@ export const handleAppendFormDataFile = (file: UploadFile<any>) => {
 
   return formData;
 };
+
+// export const pushToFrontAndIncrementOrder = (item: IFacility, listFacility: IFacility[]): IFacility[] => {
+//   const paramsSort: TParamsSort = []
+
+//   const remainingArray = [...listFacility]
+
+//   if (remainingArray) {
+//     remainingArray.map(facility => {
+//       if (facility.id === item.id) return {...facility, order: 1}
+//       if (listFacility.some(item => item.id === facility.id)) {
+//         paramsSort.push({ id: facility.id, order: Number(facility.order) + 1 })
+//       } else paramsSort.push({ id: facility.id, order: facility.order })
+//     })
+//   }
+//   console.log('paramsSort', paramsSort)
+//   return paramsSort;
+// };

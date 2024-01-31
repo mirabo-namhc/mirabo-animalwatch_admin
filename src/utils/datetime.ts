@@ -11,6 +11,11 @@ export const convertDateToFormat = (isoDateString?: string | dayjs.Dayjs) => {
   return formattedDateTime;
 };
 
+export const convertOnlyDate = (dateTimeString: string): string => {
+  const formattedDate = dayjs(dateTimeString).format('YYYY-MM-DD');
+  return formattedDate;
+}
+
 export const disableDateBefore = (current: Dayjs) => {
   return current && current < dayjs().startOf('day');
 };
