@@ -6,6 +6,7 @@ import AButton from '~atoms/a-button';
 import { IBanner } from '~types';
 import './OBannerLayout.scss';
 import dayjs from 'dayjs';
+import { getTextEActive } from '~utils/funcHelper';
 
 interface TOBannerLayout<T> {
   className?: string;
@@ -82,7 +83,7 @@ export function OBannerLayout<T extends AnyObject>({
 
           <div className="mt-6">
             <span>非表示フラグ:</span>
-            <span className="ml-20">{banner.is_active ? '表示' : '非表示'}</span>
+            <span className="ml-20">{getTextEActive(banner.is_active)}</span>
           </div>
         </div>
 

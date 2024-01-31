@@ -1,6 +1,6 @@
-import { FormInstance, Upload, message } from "antd";
+import { FormInstance, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib';
-import { EMessageErrorRequired } from '~/types/enum.type';
+import { EActiveField, EMessageErrorRequired } from '~/types/enum.type';
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
 import { IPagination, IResponseApiList } from '~types';
 import { replacePositionRangeNumber } from './number';
@@ -148,3 +148,7 @@ export const handleAppendFormDataFile = (file: UploadFile<any>) => {
 //   console.log('paramsSort', paramsSort)
 //   return paramsSort;
 // };
+
+export const getTextEActive = (is_active?: EActiveField) => {
+  return is_active ? 'OFF' : 'ON';
+};

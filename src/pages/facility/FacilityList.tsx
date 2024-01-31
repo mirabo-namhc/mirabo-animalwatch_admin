@@ -22,6 +22,7 @@ import { facilityActions } from '~store/facility/facilitySlice';
 import { ETypeSortFacility, IFacility, TFilterParams, TParamsSort } from '~types';
 import { filterDuplicateIds } from '~utils/arrayHelper';
 import { convertOnlyDate } from '~utils/datetime';
+import { getTextEActive } from '~utils/funcHelper';
 import { getTotal } from '~utils/tableHelper';
 
 interface IFacilityTables extends IFacility {
@@ -98,9 +99,9 @@ export default function FacilityList() {
       render: (value) => (value ? groupsFacilityOptions[value - 1].label : ''),
     },
     {
-      title: '表示状態',
+      title: '非表示フラグ',
       dataIndex: 'is_active',
-      render: (value) => (value ? 'ON' : 'OFF'),
+      render: (value) => getTextEActive(value),
     },
     {
       title: '表示順',

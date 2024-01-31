@@ -10,6 +10,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { quizActions } from '~store/quiz/quiz.slice';
 import { IQuiz, TFilterParams } from '~types';
+import { convertOnlyDate } from '~utils/datetime';
 import { getNoTable, getTotal } from '~utils/tableHelper';
 
 interface IQuizTables extends IQuiz {
@@ -47,10 +48,22 @@ export default function QuizList() {
     {
       title: 'タイトル',
       dataIndex: 'title',
+      width: 250,
     },
     {
       title: '質問',
       dataIndex: 'question',
+      width: 650,
+    },
+    {
+      title: '公開日',
+      dataIndex: 'start_date',
+      render: (value) => (value ? convertOnlyDate(value) : '-'),
+    },
+    {
+      title: '公開終了日',
+      dataIndex: 'end_date',
+      render: (value) => (value ? convertOnlyDate(value) : '-'),
     },
     {
       dataIndex: 'action',

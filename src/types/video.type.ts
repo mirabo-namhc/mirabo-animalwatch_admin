@@ -26,9 +26,9 @@ export interface IVideoPlayer {
   updated_by: string;
   deleted_at?: any;
   facility_name: string;
-  content: Content;
+  content: IContentVideo;
 }
-interface Content {
+export interface IContentVideo {
   id: number;
   is_active: number;
   is_recommend: number;
