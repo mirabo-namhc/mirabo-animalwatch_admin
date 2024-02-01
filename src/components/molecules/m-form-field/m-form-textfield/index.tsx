@@ -19,7 +19,11 @@ export default function MFormTextField({
   return (
     <Col {...colProps}>
       <Form.Item {...props} className={className}>
-        <Input placeholder={placeholder} className={clsInput} {...atomProps} />
+        {atomProps?.type === 'password' ? (
+          <Input.Password placeholder={placeholder} className={clsInput} {...atomProps} />
+        ) : (
+          <Input placeholder={placeholder} className={clsInput} {...atomProps} />
+        )}
       </Form.Item>
     </Col>
   );

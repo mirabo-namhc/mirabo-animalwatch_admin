@@ -12,18 +12,18 @@ export const groupsFacilityOptions = [
     label: '水族館',
     value: 2,
   },
-  // {
-  //     label: 'JCOM',
-  //     value: 3,
-  // },
-  // {
-  //     label: 'PET',
-  //     value: 4,
-  // },
-  // {
-  //     label: '世界の動物チャネル',
-  //     value: 5,
-  // },
+  {
+    label: 'JCOM',
+    value: 3,
+  },
+  {
+    label: 'PET',
+    value: 4,
+  },
+  {
+    label: '世界の動物',
+    value: 5,
+  },
 ];
 
 export const isActiveFacilityOptions = [

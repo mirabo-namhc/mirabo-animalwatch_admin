@@ -4,6 +4,7 @@ export const APP_ROUTE_URL = {
   INDEX: '/',
   LOGIN: '/login',
   REGISTER: '/register',
+  RESET_PASSWORD: '/reset-password',
   FACILITY: {
     INDEX: '/facility',
     TABLE: '',
@@ -86,6 +87,9 @@ export const ROUTE_SETTING_BANNER_CREATE = `${APP_ROUTE_URL.SETTING.INDEX}/${APP
 //Video Route
 export const ROUTE_VIDEO = APP_ROUTE_URL.VIDEO;
 
+// Resetpassword Route
+export const RESET_PASSWORD = APP_ROUTE_URL.RESET_PASSWORD;
+
 export const TITLE_HEADER = {
   [ROUTE_FACILITY_INDEX]: 'カテゴリ一覧',
   [ROUTE_FACILITY_EDIT]: 'カテゴリー詳細',
@@ -110,4 +114,6 @@ export const TITLE_HEADER = {
   [ROUTE_QUIZ_INDEX]: QUIZ_INDEX_SCREEN_NAME,
   [ROUTE_QUIZ_EDIT]: 'クイズ詳細',
   [ROUTE_QUIZ_CREATE]: '新規クイズ',
+
+  [RESET_PASSWORD]: 'パスワードを再設定する',
 };
