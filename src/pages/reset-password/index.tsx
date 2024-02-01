@@ -5,7 +5,11 @@ import { COLDEF } from '~constants/form';
 import OForm from '~organisms/o-form';
 import { authActions } from '~store/auth/authSlice';
 import { IResetPassPayload, TMappedFormItems } from '~types';
-import { messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
+import {
+  messageErrorBetweenCharacter,
+  messageErrorMaxCharacter,
+  messageErrorRequired,
+} from '~utils/funcHelper';
 
 export default function ResetPasswordPage() {
   const { loadingRegister } = useAppSelector((state) => state.auth);
@@ -19,6 +23,7 @@ export default function ResetPasswordPage() {
       atomProps: {
         placeholder: messageErrorRequired('ユーザー名'),
         maxLength: 255,
+        autoComplete: 'off',
       },
       colProps: {
         span: COLDEF,
@@ -43,6 +48,7 @@ export default function ResetPasswordPage() {
         placeholder: messageErrorRequired('パスワード'),
         maxLength: 255,
         type: 'password',
+        autoComplete: 'off',
       },
       colProps: {
         span: COLDEF,
@@ -78,8 +84,12 @@ export default function ResetPasswordPage() {
           message: messageErrorRequired('新しいパスワード'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 8,
+          message: messageErrorBetweenCharacter(6, 8),
+        },
+        {
+          min: 6,
+          message: messageErrorBetweenCharacter(6, 8),
         },
         ({ getFieldValue }) => ({
           validator(_, value) {

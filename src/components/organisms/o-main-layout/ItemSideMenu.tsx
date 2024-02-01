@@ -89,7 +89,7 @@ export const itemsSideMenu: MenuItem[] = [
     ],
   ),
   getItemSideMenu(
-    'パスワード',
+    'パスワード変更',
     APP_ROUTE_URL.RESET_PASSWORD,
     <span>
       <KeyOutlined />
