@@ -295,7 +295,7 @@ export default function FacilityList() {
             className="h-40 dis-flex ai-center fs-12 fw-500"
             onClick={isLoadMore ? handleLoadMore : handleCollapse}
           >
-            {isLoadMore ? 'さらに読み込み中' : '元に戻す'}
+            {isLoadMore ? 'もっと見る' : '元に戻す'}
           </AButton>
         </div>
       )}

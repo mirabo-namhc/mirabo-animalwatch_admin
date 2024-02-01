@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IAuthState, ILoginPayload, IRegisterPayload, IResponseAuth, IUserData } from '~/types';
+import { IAuthState, IErrorAPI, ILoginPayload, IRegisterPayload, IResetPassPayload, IResponseAuth, IUserData } from '~/types';
 import { getAuth, setAuth } from '~utils/auth';
 import { RootState } from '..';
 import { message } from 'antd';
@@ -12,6 +12,7 @@ const initialState: IAuthState = {
   logging: false, // loading
   loadingRegister: false,
   userData: undefined, // info user if login success
+  loadingResetPassword: false,
 };
 
 const authSlice = createSlice({
@@ -47,10 +48,27 @@ const authSlice = createSlice({
     registerSuccess(state, action: PayloadAction<IUserData>) {
       state.isLoggedIn = true;
       state.loadingRegister = false;
-      state.userData = action.payload;
     },
     registerFailed(state, action: PayloadAction<string>) {
       state.loadingRegister = false;
+    },
+
+    // RESET PASSWORD
+    resetPassword(state, action: PayloadAction<IResetPassPayload>) {
+      state.loadingResetPassword = true;
+    },
+    resetPasswordSuccess(state) {
+      state.loadingResetPassword = false;
+      message.success('パスワードは正常に変更されました。');
+    },
+    resetPasswordFailed(state, action: PayloadAction<IErrorAPI>) {
+      state.loadingResetPassword = false;
+      const messageAPI = action.payload.response.data?.message || action.payload.response.data?.newpassword?.[0]
+      if (messageAPI === 'Email & Password does not match') {
+        message.error('メールアドレスとパスワードが一致しません');
+      } else if (messageAPI === 'The newpassword field and password must be different.') {
+        message.error('新しいパスワードフィールドとパスワードは異なっている必要があります。');
+      }
     },
   },
 });

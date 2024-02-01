@@ -1,17 +1,17 @@
-import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { getItemSideMenu } from '~utils/funcHelper';
 import {
-  SettingFilled,
-  VideoCameraFilled,
-  QuestionCircleFilled,
-  HomeFilled,
-  ScheduleFilled,
-  MoneyCollectFilled,
   CloseCircleFilled,
   FileImageOutlined,
-  BarChartOutlined,
+  HomeFilled,
+  KeyOutlined,
+  MoneyCollectFilled,
+  QuestionCircleFilled,
+  ScheduleFilled,
+  SettingFilled,
+  VideoCameraFilled,
 } from '@ant-design/icons';
 import { APP_ROUTE_URL } from '~constants/endpoint';
+import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
+import { getItemSideMenu } from '~utils/funcHelper';
 
 export const itemsSideMenu: MenuItem[] = [
   getItemSideMenu(
@@ -87,6 +87,13 @@ export const itemsSideMenu: MenuItem[] = [
       //   </span>,
       // ),
     ],
+  ),
+  getItemSideMenu(
+    'パスワード',
+    APP_ROUTE_URL.RESET_PASSWORD,
+    <span>
+      <KeyOutlined />
+    </span>,
   ),
 ];
 

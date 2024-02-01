@@ -12,12 +12,21 @@ export interface IAuthState {
   logging: boolean;
   loadingRegister: boolean;
   userData?: IUserData;
+  loadingResetPassword: boolean;
 }
 
 export interface ILoginPayload {
   username: string;
   password: string;
   onNavigate?: () => void
+}
+
+export interface IResetPassPayload {
+  username: string;
+  password: string;
+  newpassword: string;
+  onNavigate?: () => void
+  onHanldeSuccess?: () => void
 }
 
 export interface ILogoutPayload {
