@@ -59,13 +59,13 @@ const authSlice = createSlice({
     },
     resetPasswordSuccess(state) {
       state.loadingResetPassword = false;
-      message.success('パスワードは正常に変更されました。');
+      message.success('パスワードは成功に変更しました。');
     },
     resetPasswordFailed(state, action: PayloadAction<IErrorAPI>) {
       state.loadingResetPassword = false;
       const messageAPI = action.payload.response.data?.message || action.payload.response.data?.newpassword?.[0]
       if (messageAPI === 'Email & Password does not match') {
-        message.error('メールアドレスとパスワードが一致しません');
+        message.error('ユーザー名とパスワードが一致しません。');
       } else if (messageAPI === 'The newpassword field and password must be different.') {
         message.error('新しいパスワードフィールドとパスワードは異なっている必要があります。');
       }

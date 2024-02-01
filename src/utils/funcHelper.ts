@@ -86,6 +86,9 @@ export const messageErrorRequired = (title: string, type?: EMessageErrorRequired
 export const messageErrorMaxCharacter = (number: number) => {
   return `最大 ${number} 文字です。`;
 };
+export const messageErrorBetweenCharacter = (min: number, max: number) => {
+  return `${min}文字以上${max}文字以内で以上設定してください。`;
+};
 
 export const numberPreventInput = (
   value: string,

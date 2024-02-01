@@ -115,5 +115,5 @@ export const TITLE_HEADER = {
   [ROUTE_QUIZ_EDIT]: 'クイズ詳細',
   [ROUTE_QUIZ_CREATE]: '新規クイズ',
 
-  [RESET_PASSWORD]: 'パスワードを再設定する',
+  [RESET_PASSWORD]: 'パスワード変更',
 };
