@@ -41,7 +41,7 @@ export default function MCard({
       actionsNode.push(
         <span onClick={onActionDelete} className="fw-700">
           <DeleteOutlined className="mr-10" key="edit" style={{ color: 'red' }} />
-          詳細
+          削除
         </span>,
       );
     }
