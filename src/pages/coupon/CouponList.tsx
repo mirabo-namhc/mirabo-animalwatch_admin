@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import { ICoupon } from '~/types/coupon.type';
-import { EActiveField } from '~/types/enum.type';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import MCard from '~molecules/m-card';
@@ -64,8 +63,8 @@ export default function CouponList() {
   const showListCoupon = useMemo(
     () => (
       <Card style={{ background: 'unset', border: 'unset', flexWrap: 'wrap' }}>
-        {dataCouponList.map((coupon, index) => (
-          <Card.Grid hoverable={false} style={gridStyle} key={index}>
+        {dataCouponList.map((coupon) => (
+          <Card.Grid hoverable={false} style={gridStyle} key={coupon.id}>
             <MCard
               className="m-card-coupon"
               thumbnailUrl={coupon.image_url}
