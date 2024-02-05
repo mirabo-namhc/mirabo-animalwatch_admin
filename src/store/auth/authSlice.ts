@@ -25,11 +25,11 @@ const authSlice = createSlice({
     loginSuccess(state, action: PayloadAction<IResponseAuth['data']>) {
       state.isLoggedIn = true;
       state.logging = false;
-      // todo:
-      // state.userData = action.payload;
       setAuth({
         api_token: action.payload.token,
-        user: undefined,
+        user: {
+          username: action.payload.username
+        },
       })
     },
     loginFailed(state) {

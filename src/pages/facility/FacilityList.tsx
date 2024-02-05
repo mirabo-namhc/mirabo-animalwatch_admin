@@ -287,7 +287,7 @@ export default function FacilityList() {
         loading={loading}
         isShowPagination={false}
       />
-      {!loading && (
+      {!loading && Number(pagination?.total_page) > 1 && (
         <div className="w-full dis-flex jc-center">
           <AButton
             rightIcon={isLoadMore ? <ArrowDownOutlined /> : <ArrowUpOutlined />}

@@ -1,5 +1,6 @@
 import { useForm } from 'antd/es/form/Form';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
+import { useProfile } from '~/hooks';
 import { ETypeFieldForm } from '~/types/enum.type';
 import { COLDEF } from '~constants/form';
 import OForm from '~organisms/o-form';
@@ -12,6 +13,7 @@ import {
 } from '~utils/funcHelper';
 
 export default function ResetPasswordPage() {
+  const { username } = useProfile()
   const { loadingRegister } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [formControl] = useForm();
@@ -24,6 +26,8 @@ export default function ResetPasswordPage() {
         placeholder: messageErrorRequired('ユーザー名'),
         maxLength: 255,
         autoComplete: 'off',
+        disabled: true,
+        defaultValue: username
       },
       colProps: {
         span: COLDEF,
@@ -59,10 +63,6 @@ export default function ResetPasswordPage() {
           whitespace: true,
           message: messageErrorRequired('パスワード'),
         },
-        {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
-        },
       ],
     },
     {
@@ -84,12 +84,15 @@ export default function ResetPasswordPage() {
           message: messageErrorRequired('新しいパスワード'),
         },
         {
-          max: 8,
-          message: messageErrorBetweenCharacter(6, 8),
-        },
-        {
-          min: 6,
-          message: messageErrorBetweenCharacter(6, 8),
+          validator(_, value) {
+            if (value && value.length < 8) {
+              return Promise.reject('パスワードを 8 文字以上になるように指定してくだ さい （文字、数字、記号ご使用いただけます）');
+            }
+            if (value && !/(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+/.test(value)) {
+              return Promise.reject('パスワードを 8 文字以上になるように指定してくだ さい （文字、数字、記号ご使用いただけます）');
+            }
+            return Promise.resolve();
+          },
         },
         ({ getFieldValue }) => ({
           validator(_, value) {

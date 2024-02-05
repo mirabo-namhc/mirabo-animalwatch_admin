@@ -46,6 +46,7 @@ export interface IResponseAuth {
   data: {
     token?: string;
     type: string;
+    username?: string;
   };
   status?: string;
   statusText?: string;
