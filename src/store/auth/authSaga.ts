@@ -10,8 +10,9 @@ function* handleLogin(action: PayloadAction<ILoginPayload>) {
   const payload = action.payload;
   try {
     const response: IResponseAuth = yield call(authAPI.login, payload);
+    const dataAuth: IResponseAuth['data'] = {...response.data, username: payload.username}
 
-    yield put(authActions.loginSuccess(response.data as IResponseAuth['data']));
+    yield put(authActions.loginSuccess(dataAuth));
 
     action.payload.onNavigate?.();
   } catch (error: IErrorAPI | unknown) {
