@@ -7,9 +7,8 @@ import OForm from '~organisms/o-form';
 import { authActions } from '~store/auth/authSlice';
 import { IResetPassPayload, TMappedFormItems } from '~types';
 import {
-  messageErrorBetweenCharacter,
   messageErrorMaxCharacter,
-  messageErrorRequired,
+  messageErrorRequired
 } from '~utils/funcHelper';
 
 export default function ResetPasswordPage() {
@@ -128,7 +127,7 @@ export default function ResetPasswordPage() {
         form={formControl}
         listField={listFieldForm}
         onSubmitForm={handleSubmit}
-        initialValues={{}}
+        initialValues={{username: username}}
         onCancel={handleResetForm}
         loading={loadingRegister}
       />
