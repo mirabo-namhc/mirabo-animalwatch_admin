@@ -6,13 +6,10 @@ import { COLDEF } from '~constants/form';
 import OForm from '~organisms/o-form';
 import { authActions } from '~store/auth/authSlice';
 import { IResetPassPayload, TMappedFormItems } from '~types';
-import {
-  messageErrorMaxCharacter,
-  messageErrorRequired
-} from '~utils/funcHelper';
+import { messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
 
 export default function ResetPasswordPage() {
-  const { username } = useProfile()
+  const { username } = useProfile();
   const { loadingRegister } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [formControl] = useForm();
@@ -26,7 +23,7 @@ export default function ResetPasswordPage() {
         maxLength: 255,
         autoComplete: 'off',
         disabled: true,
-        defaultValue: username
+        defaultValue: username,
       },
       colProps: {
         span: COLDEF,
@@ -83,15 +80,9 @@ export default function ResetPasswordPage() {
           message: messageErrorRequired('新しいパスワード'),
         },
         {
-          validator(_, value) {
-            if (value && value.length < 8) {
-              return Promise.reject('パスワードを 8 文字以上になるように指定してくだ さい （文字、数字、記号ご使用いただけます）');
-            }
-            if (value && !/(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+/.test(value)) {
-              return Promise.reject('パスワードを 8 文字以上になるように指定してくだ さい （文字、数字、記号ご使用いただけます）');
-            }
-            return Promise.resolve();
-          },
+          min: 8,
+          message:
+            'パスワードを 8 文字以上になるように指定してくだ さい （文字、数字、記号ご使用いただけます）',
         },
         ({ getFieldValue }) => ({
           validator(_, value) {
@@ -127,7 +118,7 @@ export default function ResetPasswordPage() {
         form={formControl}
         listField={listFieldForm}
         onSubmitForm={handleSubmit}
-        initialValues={{username: username}}
+        initialValues={{ username: username }}
         onCancel={handleResetForm}
         loading={loadingRegister}
       />
