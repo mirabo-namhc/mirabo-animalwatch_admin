@@ -9,18 +9,25 @@ import useURLInfo from '~/hooks/useURLInfo';
 import { EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
-import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from '~constants/form';
+import {
+  COLDEF,
+  COL_HAFT,
+  groupsFacilityOptions,
+  isActiveFacilityOptions,
+  optionsDisplayTabFacility,
+} from '~constants/form';
 import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 import OForm from '~organisms/o-form';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { formActions } from '~store/form/formSlice';
-import { IFacility } from '~types';
+import { IFacility, IIsActiveFacility } from '~types';
 import {
   convertDateToFormat,
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
 import {
+  checkKeyExistsCheckbox,
   handleCheckDataForm,
   messageErrorMaxCharacter,
   messageErrorRequired,
@@ -43,12 +50,29 @@ export default function FacilityForm() {
     isGetApi: isEdit,
   });
 
+  const getInitIsActive = (detailData?: IFacility) => {
+    const list_active: (keyof IIsActiveFacility)[] = [];
+    if (detailData) {
+      Object.keys(detailData).forEach((key) => {
+        const typedKey = key as keyof IFacility;
+        if (
+          checkKeyExistsCheckbox(optionsDisplayTabFacility, typedKey) &&
+          Boolean(detailData[typedKey])
+        ) {
+          list_active.push(typedKey as keyof IIsActiveFacility);
+        }
+      });
+    }
+    return list_active;
+  };
+
   const initValues = {
     ...detailData,
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
-    is_active: detailData?.is_active ?? 1,
+    is_active: detailData?.is_active ?? 0,
     img_cover_url: detailData?.img_cover_url,
+    list_active: getInitIsActive(detailData),
   };
 
   const handleValuesChange = (value: IFacility) => {
@@ -115,11 +139,6 @@ export default function FacilityForm() {
       },
       rules: [
         {
-          required: true,
-          whitespace: true,
-          message: messageErrorRequired('Youtube Video ID'),
-        },
-        {
           max: 255,
           message: messageErrorMaxCharacter(255),
         },
@@ -137,11 +156,6 @@ export default function FacilityForm() {
         span: COLDEF,
       },
       rules: [
-        {
-          required: true,
-          whitespace: true,
-          message: messageErrorRequired('Instagramトークン'),
-        },
         {
           max: 255,
           message: messageErrorMaxCharacter(255),
@@ -219,7 +233,7 @@ export default function FacilityForm() {
     },
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       atomProps: {
         disabledDate: disableDateBefore,
@@ -230,7 +244,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('公開開始日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -264,6 +278,17 @@ export default function FacilityForm() {
     //     },
     //   ],
     // },
+    {
+      type: ETypeFieldForm.CHECKBOX,
+      label: '表示タブ',
+      name: 'list_active',
+      atomProps: {
+        options: optionsDisplayTabFacility,
+      },
+      colProps: {
+        span: COL_HAFT,
+      },
+    },
   ];
 
   const handleSubmit = (values: IFacility) => {
@@ -279,6 +304,18 @@ export default function FacilityForm() {
         start_date: convertDateToFormat(values.start_date),
         end_date: convertDateToFormat(values.end_date),
       };
+
+      // handle checkbox is_active
+      if (Array.isArray(params.list_active)) {
+        optionsDisplayTabFacility.forEach((active) => {
+          const key = active.value as keyof IIsActiveFacility;
+          if (params.list_active?.includes(key)) {
+            params[key] = true;
+          } else params[key] = false;
+        });
+      }
+      delete params.list_active;
+
       if (isCreate) {
         dispatch(
           facilityActions.create({
@@ -348,7 +385,7 @@ export default function FacilityForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={isEdit ? initValues : { is_active: 1 }}
+          initialValues={isEdit ? initValues : { is_active: 0 }}
           onCancel={handleCancel}
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}

@@ -53,6 +53,8 @@ export default function OForm<Values extends Record<string, any>>({
           return <MFormField.Radio key={`${item.name}-${index}`} {...item} />;
         case ETypeFieldForm.UPLOAD:
           return <MFormField.Upload key={`${item.name}-${index}`} {...item} />;
+        case ETypeFieldForm.CHECKBOX:
+          return <MFormField.Checkbox key={`${item.name}-${index}`} {...item} />;
         default:
           return null;
       }

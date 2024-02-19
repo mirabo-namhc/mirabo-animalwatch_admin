@@ -39,7 +39,7 @@ export default function QuizList() {
 
   const columns: ColumnsType<IQuizTables> = [
     {
-      title: '',
+      title: 'No',
       dataIndex: 'index',
       width: 80,
       render: (_: unknown, record: IQuiz, index: number) => (
@@ -57,7 +57,7 @@ export default function QuizList() {
       width: 650,
     },
     {
-      title: '公開日',
+      title: '公開開始日',
       dataIndex: 'start_date',
       width: 150,
       render: (value) => convertOnlyDate(value),

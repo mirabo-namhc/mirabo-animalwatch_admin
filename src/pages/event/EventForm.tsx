@@ -115,7 +115,7 @@ export default function EventForm() {
       name: 'title',
       atomProps: {
         placeholder: messageErrorRequired('タイトル'),
-        maxLength: 255,
+        maxLength: 214,
       },
       colProps: {
         span: COLDEF,
@@ -126,8 +126,8 @@ export default function EventForm() {
           message: messageErrorRequired('タイトル'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 214,
+          message: messageErrorMaxCharacter(214),
         },
       ],
     },
@@ -165,7 +165,7 @@ export default function EventForm() {
       name: 'overview',
       atomProps: {
         placeholder: messageErrorRequired('概要'),
-        maxLength: 65535,
+        maxLength: 44,
       },
       colProps: {
         span: COLDEF,
@@ -176,14 +176,14 @@ export default function EventForm() {
           message: messageErrorRequired('概要'),
         },
         {
-          max: 65535,
-          message: messageErrorMaxCharacter(65535),
+          max: 44,
+          message: messageErrorMaxCharacter(44),
         },
       ],
     },
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       atomProps: {
         disabledDate: disableDateBefore,
@@ -194,7 +194,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('公開開始日', EMessageErrorRequired.SELECT),
         },
       ],
     },

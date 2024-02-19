@@ -34,7 +34,7 @@ export const APP_ROUTE_URL = {
   EVENT: {
     INDEX: '/event',
     INFOR: {
-      INDEX: 'infor',
+      INDEX: 'info',
       TABLE: '',
       EDIT: 'edit',
       CREATE: 'create',

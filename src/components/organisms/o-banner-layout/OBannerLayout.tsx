@@ -72,7 +72,7 @@ export function OBannerLayout<T extends AnyObject>({
           </div> */}
 
           <div className="mt-6">
-            <span>公開日: {dayjs(banner.start_date).format('YYYY/MM/DD') as string} </span>
+            <span>公開開始日: {dayjs(banner.start_date).format('YYYY/MM/DD') as string} </span>
 
             {banner.end_date && (
               <span className="ml-40">

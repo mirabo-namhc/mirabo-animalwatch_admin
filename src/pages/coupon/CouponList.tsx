@@ -86,7 +86,7 @@ export default function CouponList() {
                   }}
                 >
                   <p> 非表示フラグ: {getTextEActive(coupon.content?.is_active)}</p>
-                  <p> 公開日: {convertOnlyDate(coupon.content?.start_date as string)}</p>
+                  <p> 公開開始日: {convertOnlyDate(coupon.content?.start_date as string)}</p>
                   <p> 公開終了日: {convertOnlyDate(coupon.content?.end_date as string)}</p>
                 </div>
               }

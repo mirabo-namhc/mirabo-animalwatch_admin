@@ -11,7 +11,7 @@ export interface IFacilityState {
   reloadDataDetail?: boolean;
 }
 
-export interface IFacility {
+export interface IFacility extends IIsActiveFacility {
   id?: number;
   name?: string;
   description?: string | null;
@@ -26,13 +26,18 @@ export interface IFacility {
   youtube_channel_id?: string;
   created_at?: string;
   updated_at?: string;
-  is_active_movie?: number;
-  is_active_picture?: number;
-  is_active_deals?: number;
-  is_active_information?: number;
-  is_active_youtube?: number;
-  is_active_sns?: number;
+
   img_cover_path?: string;
+  list_active?: (keyof IIsActiveFacility)[];
+}
+
+export interface IIsActiveFacility {
+  is_active_movie?: boolean;
+  is_active_picture?: boolean;
+  is_active_deals?: boolean;
+  is_active_information?: boolean;
+  is_active_youtube?: boolean;
+  is_active_sns?: boolean;
 }
 
 export interface IResponseSortFacility {

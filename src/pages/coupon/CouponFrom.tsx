@@ -129,7 +129,7 @@ export default function CouponForm() {
 
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       colProps: {
         span: COL_HAFT,
@@ -140,7 +140,7 @@ export default function CouponForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日'),
+          message: messageErrorRequired('公開開始日'),
         },
       ],
     },

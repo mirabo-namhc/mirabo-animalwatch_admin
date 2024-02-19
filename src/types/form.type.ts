@@ -59,3 +59,8 @@ export interface IMFormItemProps<T extends ETypeFieldForm> extends Omit<TMappedF
 export interface IFormState {
   hasAtLeastOneValue?: boolean;
 }
+
+export interface ICheckboxList {
+  label?: string;
+  value?: string;
+}

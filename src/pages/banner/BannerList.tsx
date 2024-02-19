@@ -64,7 +64,7 @@ export default function BannerList() {
                   }}
                 >
                   <p> 非表示フラグ: {getTextEActive(banner.is_active)}</p>
-                  <p> 公開日: {convertOnlyDate(banner.start_date as string)}</p>
+                  <p> 公開開始日: {convertOnlyDate(banner.start_date as string)}</p>
                   <p> 公開終了日: {convertOnlyDate(banner.end_date as string)}</p>
                 </div>
               }

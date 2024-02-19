@@ -32,7 +32,7 @@ export default function EventList() {
 
   const columns: ColumnsType<IEvent> = [
     {
-      title: '',
+      title: 'No',
       dataIndex: 'index',
       width: 80,
       render: (_: unknown, record: IEvent, index: number) => (
@@ -50,7 +50,7 @@ export default function EventList() {
       width: 350,
     },
     {
-      title: '公開日',
+      title: '公開開始日',
       dataIndex: 'start_date',
       width: 150,
       render: (value, record: IEvent) =>

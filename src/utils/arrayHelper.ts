@@ -1,11 +1,13 @@
+import { DefaultOptionType } from "antd/es/select";
+
 export const convertToSelectOptions = <T extends object>(
     array: T[],
     label: keyof T,
     value: keyof T = label,
 ) => {
     return array.map((item) => ({
-        label: item[label],
-        value: item[value],
+        label: item[label] as DefaultOptionType['label'],
+        value: item[value] as DefaultOptionType['value'],
     }));
 };
 
