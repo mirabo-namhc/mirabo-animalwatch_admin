@@ -2,7 +2,7 @@ import { FormInstance, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib';
 import { EActiveField, EMessageErrorRequired } from '~/types/enum.type';
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { IPagination, IResponseApiList } from '~types';
+import { ICheckboxList, IPagination, IResponseApiList } from '~types';
 import { replacePositionRangeNumber } from './number';
 
 export function getItemSideMenu(
@@ -155,3 +155,8 @@ export const handleAppendFormDataFile = (file: UploadFile<any>) => {
 export const getTextEActive = (is_active?: EActiveField) => {
   return is_active ? 'OFF' : 'ON';
 };
+
+
+export const checkKeyExistsCheckbox = (array: ICheckboxList[], key: string) => {
+  return array.some(option => option.value === key);
+}

@@ -1,3 +1,4 @@
+import MFormCheckbox from './m-form-checkbox';
 import MFormDatePicker from './m-form-date-picker';
 import MFormInputNumber from './m-form-input-number';
 import MFormRadio from './m-form-radio';
@@ -14,4 +15,5 @@ export const MFormField = {
   DatePicker: MFormDatePicker,
   Radio: MFormRadio,
   Upload: MFormUpload,
+  Checkbox: MFormCheckbox,
 };

@@ -59,3 +59,11 @@ export const BANNER_REFERENCE_TYPE = [
     value: EBannerTypeEnum.EVENT,
   },
 ];
+
+export const optionsDisplayTabFacility = [
+  { label: '動画', value: 'is_active_movie' },
+  { label: 'お得情報', value: 'is_active_deals' },
+  { label: '施設情報', value: 'is_active_information' },
+  { label: 'YouTube', value: 'is_active_youtube' },
+  { label: 'Instagram', value: 'is_active_sns' },
+];

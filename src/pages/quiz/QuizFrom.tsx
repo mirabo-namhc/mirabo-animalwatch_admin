@@ -48,7 +48,7 @@ export default function QuizForm() {
       name: 'title',
       atomProps: {
         placeholder: messageErrorRequired('タイトル'),
-        maxLength: 255,
+        maxLength: 63,
       },
       colProps: {
         span: COLDEF,
@@ -60,8 +60,8 @@ export default function QuizForm() {
           message: messageErrorRequired('タイトル'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 63,
+          message: messageErrorMaxCharacter(63),
         },
       ],
     },
@@ -71,7 +71,7 @@ export default function QuizForm() {
       name: 'question',
       atomProps: {
         placeholder: messageErrorRequired('質問'),
-        maxLength: 255,
+        maxLength: 89,
       },
       colProps: {
         span: COLDEF,
@@ -83,8 +83,8 @@ export default function QuizForm() {
           message: messageErrorRequired('質問'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 89,
+          message: messageErrorMaxCharacter(89),
         },
       ],
     },
@@ -134,7 +134,7 @@ export default function QuizForm() {
                 className="input_field_answer"
                 atomProps={{
                   placeholder: messageErrorRequired('選択肢1'),
-                  maxLength: 255,
+                  maxLength: 28,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -146,8 +146,8 @@ export default function QuizForm() {
                     message: messageErrorRequired('選択肢1'),
                   },
                   {
-                    max: 255,
-                    message: messageErrorMaxCharacter(255),
+                    max: 28,
+                    message: messageErrorMaxCharacter(28),
                   },
                 ]}
               />
@@ -163,7 +163,7 @@ export default function QuizForm() {
                 className="input_field_answer"
                 atomProps={{
                   placeholder: messageErrorRequired('選択肢2'),
-                  maxLength: 255,
+                  maxLength: 28,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -175,8 +175,8 @@ export default function QuizForm() {
                     message: messageErrorRequired('選択肢2'),
                   },
                   {
-                    max: 255,
-                    message: messageErrorMaxCharacter(255),
+                    max: 28,
+                    message: messageErrorMaxCharacter(28),
                   },
                 ]}
               />
@@ -192,7 +192,7 @@ export default function QuizForm() {
                 className="input_field_answer"
                 atomProps={{
                   placeholder: messageErrorRequired('選択肢3'),
-                  maxLength: 255,
+                  maxLength: 28,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -204,8 +204,8 @@ export default function QuizForm() {
                     message: messageErrorRequired('選択肢3'),
                   },
                   {
-                    max: 255,
-                    message: messageErrorMaxCharacter(255),
+                    max: 28,
+                    message: messageErrorMaxCharacter(28),
                   },
                 ]}
               />
@@ -256,7 +256,7 @@ export default function QuizForm() {
       name: 'explanation_content',
       atomProps: {
         placeholder: messageErrorRequired('答え'),
-        maxLength: 255,
+        maxLength: 305,
       },
       colProps: {
         span: COLDEF,
@@ -268,15 +268,15 @@ export default function QuizForm() {
           message: messageErrorRequired('答え'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 305,
+          message: messageErrorMaxCharacter(305),
         },
       ],
     },
 
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       colProps: {
         span: COL_HAFT,
@@ -285,7 +285,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日'),
+          message: messageErrorRequired('公開開始日'),
         },
       ],
     },

@@ -85,7 +85,7 @@ export default function FacilityList() {
 
   const columns: ColumnsType<IFacility> = [
     {
-      title: '',
+      title: 'No',
       dataIndex: 'index',
       width: 80,
       render: (_: unknown, record: IFacility, index: number) => <span>{index + 1}</span>,
@@ -113,7 +113,7 @@ export default function FacilityList() {
       width: 100,
     },
     {
-      title: '公開日',
+      title: '公開開始日',
       dataIndex: 'start_date',
       width: 150,
       render: (value) => convertOnlyDate(value),
