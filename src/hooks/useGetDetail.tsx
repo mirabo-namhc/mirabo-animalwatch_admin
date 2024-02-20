@@ -4,15 +4,19 @@ import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { RootState } from '~store/index';
 import { useURLInfo } from '.';
 
-type TRootState = Omit<RootState, 'auth' | 'form'>;
+export type TRootState = Omit<RootState, 'auth' | 'form' | 'video'>;
 
-interface IUseGetListProps {
+export interface IUseGetDetailProps {
   action: CaseReducerActions<SliceCaseReducers<any>, string>;
   nameState: keyof TRootState;
   isGetApi?: boolean;
 }
 
-export default function useGetDetail<T>({ action, nameState, isGetApi = true }: IUseGetListProps) {
+export default function useGetDetail<T>({
+  action,
+  nameState,
+  isGetApi = true,
+}: IUseGetDetailProps) {
   const { id, pathname } = useURLInfo();
   const dispatch = useAppDispatch();
   const { detailData, loading } = useAppSelector((state: TRootState) => state[nameState]);

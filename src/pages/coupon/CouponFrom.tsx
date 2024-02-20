@@ -1,19 +1,20 @@
-import { Form, Modal, Spin } from 'antd';
+import { Form, Modal, Spin, message } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
-import { useGetDetail, useGetList } from '~/hooks';
-import useDebounce from '~/hooks/useDebounce';
+import { useGetDetail } from '~/hooks';
+import useSelectOptions from '~/hooks/useSelectOptions';
 import useURLInfo from '~/hooks/useURLInfo';
 import { EActiveField, EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, isActiveFacilityOptions } from '~constants/form';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 import OForm from '~organisms/o-form';
 import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
-import { ICoupon, ICouponContent, ICouponMutate, IFacility, TFilterParams } from '~types';
+import { ICoupon, ICouponContent, ICouponMutate } from '~types';
 import {
   convertDateToFormat,
   disableBeforeDateWithParams,
@@ -21,17 +22,10 @@ import {
 } from '~utils/datetime';
 import { isNullable, messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
 
-const searchFacilityOptions: TFilterParams<IFacility> = { current_page: 1, per_page: 10 };
-
 export default function CouponForm() {
+  const uploadImageRef = React.useRef<IRefFormUpload>(null);
+
   const [formCouponData, setFormCouponData] = React.useState<ICouponMutate | undefined>(undefined);
-  const [optionsFacility, setOptionFacility] = React.useState<
-    Array<{ label: string | undefined; value: number | undefined }>
-  >([]);
-  const [searchFacility, setSearchFacility] = React.useState<string>('');
-  const [isSearchingFacility, setIsSearchingFacility] = React.useState<boolean>(false);
-  const [paramsQuery, setParamsQuery] =
-    React.useState<TFilterParams<IFacility>>(searchFacilityOptions);
 
   const { id: couponId, isEdit, isCreate } = useURLInfo();
 
@@ -46,53 +40,39 @@ export default function CouponForm() {
   });
 
   const {
-    listData: listFacility,
-    pagination,
-    loading: loadingOptionFacility,
-  } = useGetList<IFacility[]>({
-    params: paramsQuery,
+    options: optionsFacility,
+    loading: isLoadingSelect,
+    onSelectScrollToLoadMore,
+    handleSearch,
+  } = useSelectOptions({
     action: facilityActions,
     nameState: 'facility',
   });
 
-  // DeBounce Function When Searching Facilities
-  useDebounce(
-    () => {
-      if (isSearchingFacility) {
-        setParamsQuery({
-          ...searchFacilityOptions,
-          keyword: searchFacility,
-        });
-      }
-    },
-    [searchFacility],
-    500,
-  );
-
-  // Scroll to loadmore Facility
-  const onSelectFacilityScroll = (event: any) => {
-    const target = event.target;
-    if (
-      !loadingOptionFacility &&
-      target.scrollTop + target.offsetHeight === target.scrollHeight &&
-      pagination?.current_page &&
-      pagination?.total_page &&
-      pagination.current_page < pagination.total_page
-    ) {
-      setParamsQuery({
-        ...searchFacilityOptions,
-        current_page: pagination.current_page + 1,
-      });
-    }
-  };
-
-  const handleSearchFacility = (value: string) => {
-    setSearchFacility(value);
-    setIsSearchingFacility(true);
-    setOptionFacility(formCouponData && isEdit ? [optionsFacility[0]] : []);
-  };
-
   const listFieldForm = [
+    {
+      type: ETypeFieldForm.TEXT_FIELD,
+      label: 'タイトル',
+      name: 'title',
+      atomProps: {
+        placeholder: messageErrorRequired('タイトル'),
+        maxLength: 255,
+      },
+      colProps: {
+        span: COLDEF,
+      },
+      rules: [
+        {
+          required: true,
+          whitespace: true,
+          message: messageErrorRequired('タイトル'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
+        },
+      ],
+    },
     {
       type: ETypeFieldForm.SELECT,
       label: '施設名',
@@ -102,9 +82,11 @@ export default function CouponForm() {
         options: optionsFacility,
         showSearch: true,
         filterOption: false,
-        loading: loadingOptionFacility,
-        onPopupScroll: onSelectFacilityScroll,
-        onSearch: handleSearchFacility,
+        allowClear: true,
+        loading: isLoadingSelect,
+        onPopupScroll: onSelectScrollToLoadMore,
+        onSearch: handleSearch,
+        onClear: handleSearch,
       },
       colProps: {
         span: COLDEF,
@@ -120,6 +102,7 @@ export default function CouponForm() {
       type: ETypeFieldForm.UPLOAD,
       label: 'クーポン写真',
       name: 'image_path',
+      ref: uploadImageRef,
       colProps: {
         span: COLDEF,
       },
@@ -146,7 +129,7 @@ export default function CouponForm() {
 
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       colProps: {
         span: COL_HAFT,
@@ -157,13 +140,13 @@ export default function CouponForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日'),
+          message: messageErrorRequired('公開開始日'),
         },
       ],
     },
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '終了日',
+      label: '公開終了日',
       name: 'end_date',
       colProps: {
         span: COL_HAFT,
@@ -207,6 +190,11 @@ export default function CouponForm() {
       start_date: convertDateToFormat(values.start_date),
       end_date: convertDateToFormat(values.end_date),
     };
+
+    if (uploadImageRef.current?.status !== EStatusFileUpload.SUCCESS) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
 
     if (isCreate) {
       dispatch(
@@ -289,13 +277,15 @@ export default function CouponForm() {
 
   React.useEffect(() => {
     if (couponDetail) {
-      setOptionFacility([
+      formControl.setFieldValue('facility_id', [
         {
           label: couponDetail.content?.facility?.name,
-          value: couponDetail.content?.facility_id,
+          value: couponDetail.content?.facility_id || 0,
         },
       ]);
+
       setFormCouponData({
+        title: couponDetail.title,
         image_path: couponDetail.image_path,
         image_url: couponDetail.image_url,
         facility_id: couponDetail.content?.facility_id,
@@ -307,24 +297,8 @@ export default function CouponForm() {
   }, [couponDetail]);
 
   React.useEffect(() => {
-    if (!loadingOptionFacility && listFacility.length) {
-      const options = listFacility.map((facility) => ({
-        label: facility.name,
-        value: facility.id,
-      }));
-
-      const filteredOptions = formCouponData
-        ? options.filter((facility) => facility.value !== optionsFacility[0]?.value)
-        : options;
-
-      if ((isEdit && formCouponData) || isCreate)
-        setOptionFacility([...optionsFacility, ...filteredOptions]);
-    }
-  }, [listFacility, formCouponData, loadingOptionFacility]);
-
-  React.useEffect(() => {
     return () => {
-      dispatch(facilityActions.reset());
+      dispatch(facilityActions.clearData());
     };
   }, []);
 

@@ -53,6 +53,8 @@ export default function OForm<Values extends Record<string, any>>({
           return <MFormField.Radio key={`${item.name}-${index}`} {...item} />;
         case ETypeFieldForm.UPLOAD:
           return <MFormField.Upload key={`${item.name}-${index}`} {...item} />;
+        case ETypeFieldForm.CHECKBOX:
+          return <MFormField.Checkbox key={`${item.name}-${index}`} {...item} />;
         default:
           return null;
       }
@@ -83,7 +85,13 @@ export default function OForm<Values extends Record<string, any>>({
                 削除
               </AButton>
               <Form.Item>
-                <AButton type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                <AButton
+                  className="dis-flex ai-center"
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  disabled={loading}
+                >
                   更新
                 </AButton>
               </Form.Item>
@@ -94,7 +102,13 @@ export default function OForm<Values extends Record<string, any>>({
                 キャンセル
               </AButton>
               <Form.Item>
-                <AButton type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                <AButton
+                  className="dis-flex ai-center"
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  disabled={loading}
+                >
                   登録
                 </AButton>
               </Form.Item>

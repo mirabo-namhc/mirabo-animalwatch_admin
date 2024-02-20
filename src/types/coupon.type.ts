@@ -28,7 +28,7 @@ export interface ICouponContent {
   end_date?: string;
   start_date?: string;
   type?: string;
-  facility_id?: number;
+  facility_id: number;
   facility?: IFacility;
   data?: ICouponFile;
   created_at?: string;
@@ -42,6 +42,7 @@ export interface ICoupon {
   image_url?: string;
   created_at?: string;
   updated_at?: string;
+  title?: string;
 }
 
 export interface ICouponMutate {
@@ -49,6 +50,7 @@ export interface ICouponMutate {
   facility_id?: number;
   image_url?: string;
   image_path?: string;
+  title?: string;
   end_date?: string | dayjs.Dayjs;
   start_date?: string | dayjs.Dayjs;
 }

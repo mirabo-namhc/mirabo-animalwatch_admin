@@ -2,6 +2,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
@@ -9,6 +10,7 @@ import MInputSearch from '~molecules/m-input-search';
 import OTable from '~organisms/o-table';
 import { quizActions } from '~store/quiz/quiz.slice';
 import { IQuiz, TFilterParams } from '~types';
+import { convertOnlyDate } from '~utils/datetime';
 import { getNoTable, getTotal } from '~utils/tableHelper';
 
 interface IQuizTables extends IQuiz {
@@ -17,6 +19,7 @@ interface IQuizTables extends IQuiz {
 
 export default function QuizList() {
   const navigate = useNavigate();
+
   const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IQuiz>>({
     current_page: 1,
     per_page: 10,
@@ -36,8 +39,9 @@ export default function QuizList() {
 
   const columns: ColumnsType<IQuizTables> = [
     {
-      title: '',
+      title: 'No',
       dataIndex: 'index',
+      width: 80,
       render: (_: unknown, record: IQuiz, index: number) => (
         <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
       ),
@@ -45,13 +49,28 @@ export default function QuizList() {
     {
       title: 'タイトル',
       dataIndex: 'title',
+      width: 350,
     },
     {
-      title: '施設名',
+      title: '質問',
       dataIndex: 'question',
+      width: 650,
+    },
+    {
+      title: '公開開始日',
+      dataIndex: 'start_date',
+      width: 150,
+      render: (value) => convertOnlyDate(value),
+    },
+    {
+      title: '公開終了日',
+      dataIndex: 'end_date',
+      width: 150,
+      render: (value) => convertOnlyDate(value),
     },
     {
       dataIndex: 'action',
+      width: 150,
       render: (_: unknown, record: IQuiz) => (
         <div className="dis-flex ai-flex-center jc-center">
           <AButton

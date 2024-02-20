@@ -11,6 +11,11 @@ const AuthRoutes = {
   path: '/',
   children: [
     {
+      key: 1,
+      path: '/*',
+      element: <Navigate to={APP_ROUTE_URL.LOGIN} />,
+    },
+    {
       path: APP_ROUTE_URL.LOGIN,
       element: <AuthLogin />,
     },

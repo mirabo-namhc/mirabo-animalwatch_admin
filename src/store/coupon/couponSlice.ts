@@ -45,8 +45,9 @@ const couponSlice = createSlice({
       console.error(action.payload);
       state.loading = false;
     },
-    clearData(state, action) {
+    clearData(state) {
       state.detailData = null;
+      state.listData = [];
     },
 
     // CREATE

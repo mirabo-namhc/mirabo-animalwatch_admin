@@ -1,23 +1,37 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { ColumnsType } from 'antd/es/table';
-import React, { useState } from 'react';
+import { Card, Tooltip, Typography } from 'antd';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import { ICoupon } from '~/types/coupon.type';
-import { EActiveField } from '~/types/enum.type';
 import AButton from '~atoms/a-button';
 import { APP_ROUTE_URL } from '~constants/endpoint';
+import MCard from '~molecules/m-card';
 import MInputSearch from '~molecules/m-input-search';
-import OTable from '~organisms/o-table';
+import MPagination from '~molecules/m-pagination';
 import { couponActions } from '~store/coupon/couponSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { TFilterParams } from '~types';
-import { getNoTable, getTotal } from '~utils/tableHelper';
+import { convertOnlyDate } from '~utils/datetime';
+import { getTextEActive } from '~utils/funcHelper';
+import { getTotal } from '~utils/tableHelper';
 
 interface ICouponTables extends ICoupon {
   key: string | number;
 }
+
+const gridStyle: React.CSSProperties = {
+  width: '330px',
+  textAlign: 'center',
+  borderTopLeftRadius: '8px',
+  borderTopRightRadius: '8px',
+  backgroundColor: 'unset',
+  border: 'unset',
+  boxShadow: 'unset',
+};
+
+const { Text } = Typography;
 
 export default function CouponList() {
   const navigate = useNavigate();
@@ -39,52 +53,58 @@ export default function CouponList() {
     nameState: 'coupon',
   });
 
-  const columns: ColumnsType<ICouponTables> = [
-    {
-      title: '',
-      dataIndex: 'index',
-      render: (_: unknown, record: ICouponTables, index: number) => (
-        <span>{getNoTable(index, pagination?.current_page, pagination?.per_page)}</span>
-      ),
-    },
-    {
-      title: '施設名',
-      render: (_: unknown, record: ICouponTables, index: number) => (
-        <span>{record.content?.facility?.name}</span>
-      ),
-    },
-    {
-      title: '表示状態',
-      dataIndex: 'is_active',
-      render: (_: unknown, record: ICouponTables, index: number) => (
-        <span>{record.content?.is_active === EActiveField.ACTIVE ? '表示' : '非表示'}</span>
-      ),
-    },
-    {
-      dataIndex: 'action',
-      render: (_: unknown, record: ICouponTables) => (
-        <div className="dis-flex ai-flex-center jc-center">
-          <AButton
-            size="small"
-            className="h-32 w-97 gray-80"
-            onClick={() => record?.id && onNavigateDetail(record.id)}
-            type="primary"
-            data-testid="btn-preview"
-          >
-            詳細
-          </AButton>
-        </div>
-      ),
-    },
-  ];
-
   const onNavigateDetail = (id: number) => {
-    dispatch(facilityActions.reset());
     navigate(`${APP_ROUTE_URL.COUPON.EDIT}?id=${id}`);
   };
   const onNavigateCreateCoupon = () => {
-    dispatch(facilityActions.reset());
     navigate(APP_ROUTE_URL.COUPON.CREATE);
+  };
+
+  const showListCoupon = useMemo(
+    () => (
+      <Card style={{ background: 'unset', border: 'unset', flexWrap: 'wrap' }}>
+        {dataCouponList.map((coupon) => (
+          <Card.Grid hoverable={false} style={gridStyle} key={coupon.id}>
+            <MCard
+              className="m-card-coupon"
+              thumbnailUrl={coupon.image_url}
+              onActionEdit={() => coupon?.id && onNavigateDetail(coupon.id)}
+              title={
+                <div>
+                  施設名:{' '}
+                  <Tooltip title={coupon.content?.facility?.name}>
+                    <Text className="max-w-percent-70" ellipsis>
+                      {coupon.content?.facility?.name}
+                    </Text>
+                  </Tooltip>
+                </div>
+              }
+              description={
+                <div
+                  style={{
+                    textAlign: 'left',
+                  }}
+                >
+                  <p> 非表示フラグ: {getTextEActive(coupon.content?.is_active)}</p>
+                  <p> 公開開始日: {convertOnlyDate(coupon.content?.start_date as string)}</p>
+                  <p> 公開終了日: {convertOnlyDate(coupon.content?.end_date as string)}</p>
+                </div>
+              }
+            />
+          </Card.Grid>
+        ))}
+      </Card>
+    ),
+    [dataCouponList],
+  );
+
+  const handlePagination = (page: number) => {
+    if (page) {
+      setParamsQuery?.((pre) => ({
+        ...pre,
+        current_page: page ?? 0,
+      }));
+    }
   };
 
   React.useEffect(() => {
@@ -99,6 +119,12 @@ export default function CouponList() {
       });
     }
   }, [listCoupon]);
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(facilityActions.clearData());
+    };
+  }, []);
 
   return (
     <div className="gray fs-20">
@@ -116,15 +142,23 @@ export default function CouponList() {
           新規登録
         </AButton>
       </div>
-      <OTable
-        columns={columns}
-        dataSource={dataCouponList}
-        pageSize={pagination?.per_page}
-        total={getTotal(pagination?.total_page, pagination?.per_page)}
-        setParamsQuery={setParamsQuery}
-        paramsQuery={paramsQuery}
-        loading={loading}
-      />
+      <div>
+        {loading ? (
+          <Card style={{ width: 300, marginTop: 16 }} loading={loading}></Card>
+        ) : (
+          <>
+            {Array.isArray(dataCouponList) && showListCoupon}{' '}
+            {dataCouponList?.length > 0 && (
+              <MPagination
+                total={getTotal(pagination?.total_page, pagination?.per_page)}
+                pageSize={pagination?.per_page}
+                onChange={handlePagination}
+                current={paramsQuery?.current_page || 1}
+              />
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

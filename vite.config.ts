@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
   return {
     define: {
       'process.env.REACT_APP_API_URL': JSON.stringify(env.REACT_APP_API_URL),
+      'process.env.REACT_APP_X_API_KEY': JSON.stringify(env.REACT_APP_X_API_KEY),
     },
     plugins: [react()],
     resolve: {

@@ -1,7 +1,7 @@
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail, useGetList } from '~/hooks';
@@ -10,6 +10,7 @@ import { EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
 import { COLDEF, COL_HAFT, isActiveFacilityOptions } from '~constants/form';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 import OForm from '~organisms/o-form';
 import { eventActions } from '~store/event/eventSlice';
 import { facilityActions } from '~store/facility/facilitySlice';
@@ -33,6 +34,7 @@ export default function EventForm() {
 
   const { loadingForm } = useAppSelector((state) => state.event);
   const { id, isEdit, isCreate } = useURLInfo();
+  const uploadImageCoverRef = useRef<IRefFormUpload>(null);
 
   const [formControl] = useForm();
 
@@ -52,6 +54,7 @@ export default function EventForm() {
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
     is_active: detailData?.is_active ?? 1,
+    image_url: detailData?.image_url,
   };
 
   const handleValuesChange = (value: IEvent) => {
@@ -69,7 +72,7 @@ export default function EventForm() {
       label: '施設名',
       name: 'facility_id',
       atomProps: {
-        placeholder: '',
+        placeholder: messageErrorRequired('施設名', EMessageErrorRequired.SELECT),
         defaultValue: initValues.facility_id,
         options: convertToSelectOptions(listFacility, 'name', 'id'),
         loading: loadingListFacility,
@@ -89,7 +92,7 @@ export default function EventForm() {
       label: 'イベント名',
       name: 'name',
       atomProps: {
-        placeholder: '',
+        placeholder: messageErrorRequired('イベント名'),
         maxLength: 255,
       },
       colProps: {
@@ -111,8 +114,8 @@ export default function EventForm() {
       label: 'タイトル',
       name: 'title',
       atomProps: {
-        placeholder: '',
-        maxLength: 255,
+        placeholder: messageErrorRequired('タイトル'),
+        maxLength: 214,
       },
       colProps: {
         span: COLDEF,
@@ -123,21 +126,22 @@ export default function EventForm() {
           message: messageErrorRequired('タイトル'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 214,
+          message: messageErrorMaxCharacter(214),
         },
       ],
     },
     {
       type: ETypeFieldForm.UPLOAD,
       label: '画像',
-      name: 'image_url',
+      name: 'image_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
+      ref: uploadImageCoverRef,
       atomProps: {
-        setUrlFile: (file) => formControl.setFieldValue('image_url', file),
+        setUrlFile: (file) => formControl.setFieldValue('image_path', file),
         initialFileList: initValues?.image_url
           ? [
               {
@@ -160,8 +164,8 @@ export default function EventForm() {
       label: '概要',
       name: 'overview',
       atomProps: {
-        placeholder: '',
-        maxLength: 255,
+        placeholder: messageErrorRequired('概要'),
+        maxLength: 44,
       },
       colProps: {
         span: COLDEF,
@@ -172,14 +176,14 @@ export default function EventForm() {
           message: messageErrorRequired('概要'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 44,
+          message: messageErrorMaxCharacter(44),
         },
       ],
     },
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       atomProps: {
         disabledDate: disableDateBefore,
@@ -190,7 +194,7 @@ export default function EventForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('公開開始日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -211,7 +215,7 @@ export default function EventForm() {
       label: '非表示フラグ',
       name: 'is_active',
       atomProps: {
-        placeholder: '',
+        placeholder: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         options: isActiveFacilityOptions,
       },
       colProps: {
@@ -227,18 +231,23 @@ export default function EventForm() {
   ];
 
   const handleSubmit = (values: IEvent) => {
+    if (uploadImageCoverRef.current?.status !== EStatusFileUpload.SUCCESS) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
     try {
       const params = {
         ...values,
+        image_url: formControl.getFieldValue('image_path'),
         start_date: convertDateToFormat(values.start_date),
         end_date: convertDateToFormat(values.end_date),
-        image_url: '',
       };
       if (isCreate) {
         dispatch(
           eventActions.create({
             ...params,
-            onNavigate: () => navigate(APP_ROUTE_URL.EVENT.INDEX),
+            onNavigate: () =>
+              navigate(`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`),
           }),
         );
       } else if (isEdit) {
@@ -246,7 +255,8 @@ export default function EventForm() {
           eventActions.edit({
             id,
             ...params,
-            onNavigate: () => navigate(APP_ROUTE_URL.EVENT.INDEX),
+            onNavigate: () =>
+              navigate(`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`),
           }),
         );
       }
@@ -256,21 +266,17 @@ export default function EventForm() {
   };
 
   const handleCancel = () => {
-    const hasAtLeastOneValue = handleCheckDataForm(formControl);
+    const hasAtLeastOneValue = handleCheckDataForm(formControl, ['is_active', 'end_date']);
     if (hasAtLeastOneValue) {
       Modal.confirm({
-        title: (
-          <span>
-            このページを離れてもよろしいですか? <br /> 入力したデータは失われます。
-          </span>
-        ),
+        title: '変更は保存されません。 まだページを離れますか?',
         okText: 'はい',
         cancelText: 'いいえ',
         onOk() {
-          navigate(APP_ROUTE_URL.EVENT.INDEX);
+          navigate(`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`);
         },
       });
-    } else navigate(APP_ROUTE_URL.EVENT.INDEX);
+    } else navigate(`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`);
   };
 
   const handleDelete = () => {
@@ -282,7 +288,8 @@ export default function EventForm() {
         dispatch(
           eventActions.remove({
             id: Number(id),
-            onNavigate: () => navigate(APP_ROUTE_URL.EVENT.INDEX),
+            onNavigate: () =>
+              navigate(`${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`),
           }),
         );
       },

@@ -24,6 +24,7 @@ const QuizPage = Loadable(lazy(() => import('~pages/quiz')));
 const EventPage = Loadable(lazy(() => import('~pages/event')));
 const RankPage = Loadable(lazy(() => import('~pages/rank')));
 const BannerPage = Loadable(lazy(() => import('~pages/banner')));
+const ResetPasswordPage = Loadable(lazy(() => import('~pages/reset-password')));
 
 const MainRoutes = {
   path: '/',
@@ -33,6 +34,11 @@ const MainRoutes = {
       key: 1,
       path: APP_ROUTE_URL.LOGIN,
       element: <Navigate to={APP_ROUTE_URL.FACILITY.INDEX} />,
+    },
+    {
+      key: 1,
+      path: APP_ROUTE_URL.RESET_PASSWORD,
+      element: <ResetPasswordPage />,
     },
     {
       key: 2,
@@ -151,22 +157,28 @@ const MainRoutes = {
     {
       key: 8,
       path: APP_ROUTE_URL.EVENT.INDEX,
-      element: <EventPage />,
       children: [
         {
           key: 8.1,
-          path: APP_ROUTE_URL.EVENT.TABLE,
-          element: <EventList />,
-        },
-        {
-          key: 8.3,
-          path: APP_ROUTE_URL.EVENT.CREATE,
-          element: <EventForm />,
-        },
-        {
-          key: 8.4,
-          path: APP_ROUTE_URL.EVENT.EDIT,
-          element: <EventForm />,
+          path: `${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`,
+          element: <EventPage />,
+          children: [
+            {
+              key: 8.1,
+              path: APP_ROUTE_URL.EVENT.INFOR.TABLE,
+              element: <EventList />,
+            },
+            {
+              key: 8.1,
+              path: APP_ROUTE_URL.EVENT.INFOR.CREATE,
+              element: <EventForm />,
+            },
+            {
+              key: 8.1,
+              path: APP_ROUTE_URL.EVENT.INFOR.EDIT,
+              element: <EventForm />,
+            },
+          ],
         },
       ],
     },

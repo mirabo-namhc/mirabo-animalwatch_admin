@@ -45,8 +45,9 @@ const quizSlice = createSlice({
       state.loading = false;
       message.error(action.payload);
     },
-    clearData(state, action) {
-      state.detailData = {};
+    clearData(state) {
+      state.detailData = null;
+      state.listData = [];
     },
 
     // CREATE
