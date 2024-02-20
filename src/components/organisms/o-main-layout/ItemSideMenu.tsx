@@ -1,17 +1,17 @@
-import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { getItemSideMenu } from '~utils/funcHelper';
 import {
-  SettingFilled,
-  VideoCameraFilled,
-  QuestionCircleFilled,
-  HomeFilled,
-  ScheduleFilled,
-  MoneyCollectFilled,
   CloseCircleFilled,
   FileImageOutlined,
-  BarChartOutlined,
+  HomeFilled,
+  KeyOutlined,
+  MoneyCollectFilled,
+  QuestionCircleFilled,
+  ScheduleFilled,
+  SettingFilled,
+  VideoCameraFilled,
 } from '@ant-design/icons';
 import { APP_ROUTE_URL } from '~constants/endpoint';
+import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
+import { getItemSideMenu } from '~utils/funcHelper';
 
 export const itemsSideMenu: MenuItem[] = [
   getItemSideMenu(
@@ -35,13 +35,13 @@ export const itemsSideMenu: MenuItem[] = [
       <SettingFilled />
     </span>,
     [
-      getItemSideMenu(
-        'ランキング設定',
-        `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
-        <span>
-          <BarChartOutlined />
-        </span>,
-      ),
+      // getItemSideMenu(
+      //   'ランキング設定',
+      //   `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.RANK}`,
+      //   <span>
+      //     <BarChartOutlined />
+      //   </span>,
+      // ),
       getItemSideMenu(
         'バナー設定',
         `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`,
@@ -59,7 +59,7 @@ export const itemsSideMenu: MenuItem[] = [
     </span>,
   ),
   getItemSideMenu(
-    'クイズ・豆知識',
+    'クイズ',
     APP_ROUTE_URL.QUIZ.INDEX,
     <span>
       <QuestionCircleFilled />
@@ -70,6 +70,29 @@ export const itemsSideMenu: MenuItem[] = [
     APP_ROUTE_URL.EVENT.INDEX,
     <span>
       <ScheduleFilled />
+    </span>,
+    [
+      getItemSideMenu(
+        'イベント情報',
+        `${APP_ROUTE_URL.EVENT.INDEX}/${APP_ROUTE_URL.EVENT.INFOR.INDEX}`,
+        <span>
+          <ScheduleFilled />
+        </span>,
+      ),
+      // getItemSideMenu(
+      //   'プロモーション',
+      //   `${APP_ROUTE_URL.SETTING.INDEX}/${APP_ROUTE_URL.SETTING.BANNER.INDEX}`,
+      //   <span>
+      //     <FileImageOutlined />
+      //   </span>,
+      // ),
+    ],
+  ),
+  getItemSideMenu(
+    'パスワード変更',
+    APP_ROUTE_URL.RESET_PASSWORD,
+    <span>
+      <KeyOutlined />
     </span>,
   ),
 ];

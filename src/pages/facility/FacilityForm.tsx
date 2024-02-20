@@ -1,7 +1,7 @@
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/_lib/redux/hooks';
 import { useGetDetail } from '~/hooks';
@@ -9,24 +9,33 @@ import useURLInfo from '~/hooks/useURLInfo';
 import { EMessageErrorRequired, ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
 import { APP_ROUTE_URL } from '~constants/endpoint';
-import { COLDEF, COL_HAFT, groupsFacilityOptions, isActiveFacilityOptions } from '~constants/form';
+import {
+  COLDEF,
+  COL_HAFT,
+  groupsFacilityOptions,
+  isActiveFacilityOptions,
+  optionsDisplayTabFacility,
+} from '~constants/form';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 import OForm from '~organisms/o-form';
 import { facilityActions } from '~store/facility/facilitySlice';
 import { formActions } from '~store/form/formSlice';
-import { IFacility } from '~types';
+import { IFacility, IIsActiveFacility } from '~types';
 import {
   convertDateToFormat,
   disableBeforeDateWithParams,
   disableDateBefore,
 } from '~utils/datetime';
 import {
+  checkKeyExistsCheckbox,
   handleCheckDataForm,
   messageErrorMaxCharacter,
   messageErrorRequired,
 } from '~utils/funcHelper';
-import { empty } from '~utils/validate';
 
 export default function FacilityForm() {
+  const uploadImageCoverRef = useRef<IRefFormUpload>(null);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -41,12 +50,29 @@ export default function FacilityForm() {
     isGetApi: isEdit,
   });
 
+  const getInitIsActive = (detailData?: IFacility) => {
+    const list_active: (keyof IIsActiveFacility)[] = [];
+    if (detailData) {
+      Object.keys(detailData).forEach((key) => {
+        const typedKey = key as keyof IFacility;
+        if (
+          checkKeyExistsCheckbox(optionsDisplayTabFacility, typedKey) &&
+          Boolean(detailData[typedKey])
+        ) {
+          list_active.push(typedKey as keyof IIsActiveFacility);
+        }
+      });
+    }
+    return list_active;
+  };
+
   const initValues = {
     ...detailData,
     start_date: detailData?.start_date && dayjs(detailData?.start_date),
     end_date: detailData?.end_date && dayjs(detailData?.end_date),
-    is_active: detailData?.is_active ?? 1,
-    img_thumbnail_url: detailData?.img_thumbnail_url,
+    is_active: detailData?.is_active ?? 0,
+    img_cover_url: detailData?.img_cover_url,
+    list_active: getInitIsActive(detailData),
   };
 
   const handleValuesChange = (value: IFacility) => {
@@ -64,7 +90,7 @@ export default function FacilityForm() {
       label: '施設名',
       name: 'name',
       atomProps: {
-        placeholder: '施設名.を入力してください',
+        placeholder: messageErrorRequired('施設名'),
         maxLength: 255,
       },
       colProps: {
@@ -87,7 +113,7 @@ export default function FacilityForm() {
       label: 'カテゴリ',
       name: 'group_id',
       atomProps: {
-        placeholder: 'カテゴリ.を選択してください',
+        placeholder: messageErrorRequired('カテゴリ', EMessageErrorRequired.SELECT),
         options: groupsFacilityOptions,
       },
       colProps: {
@@ -105,18 +131,13 @@ export default function FacilityForm() {
       label: 'Youtube Video ID',
       name: 'youtube_channel_id',
       atomProps: {
-        placeholder: 'Youtube Video ID.を入力してください',
+        placeholder: messageErrorRequired('Youtube Video ID'),
         maxLength: 255,
       },
       colProps: {
         span: COLDEF,
       },
       rules: [
-        {
-          required: true,
-          whitespace: true,
-          message: messageErrorRequired('Youtube Video ID'),
-        },
         {
           max: 255,
           message: messageErrorMaxCharacter(255),
@@ -128,18 +149,13 @@ export default function FacilityForm() {
       label: 'Instagramトークン',
       name: 'instagram_token_id',
       atomProps: {
-        placeholder: 'Instagramトークン.を入力してください',
+        placeholder: messageErrorRequired('Instagramトークン'),
         maxLength: 255,
       },
       colProps: {
         span: COLDEF,
       },
       rules: [
-        {
-          required: true,
-          whitespace: true,
-          message: messageErrorRequired('Instagramトークン'),
-        },
         {
           max: 255,
           message: messageErrorMaxCharacter(255),
@@ -149,19 +165,20 @@ export default function FacilityForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       label: 'ロゴ',
-      name: 'img_thumbnail_path',
+      name: 'img_cover_path',
       length: 1,
       colProps: {
         span: COLDEF,
       },
+      ref: uploadImageCoverRef,
       atomProps: {
-        setUrlFile: (file) => formControl.setFieldValue('img_thumbnail_path', file),
-        initialFileList: initValues?.img_thumbnail_url
+        setUrlFile: (file) => formControl.setFieldValue('img_cover_path', file),
+        initialFileList: initValues?.img_cover_url
           ? [
               {
-                uid: initValues?.img_thumbnail_url,
-                url: initValues?.img_thumbnail_url,
-                name: initValues?.img_thumbnail_url,
+                uid: initValues?.img_cover_url,
+                url: initValues?.img_cover_url,
+                name: initValues?.img_cover_url,
               },
             ]
           : [],
@@ -174,12 +191,12 @@ export default function FacilityForm() {
       ],
     },
     {
-      type: ETypeFieldForm.INPUT_NUMBER,
+      type: ETypeFieldForm.TEXT_FIELD,
       label: '動画フォルダID',
       name: 'folder_id',
       atomProps: {
-        placeholder: '動画フォルダID.を入力してください',
-        formControl,
+        placeholder: messageErrorRequired('動画フォルダID'),
+        maxLength: 255,
       },
       colProps: {
         span: COLDEF,
@@ -187,7 +204,12 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
+          whitespace: true,
           message: messageErrorRequired('動画フォルダID'),
+        },
+        {
+          max: 255,
+          message: messageErrorMaxCharacter(255),
         },
       ],
     },
@@ -196,7 +218,7 @@ export default function FacilityForm() {
       label: '非表示フラグ',
       name: 'is_active',
       atomProps: {
-        placeholder: '非表示フラグ.を選択してください',
+        placeholder: messageErrorRequired('非表示フラグ', EMessageErrorRequired.SELECT),
         options: isActiveFacilityOptions,
       },
       colProps: {
@@ -211,7 +233,7 @@ export default function FacilityForm() {
     },
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       atomProps: {
         disabledDate: disableDateBefore,
@@ -222,7 +244,7 @@ export default function FacilityForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日', EMessageErrorRequired.SELECT),
+          message: messageErrorRequired('公開開始日', EMessageErrorRequired.SELECT),
         },
       ],
     },
@@ -238,16 +260,62 @@ export default function FacilityForm() {
         span: COL_HAFT,
       },
     },
+    // {
+    //   type: ETypeFieldForm.INPUT_NUMBER,
+    //   label: '表示順',
+    //   name: 'order',
+    //   atomProps: {
+    //     placeholder: '表示順.を入力してください',
+    //     formControl,
+    //   },
+    //   colProps: {
+    //     span: COLDEF,
+    //   },
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: messageErrorRequired('表示順'),
+    //     },
+    //   ],
+    // },
+    {
+      type: ETypeFieldForm.CHECKBOX,
+      label: '表示タブ',
+      name: 'list_active',
+      atomProps: {
+        options: optionsDisplayTabFacility,
+      },
+      colProps: {
+        span: COL_HAFT,
+      },
+    },
   ];
 
   const handleSubmit = (values: IFacility) => {
+    if (uploadImageCoverRef.current?.status !== EStatusFileUpload.SUCCESS) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
+
     try {
       const params = {
         ...values,
-        img_thumbnail_url: formControl.getFieldValue('img_thumbnail_path'),
+        img_cover_url: formControl.getFieldValue('img_cover_path'),
         start_date: convertDateToFormat(values.start_date),
         end_date: convertDateToFormat(values.end_date),
       };
+
+      // handle checkbox is_active
+      if (Array.isArray(params.list_active)) {
+        optionsDisplayTabFacility.forEach((active) => {
+          const key = active.value as keyof IIsActiveFacility;
+          if (params.list_active?.includes(key)) {
+            params[key] = true;
+          } else params[key] = false;
+        });
+      }
+      delete params.list_active;
+
       if (isCreate) {
         dispatch(
           facilityActions.create({
@@ -270,14 +338,10 @@ export default function FacilityForm() {
   };
 
   const handleCancel = () => {
-    const hasAtLeastOneValue = handleCheckDataForm(formControl);
+    const hasAtLeastOneValue = handleCheckDataForm(formControl, ['is_active', 'end_date']);
     if (hasAtLeastOneValue) {
       Modal.confirm({
-        title: (
-          <span>
-            このページを離れてもよろしいですか? <br /> 入力したデータは失われます。
-          </span>
-        ),
+        title: '変更は保存されません。 まだページを離れますか?',
         okText: 'はい',
         cancelText: 'いいえ',
         onOk() {
@@ -321,7 +385,7 @@ export default function FacilityForm() {
           form={formControl}
           listField={listFieldForm}
           onSubmitForm={handleSubmit}
-          initialValues={isEdit ? initValues : { is_active: 1 }}
+          initialValues={isEdit ? initValues : { is_active: 0 }}
           onCancel={handleCancel}
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}

@@ -1,4 +1,4 @@
-import { Form, Modal, Spin } from 'antd';
+import { Form, Modal, Spin, message } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,8 +20,12 @@ import {
   disableDateBefore,
 } from '~utils/datetime';
 import { isNullable, messageErrorMaxCharacter, messageErrorRequired } from '~utils/funcHelper';
+import { EStatusFileUpload, IRefFormUpload } from '~molecules/m-form-field/m-form-upload';
 
 export default function QuizForm() {
+  const uploadImageQuestionRef = React.useRef<IRefFormUpload>(null);
+  const uploadImageExplanationRef = React.useRef<IRefFormUpload>(null);
+
   const [quiz, setQuiz] = React.useState<IQuiz>({} as IQuiz);
 
   const dispatch = useAppDispatch();
@@ -44,7 +48,7 @@ export default function QuizForm() {
       name: 'title',
       atomProps: {
         placeholder: messageErrorRequired('タイトル'),
-        maxLength: 255,
+        maxLength: 63,
       },
       colProps: {
         span: COLDEF,
@@ -56,8 +60,8 @@ export default function QuizForm() {
           message: messageErrorRequired('タイトル'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 63,
+          message: messageErrorMaxCharacter(63),
         },
       ],
     },
@@ -67,7 +71,7 @@ export default function QuizForm() {
       name: 'question',
       atomProps: {
         placeholder: messageErrorRequired('質問'),
-        maxLength: 255,
+        maxLength: 89,
       },
       colProps: {
         span: COLDEF,
@@ -79,8 +83,8 @@ export default function QuizForm() {
           message: messageErrorRequired('質問'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 89,
+          message: messageErrorMaxCharacter(89),
         },
       ],
     },
@@ -89,6 +93,7 @@ export default function QuizForm() {
       label: '設問画像',
       name: 'image_path',
       length: 1,
+      ref: uploadImageQuestionRef,
       colProps: {
         span: COLDEF,
       },
@@ -129,7 +134,7 @@ export default function QuizForm() {
                 className="input_field_answer"
                 atomProps={{
                   placeholder: messageErrorRequired('選択肢1'),
-                  maxLength: 255,
+                  maxLength: 28,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -141,8 +146,8 @@ export default function QuizForm() {
                     message: messageErrorRequired('選択肢1'),
                   },
                   {
-                    max: 255,
-                    message: messageErrorMaxCharacter(255),
+                    max: 28,
+                    message: messageErrorMaxCharacter(28),
                   },
                 ]}
               />
@@ -158,7 +163,7 @@ export default function QuizForm() {
                 className="input_field_answer"
                 atomProps={{
                   placeholder: messageErrorRequired('選択肢2'),
-                  maxLength: 255,
+                  maxLength: 28,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -170,8 +175,8 @@ export default function QuizForm() {
                     message: messageErrorRequired('選択肢2'),
                   },
                   {
-                    max: 255,
-                    message: messageErrorMaxCharacter(255),
+                    max: 28,
+                    message: messageErrorMaxCharacter(28),
                   },
                 ]}
               />
@@ -187,7 +192,7 @@ export default function QuizForm() {
                 className="input_field_answer"
                 atomProps={{
                   placeholder: messageErrorRequired('選択肢3'),
-                  maxLength: 255,
+                  maxLength: 28,
                 }}
                 colProps={{
                   span: COLDEF,
@@ -199,8 +204,8 @@ export default function QuizForm() {
                     message: messageErrorRequired('選択肢3'),
                   },
                   {
-                    max: 255,
-                    message: messageErrorMaxCharacter(255),
+                    max: 28,
+                    message: messageErrorMaxCharacter(28),
                   },
                 ]}
               />
@@ -221,6 +226,7 @@ export default function QuizForm() {
       label: '解説画像',
       name: 'explanation_image_path',
       length: 1,
+      ref: uploadImageExplanationRef,
       colProps: {
         span: COLDEF,
       },
@@ -250,7 +256,7 @@ export default function QuizForm() {
       name: 'explanation_content',
       atomProps: {
         placeholder: messageErrorRequired('答え'),
-        maxLength: 255,
+        maxLength: 305,
       },
       colProps: {
         span: COLDEF,
@@ -262,15 +268,15 @@ export default function QuizForm() {
           message: messageErrorRequired('答え'),
         },
         {
-          max: 255,
-          message: messageErrorMaxCharacter(255),
+          max: 305,
+          message: messageErrorMaxCharacter(305),
         },
       ],
     },
 
     {
       type: ETypeFieldForm.DATEPICKER,
-      label: '公開日',
+      label: '公開開始日',
       name: 'start_date',
       colProps: {
         span: COL_HAFT,
@@ -279,7 +285,7 @@ export default function QuizForm() {
       rules: [
         {
           required: true,
-          message: messageErrorRequired('公開日'),
+          message: messageErrorRequired('公開開始日'),
         },
       ],
     },
@@ -330,6 +336,16 @@ export default function QuizForm() {
       image_url: formControl.getFieldValue('image_path'),
       explanation_image_url: formControl.getFieldValue('explanation_image_path'),
     };
+
+    const isUploadImageQuestionSuccess =
+      uploadImageQuestionRef.current?.status === EStatusFileUpload.SUCCESS;
+    const isUploadImageExplanationSuccess =
+      uploadImageExplanationRef.current?.status === EStatusFileUpload.SUCCESS;
+
+    if (!isUploadImageQuestionSuccess || !isUploadImageExplanationSuccess) {
+      message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
+      return;
+    }
 
     if (isCreate) {
       dispatch(

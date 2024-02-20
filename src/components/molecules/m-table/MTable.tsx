@@ -37,7 +37,13 @@ export function MTable<T extends AnyObject>({
 
   return (
     <>
-      <Table className="m-table" pagination={{ pageSize: pageSize }} {...props} />
+      <Table
+        className="m-table"
+        scroll={{ x: 0 }}
+        sticky={true}
+        pagination={isShowPagination ? { pageSize: pageSize } : false}
+        {...props}
+      />
       <div className="m-table-pagination">
         {isShowPagination && <MPagination {...paginationProp} onChange={handlePagination} />}
         {contentPagination}

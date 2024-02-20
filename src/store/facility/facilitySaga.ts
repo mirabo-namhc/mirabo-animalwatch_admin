@@ -1,12 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
+  IErrorAPI,
   IFacility,
   IRemovePayload,
   IResponseApiDetail,
   IResponseApiList,
+  IResponseSortFacility,
   TCreateEditPayload,
   TFilterParams,
+  TParamsSort,
 } from '~/types';
 import facilityAPI from '~services/api/facility.api';
 import { facilityActions } from './facilitySlice';
@@ -42,7 +45,7 @@ function* handleCreate(action: PayloadAction<TCreateEditPayload<IFacility>>) {
 
     action.payload.onNavigate?.();
   } catch (error) {
-    yield put(facilityActions.createFalse('An error occurred, please try again'));
+    yield put(facilityActions.createFalse(error as IErrorAPI));
   }
 }
 
@@ -55,7 +58,7 @@ function* handleEdit(action: PayloadAction<TCreateEditPayload<IFacility>>) {
 
     action.payload.onNavigate?.();
   } catch (error) {
-    yield put(facilityActions.editFalse('An error occurred, please try again'));
+    yield put(facilityActions.editFalse(error as IErrorAPI));
   }
 }
 
@@ -71,6 +74,17 @@ function* handleRemove(action: PayloadAction<IRemovePayload>) {
   }
 }
 
+function* handleSortOrder(action: PayloadAction<TParamsSort>) {
+  try {
+    const params = action.payload;
+    const response: IResponseSortFacility = yield call(facilityAPI.sortOrder, params);
+
+    yield put(facilityActions.sortOrderSuccess(response));
+  } catch (error) {
+    yield put(facilityActions.sortOrderFalse());
+  }
+}
+
 function* watchApiFlow() {
   yield all([
     takeLatest(facilityActions.fetchData.type, handleFetchData),
@@ -78,6 +92,7 @@ function* watchApiFlow() {
     takeLatest(facilityActions.create.type, handleCreate),
     takeLatest(facilityActions.edit.type, handleEdit),
     takeLatest(facilityActions.remove.type, handleRemove),
+    takeLatest(facilityActions.sortOrder.type, handleSortOrder),
   ]);
 }
 

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
-import { IFacility, IFacilityState } from '~/types/facility.type';
-import { IRemovePayload, IResponseApiList, TFilterParams } from '~types';
+import { IFacility, IFacilityState, IResponseSortFacility, TParamsSort } from '~/types/facility.type';
+import { IErrorAPI, IRemovePayload, IResponseApiList, TFilterParams } from '~types';
+import { swapItemsById } from '~utils/arrayHelper';
 import { getPaginationInfo } from '~utils/funcHelper';
 
 const initialState: IFacilityState = {
@@ -24,7 +25,7 @@ const facilitySlice = createSlice({
     },
     fetchDataSuccess(state, action: PayloadAction<IResponseApiList<IFacility>>) {
       state.loading = false;
-      state.listData = action?.payload?.data?.data || [];
+      state.listData = action?.payload?.data?.data ? [...state.listData, ...action?.payload?.data?.data] : [];
       state.pagination = getPaginationInfo(action?.payload?.data);
     },
     fetchDataFalse(state, action) {
@@ -44,8 +45,9 @@ const facilitySlice = createSlice({
       console.error(action.payload);
       state.loading = false;
     },
-    clearData(state, action) {
-      state.detailData = {};
+    clearData(state) {
+      state.detailData = null;
+      state.listData = [];
     },
 
     // CREATE
@@ -56,9 +58,11 @@ const facilitySlice = createSlice({
       state.loadingForm = false;
       message.success('カテゴリーを登録に成功しました。');
     },
-    createFalse(state, action) {
+    createFalse(state, action: PayloadAction<IErrorAPI>) {
       state.loadingForm = false;
-      message.error('カテゴリーを登録に失敗しました。');
+      if (action.payload?.response?.data?.message === 'instagram_token_id_is_invalid') {
+        message.error('Instagramトークンは無効です');
+      } else message.error('カテゴリーを登録に失敗しました。');
     },
 
     // EDIT
@@ -69,9 +73,11 @@ const facilitySlice = createSlice({
       state.loadingForm = false;
       message.success('カテゴリーを編集に成功しました。');
     },
-    editFalse(state, action) {
+    editFalse(state, action: PayloadAction<IErrorAPI>) {
       state.loadingForm = false;
-      message.error('カテゴリー編集に失敗しました。');
+      if (action.payload?.response?.data?.message === 'instagram_token_id_is_invalid') {
+        message.error('Instagramトークンは無効です');
+      } else message.error('カテゴリー編集に失敗しました。');
     },
 
     // REMOVE
@@ -85,6 +91,22 @@ const facilitySlice = createSlice({
     removeFalse(state) {
       state.loading = false;
       message.error('カテゴリーを削除に成功しました。');
+    },
+
+    // SORT
+    sortOrder(state, action: PayloadAction<TParamsSort>) {
+      state.loading = true;
+    },
+    sortOrderSuccess(state, action: PayloadAction<IResponseSortFacility>) {
+      state.loading = false;
+      if (action.payload.data) {
+        state.listData = swapItemsById(state.listData, action.payload.data[0].id, action.payload.data[1].id)
+      }
+      message.success('施設の表示順番を変更しました。');
+    },
+    sortOrderFalse(state) {
+      state.loading = false;
+      message.error('施設の表示順番を変更できません。もう一度試してください');
     },
   },
 });

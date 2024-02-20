@@ -4,8 +4,10 @@ import { IMFormItemProps } from '~/types/form.type';
 import { ETypeFieldForm } from '~/types/enum.type';
 import clsx from 'clsx';
 
+export type Option = { label: string | undefined; value: number | string };
+
 interface IMFormSelect extends IMFormItemProps<ETypeFieldForm.SELECT> {
-  listOptions?: any[];
+  listOptions?: Option[];
   placeholder?: string;
 }
 

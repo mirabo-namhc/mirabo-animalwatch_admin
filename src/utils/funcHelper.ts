@@ -1,8 +1,8 @@
 import { FormInstance, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib';
-import { EMessageErrorRequired } from '~/types/enum.type';
+import { EActiveField, EMessageErrorRequired } from '~/types/enum.type';
 import { MenuItem } from '~organisms/o-side-menu/OSideMenu';
-import { IPagination, IResponseApiList } from '~types';
+import { ICheckboxList, IPagination, IResponseApiList } from '~types';
 import { replacePositionRangeNumber } from './number';
 
 export function getItemSideMenu(
@@ -69,11 +69,11 @@ export const isNullable = (value: any): boolean => {
   return value === undefined || value === null || value === '';
 };
 
-export const handleCheckDataForm = (form?: FormInstance) => {
+export const handleCheckDataForm = (form?: FormInstance, fieldSkip?: string[]) => {
   if (!form) return false;
   const values = form.getFieldsValue();
-  const hasAtLeastOneValue = Object.values(values).some(
-    (value) => value !== undefined && value !== null && value !== '',
+  const hasAtLeastOneValue = Object.keys(values).some(
+    (key) => !isNullable(values[key]) && !fieldSkip?.includes(key),
   );
 
   return hasAtLeastOneValue;
@@ -85,6 +85,9 @@ export const messageErrorRequired = (title: string, type?: EMessageErrorRequired
 };
 export const messageErrorMaxCharacter = (number: number) => {
   return `最大 ${number} 文字です。`;
+};
+export const messageErrorBetweenCharacter = (min: number, max: number) => {
+  return `${min}文字以上${max}文字以内で以上設定してください。`;
 };
 
 export const numberPreventInput = (
@@ -131,3 +134,29 @@ export const handleAppendFormDataFile = (file: UploadFile<any>) => {
 
   return formData;
 };
+
+// export const pushToFrontAndIncrementOrder = (item: IFacility, listFacility: IFacility[]): IFacility[] => {
+//   const paramsSort: TParamsSort = []
+
+//   const remainingArray = [...listFacility]
+
+//   if (remainingArray) {
+//     remainingArray.map(facility => {
+//       if (facility.id === item.id) return {...facility, order: 1}
+//       if (listFacility.some(item => item.id === facility.id)) {
+//         paramsSort.push({ id: facility.id, order: Number(facility.order) + 1 })
+//       } else paramsSort.push({ id: facility.id, order: facility.order })
+//     })
+//   }
+//   console.log('paramsSort', paramsSort)
+//   return paramsSort;
+// };
+
+export const getTextEActive = (is_active?: EActiveField) => {
+  return is_active ? 'OFF' : 'ON';
+};
+
+
+export const checkKeyExistsCheckbox = (array: ICheckboxList[], key: string) => {
+  return array.some(option => option.value === key);
+}

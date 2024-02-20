@@ -10,6 +10,17 @@ import { IResponseApiUpload } from '~types';
 import { checkBeforeUpload, handleAppendFormDataFile } from '~utils/funcHelper';
 import './MFormUpload.scss';
 
+export enum EStatusFileUpload {
+  INIT = 'INIT',
+  UPLOADING = 'UPLOADING',
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+}
+
+export interface IRefFormUpload {
+  status: EStatusFileUpload;
+}
+
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -18,89 +29,102 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-function MFormUpload({
-  colProps,
-  atomProps,
-  length = 1,
-  ...formItemProps
-}: IMFormItemProps<ETypeFieldForm.UPLOAD>) {
-  const dispatch = useAppDispatch();
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>(atomProps?.initialFileList || []);
+const MFormUpload = React.forwardRef<any, IMFormItemProps<ETypeFieldForm.UPLOAD>>(
+  ({ colProps, atomProps, length = 1, ...formItemProps }, ref) => {
+    const dispatch = useAppDispatch();
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+    const [status, setStatus] = useState<EStatusFileUpload>(EStatusFileUpload.INIT);
+    const [fileList, setFileList] = useState<UploadFile[]>(atomProps?.initialFileList || []);
 
-  const handleCancel = () => setPreviewVisible(false);
+    const handleCancel = () => setPreviewVisible(false);
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewVisible(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-  };
-
-  const fetchDataFile = async (file: FormData) => {
-    try {
-      if (file) {
-        const response: IResponseApiUpload = await uploadAPI.image(file);
-        atomProps?.setUrlFile(response?.data?.path);
+    const handlePreview = async (file: UploadFile) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj as RcFile);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+      setPreviewImage(file.url || (file.preview as string));
+      setPreviewVisible(true);
+      setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+    };
 
-    if (newFileList.length < 1) atomProps?.setUrlFile(undefined);
-    if (newFileList[0]) {
-      const paramFile = handleAppendFormDataFile(newFileList[0]);
-      fetchDataFile(paramFile);
-    }
-  };
+    const fetchDataFile = async (file: FormData) => {
+      try {
+        if (file) {
+          setStatus(EStatusFileUpload.UPLOADING);
+          const response: IResponseApiUpload = await uploadAPI.image(file);
+          atomProps?.setUrlFile(response?.data?.path);
+          setStatus(EStatusFileUpload.SUCCESS);
+        }
+      } catch (error) {
+        setStatus(EStatusFileUpload.ERROR);
+        console.error(error);
+      }
+    };
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div className="mt-8 fs-14">アップロード</div>
-    </button>
-  );
+    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+      setStatus(EStatusFileUpload.INIT);
+      setFileList(newFileList);
 
-  React.useEffect(() => {
-    if (atomProps?.initialFileList.length) setFileList(atomProps?.initialFileList);
-  }, [atomProps?.initialFileList]);
+      if (newFileList.length < 1) atomProps?.setUrlFile(undefined);
+      if (newFileList[0]) {
+        const paramFile = handleAppendFormDataFile(newFileList[0]);
+        fetchDataFile(paramFile);
+      }
+    };
 
-  return (
-    <Col className="form-image-input" {...colProps}>
-      <Form.Item {...formItemProps}>
-        <Upload
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-          beforeUpload={(file) => checkBeforeUpload(file, 5)}
-          accept="image/*"
-          {...atomProps}
+    const uploadButton = (
+      <button style={{ border: 0, background: 'none' }} type="button">
+        <PlusOutlined />
+        <div className="mt-8 fs-14">アップロード</div>
+      </button>
+    );
+
+    React.useEffect(() => {
+      if (atomProps?.initialFileList.length) {
+        setFileList(atomProps?.initialFileList);
+        setStatus(EStatusFileUpload.SUCCESS);
+      }
+    }, [atomProps?.initialFileList]);
+
+    React.useImperativeHandle(
+      ref,
+      () => {
+        return { status };
+      },
+      [status],
+    );
+
+    return (
+      <Col className="form-image-input" {...colProps}>
+        <Form.Item {...formItemProps}>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            beforeUpload={(file) => checkBeforeUpload(file, 5)}
+            accept="image/*"
+            {...atomProps}
+          >
+            {fileList.length >= length ? null : uploadButton}
+          </Upload>
+        </Form.Item>
+        <Modal
+          open={previewVisible}
+          title={'画像'}
+          footer={null}
+          onCancel={handleCancel}
+          destroyOnClose
+          className="modal-preview-img"
         >
-          {fileList.length >= length ? null : uploadButton}
-        </Upload>
-      </Form.Item>
-      <Modal
-        open={previewVisible}
-        title={'画像'}
-        footer={null}
-        onCancel={handleCancel}
-        destroyOnClose
-        className="modal-preview-img"
-      >
-        <img alt="example" className="full-width" src={previewImage} />
-      </Modal>
-    </Col>
-  );
-}
+          <img alt="example" className="full-width" src={previewImage} />
+        </Modal>
+      </Col>
+    );
+  },
+);
 
 export default MFormUpload;

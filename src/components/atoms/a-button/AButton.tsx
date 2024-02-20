@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, type ButtonProps, Row } from 'antd';
 import clsx from 'clsx';
+import './AButton.scss';
 
 export interface IAButton extends Omit<ButtonProps, 'type'> {
   type?: 'primary' | 'secondary' | 'sub-primary' | 'destructive' | 'text' | 'tertiary' | 'default';

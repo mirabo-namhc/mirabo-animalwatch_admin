@@ -1,5 +1,14 @@
 import dayjs from 'dayjs';
 import { IPagination } from './common.type';
+import { EActiveField } from './enum.type';
+
+export enum EBannerTypeEnum {
+  FACILITY = 'facility',
+  VIDEO = 'video',
+  QUIZ = 'quiz',
+  COUPON = 'coupon',
+  EVENT = 'event',
+}
 
 export interface IBannerState {
   loading: boolean;
@@ -7,20 +16,20 @@ export interface IBannerState {
   loadingForm: boolean;
   listData: IBanner[];
   pagination?: IPagination;
-  detailData?: IBanner;
+  detailData: IBanner | null;
   reloadDataDetail?: boolean;
 }
 
 export interface IBanner {
   id?: number;
-  link?: string;
-  is_active?: number | boolean;
+  is_active?: EActiveField;
   order?: number;
-  type?: string;
-  reference_id?: number;
+  type: EBannerTypeEnum;
+  reference_id: number;
+  reference_name: string;
   status?: string;
-  end_date?: string;
-  start_date?: string;
+  end_date?: string | dayjs.Dayjs;
+  start_date?: string | dayjs.Dayjs;
   image_url?: string;
 }
 

@@ -4,6 +4,8 @@ export interface IErrorAPI {
       error?: string;
       message: string;
       success?: boolean;
+
+      [key: string]: any;
     };
 
     [key: string]: any;

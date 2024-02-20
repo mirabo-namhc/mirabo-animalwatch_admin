@@ -8,3 +8,4 @@ export * from './event.type';
 export * from './quiz.type';
 export * from './banner.type';
 export * from './upload.type';
+export * from './video.type';
