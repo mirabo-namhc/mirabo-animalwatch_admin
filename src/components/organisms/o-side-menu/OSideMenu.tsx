@@ -17,6 +17,7 @@ interface IOSideMenu {
   items: MenuItem[];
   itemLogout: MenuItem[];
   onSelectMenuItem: (key: string, keyPath: string[]) => void;
+
 }
 
 function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
@@ -75,11 +76,12 @@ function OSideMenu({ items, itemLogout, onSelectMenuItem }: IOSideMenu) {
       <Menu
         className="menu-list"
         mode="inline"
-        onSelect={({ key, keyPath }) => onSelectMenuItem(key, keyPath)}
+        onClick={({ key, keyPath }) => onSelectMenuItem(key, keyPath) }
         expandIcon={null}
         selectedKeys={[...pageName, pathname]}
         items={items}
         style={{ borderRight: 0 }}
+        
       />
       <Menu
         className="menu-logout"
