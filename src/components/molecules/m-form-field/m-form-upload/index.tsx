@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Col, Form, Modal, Upload, UploadFile, UploadProps } from 'antd';
+import { Col, Form, Modal, Upload, UploadFile, UploadProps,message } from 'antd';
 import { RcFile } from 'antd/lib/upload';
 import React, { useState } from 'react';
 import { useAppDispatch } from '~/_lib/redux/hooks';
@@ -59,6 +59,7 @@ const MFormUpload = React.forwardRef<any, IMFormItemProps<ETypeFieldForm.UPLOAD>
           setStatus(EStatusFileUpload.SUCCESS);
         }
       } catch (error) {
+        message.error('image not found');
         setStatus(EStatusFileUpload.ERROR);
         console.error(error);
       }
