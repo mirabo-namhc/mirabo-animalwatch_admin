@@ -284,12 +284,6 @@ export default function FacilityList() {
         dataLength={dataFacilityTable.length}
         next={handleLoadMore}
         hasMore={hasMore}
-        loader={ <Skeleton
-          avatar
-          paragraph={{
-            rows: 1,
-          }}
-        />}
         endMessage={<Divider plain>It is all, nothing more </Divider>}
 
       >
