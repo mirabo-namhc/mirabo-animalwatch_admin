@@ -10,8 +10,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Dropdown, Modal,Skeleton,Divider } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { MenuProps } from 'antd/lib';
-import React, { useEffect } from 'react';
-import { Await, useNavigate } from 'react-router-dom';
+import React from 'react';
+import {  useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import AButton from '~atoms/a-button';
@@ -25,9 +25,8 @@ import { filterDuplicateIds } from '~utils/arrayHelper';
 import { convertOnlyDate } from '~utils/datetime';
 import { getTextEActive } from '~utils/funcHelper';
 import { getTotal } from '~utils/tableHelper';
-import { createDecipheriv } from 'crypto';
-import axios from 'axios';
-import { getAuth } from '~utils/auth';
+
+
 
 interface IFacilityTables extends IFacility {
   key: string | number;
@@ -44,20 +43,9 @@ export default function FacilityList() {
   const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IFacility>>(initialParams);
   const [idFacility, setIdFacility] = React.useState<number | undefined>(undefined);
   const [dataFacilityTable, setDataFacilityTable] = React.useState<Array<IFacilityTables>>([]);
-  const [More, setMore] = React.useState<boolean>(true)
+  const [hasMore, setHasMore] = React.useState<boolean>(true)
 
-  useEffect(()=>{
-    const fetch=async()=>{
-      const token = getAuth()?.api_token;
-      await axios.get('https://api-dev.ikimono.lifeentame.com/api/admin/facility',{
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }).then((respone:any)=>{console.log(respone.data)})
-    }
-      fetch();
-  },[])
+ 
   const {
     listData: listFacility,
     pagination,
@@ -240,7 +228,7 @@ export default function FacilityList() {
         };
         
       }else{
-        setMore(false);
+        setHasMore(false);
       }
       return pre;
     });
@@ -270,7 +258,7 @@ export default function FacilityList() {
     }
   }, [listFacility]);
 
-  const isLoadMore = Number(paramsQuery?.current_page) < Number(pagination?.total_page);
+
 
   return (
     <div className="gray fs-20">
@@ -295,7 +283,7 @@ export default function FacilityList() {
         <InfiniteScroll
         dataLength={dataFacilityTable.length}
         next={handleLoadMore}
-        hasMore={More}
+        hasMore={hasMore}
         loader={ <Skeleton
           avatar
           paragraph={{
