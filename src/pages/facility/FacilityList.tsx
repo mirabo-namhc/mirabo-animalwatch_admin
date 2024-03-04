@@ -285,7 +285,6 @@ export default function FacilityList() {
         next={handleLoadMore}
         hasMore={hasMore}
         endMessage={<Divider plain>It is all, nothing more </Divider>}
-
       >
       <OTable
         columns={columns}
