@@ -16,7 +16,6 @@ export enum EStatusFileUpload {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
 }
-
 export interface IRefFormUpload {
   status: EStatusFileUpload;
 }
@@ -64,7 +63,6 @@ const MFormUpload = React.forwardRef<any, IMFormItemProps<ETypeFieldForm.UPLOAD>
         console.error(error);
       }
     };
-
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
       setStatus(EStatusFileUpload.INIT);
       setFileList(newFileList);
@@ -82,7 +80,7 @@ const MFormUpload = React.forwardRef<any, IMFormItemProps<ETypeFieldForm.UPLOAD>
         <div className="mt-8 fs-14">アップロード</div>
       </button>
     );
-
+ 
     React.useEffect(() => {
       if (atomProps?.initialFileList.length) {
         setFileList(atomProps?.initialFileList);

@@ -20,7 +20,6 @@ export function getItemSideMenu(
     type,
   } as MenuItem;
 }
-
 interface FileError extends File {
   status?: boolean;
 }
@@ -130,8 +129,9 @@ export const messageCud = (
 };
 export const handleAppendFormDataFile = (file: UploadFile<any>) => {
   const formData = new FormData();
-  if (file?.originFileObj) formData.append('file', file.originFileObj as Blob);
-
+  if (file?.originFileObj){
+    formData.append('file', file.originFileObj as Blob);
+  } 
   return formData;
 };
 
@@ -160,3 +160,5 @@ export const getTextEActive = (is_active?: EActiveField) => {
 export const checkKeyExistsCheckbox = (array: ICheckboxList[], key: string) => {
   return array.some(option => option.value === key);
 }
+
+

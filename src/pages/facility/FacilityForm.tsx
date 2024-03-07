@@ -164,6 +164,7 @@ export default function FacilityForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+      typeScreen:'facility',
       label: 'ロゴ',
       name: 'img_cover_path',
       length: 1,

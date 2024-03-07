@@ -90,6 +90,7 @@ export default function QuizForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+      typeScreen:'quiz',
       label: '設問画像',
       name: 'image_path',
       length: 1,

@@ -133,6 +133,7 @@ export default function EventForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+      typeScreen:'event',
       label: '画像',
       name: 'image_path',
       length: 1,
@@ -150,7 +151,7 @@ export default function EventForm() {
                 name: initValues?.image_url,
               },
             ]
-          : [],
+          : []
       },
       rules: [
         {
