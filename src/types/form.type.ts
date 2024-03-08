@@ -15,11 +15,13 @@ import type {
 import { RangePickerProps } from 'antd/es/date-picker';
 import { TextAreaProps } from 'antd/es/input';
 import { PasswordProps } from 'antd/lib/input';
+import { ReactNode } from 'react';
 
 interface ICustomMappedFormItems {
   length?: number;
   isDisable?: boolean;
   ref?: React.RefObject<any>;
+  
 }
 interface ICustomInputNumber extends InputProps {
   formControl: FormInstance;
@@ -45,6 +47,7 @@ export interface IAtomFormItemsProps {
 export type TMappedFormItems = {
   [K in keyof IAtomFormItemsProps]: {
     type: K;
+    typeScreen?: ReactNode;
     atomProps?: IAtomFormItemsProps[K];
     colProps?: ColProps;
   } & FormItemProps;
@@ -53,6 +56,7 @@ export type TMappedFormItems = {
 
 export interface IMFormItemProps<T extends ETypeFieldForm> extends Omit<TMappedFormItems, 'type'> {
   type: T;
+  typeScreen?: ReactNode;
   atomProps?: IAtomFormItemsProps[T];
 }
 

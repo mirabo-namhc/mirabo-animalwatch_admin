@@ -127,11 +127,10 @@ export const messageCud = (
       };
   }
 };
-export const handleAppendFormDataFile = (file: UploadFile<any>) => {
+export const handleAppendFormDataFile = (file: UploadFile<any>,type:any) => {
   const formData = new FormData();
-  if (file?.originFileObj){
-    formData.append('file', file.originFileObj as Blob);
-  } 
+  if (file?.originFileObj)formData.append('file', file.originFileObj as Blob);
+  formData.append('type',type);
   return formData;
 };
 

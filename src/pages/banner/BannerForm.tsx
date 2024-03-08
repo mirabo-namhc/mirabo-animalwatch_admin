@@ -162,6 +162,7 @@ export default function BannerForm() {
     {
       type: ETypeFieldForm.UPLOAD,
       typeScreen:'banner',
+
       label: 'バナー写真',
       name: 'image_path',
       colProps: {

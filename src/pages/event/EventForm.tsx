@@ -230,7 +230,6 @@ export default function EventForm() {
       ],
     },
   ];
-
   const handleSubmit = (values: IEvent) => {
     if (uploadImageCoverRef.current?.status !== EStatusFileUpload.SUCCESS) {
       message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
@@ -320,6 +319,7 @@ export default function EventForm() {
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}
           loading={loadingForm}
+          typeScreen={'event'}
         />
       )}
     </div>
