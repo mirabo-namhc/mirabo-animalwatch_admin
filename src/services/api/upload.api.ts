@@ -5,9 +5,9 @@ const headers = {
 };
 
 const uploadAPI = {
-    image(file: FormData) {
+    image(params: FormData) {
         const url = '/upload/image'
-        return request.post(url, file, { headers });
+        return request.post(url, params, { headers});
     },
 };
 

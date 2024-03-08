@@ -6,11 +6,12 @@ import {
   VerticalAlignBottomOutlined,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons';
-import { Dropdown, Modal } from 'antd';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Dropdown, Modal,Skeleton,Divider } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { MenuProps } from 'antd/lib';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '~/_lib/redux/hooks';
 import { useGetList } from '~/hooks';
 import AButton from '~atoms/a-button';
@@ -24,6 +25,8 @@ import { filterDuplicateIds } from '~utils/arrayHelper';
 import { convertOnlyDate } from '~utils/datetime';
 import { getTextEActive } from '~utils/funcHelper';
 import { getTotal } from '~utils/tableHelper';
+
+
 
 interface IFacilityTables extends IFacility {
   key: string | number;
@@ -39,9 +42,10 @@ export default function FacilityList() {
   const dispatch = useAppDispatch();
   const [paramsQuery, setParamsQuery] = React.useState<TFilterParams<IFacility>>(initialParams);
   const [idFacility, setIdFacility] = React.useState<number | undefined>(undefined);
-
   const [dataFacilityTable, setDataFacilityTable] = React.useState<Array<IFacilityTables>>([]);
+  const [hasMore, setHasMore] = React.useState<boolean>(true)
 
+ 
   const {
     listData: listFacility,
     pagination,
@@ -222,13 +226,12 @@ export default function FacilityList() {
           ...pre,
           current_page: Number(pre?.current_page) + 1,
         };
+        
+      }else{
+        setHasMore(false);
       }
       return pre;
     });
-  };
-  const handleCollapse = () => {
-    dispatch(facilityActions.clearData());
-    setParamsQuery(initialParams);
   };
 
   const onNavigateDetail = (id: number) => {
@@ -255,7 +258,7 @@ export default function FacilityList() {
     }
   }, [listFacility]);
 
-  const isLoadMore = Number(paramsQuery?.current_page) < Number(pagination?.total_page);
+
 
   return (
     <div className="gray fs-20">
@@ -277,6 +280,12 @@ export default function FacilityList() {
           新規登録
         </AButton>
       </div>
+        <InfiniteScroll
+        dataLength={dataFacilityTable.length}
+        next={handleLoadMore}
+        hasMore={hasMore}
+        endMessage={<Divider plain>It is all, nothing more </Divider>}
+      >
       <OTable
         columns={columns}
         dataSource={dataFacilityTable}
@@ -287,18 +296,9 @@ export default function FacilityList() {
         loading={loading}
         isShowPagination={false}
       />
-      {!loading && Number(pagination?.total_page) > 1 && (
-        <div className="w-full dis-flex jc-center">
-          <AButton
-            rightIcon={isLoadMore ? <ArrowDownOutlined /> : <ArrowUpOutlined />}
-            type="default"
-            className="h-40 dis-flex ai-center fs-12 fw-500"
-            onClick={isLoadMore ? handleLoadMore : handleCollapse}
-          >
-            {isLoadMore ? 'もっと見る' : '元に戻す'}
-          </AButton>
-        </div>
-      )}
+      </InfiniteScroll>
+
+      
     </div>
   );
 }

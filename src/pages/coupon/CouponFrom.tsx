@@ -100,11 +100,13 @@ export default function CouponForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+      typeScreen:'coupon',
       label: 'クーポン写真',
       name: 'image_path',
       ref: uploadImageRef,
       colProps: {
         span: COLDEF,
+        
       },
       atomProps: {
         setUrlFile: (file) => formControl.setFieldValue('image_path', file),

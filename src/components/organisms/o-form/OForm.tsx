@@ -1,7 +1,7 @@
 import { Form, FormProps, Row } from 'antd';
 import clsx from 'clsx';
 
-import { useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 import { useURLInfo } from '~/hooks';
 import { ETypeFieldForm } from '~/types/enum.type';
 import { TMappedFormItems } from '~/types/form.type';
@@ -9,7 +9,7 @@ import AButton from '~atoms/a-button';
 import { MFormField } from '~molecules/m-form-field';
 import './OForm.scss';
 
-interface IOForm<Values extends Record<string, any> = Record<string, any>>
+interface IOForm<Values extends Record<string,any> = Record<string, any>>
   extends FormProps<Values> {
   listField: TMappedFormItems[];
   handleValuesChange?: (changedValues: object, values: Values) => void;
@@ -18,10 +18,12 @@ interface IOForm<Values extends Record<string, any> = Record<string, any>>
   loading?: boolean;
   onCancel?: () => void;
   onDelete?: () => void;
+  typeScreen?:ReactNode;
 }
 
 export default function OForm<Values extends Record<string, any>>({
   listField,
+  typeScreen,
   handleValuesChange,
   onSubmitForm,
   onCancel,
@@ -52,7 +54,7 @@ export default function OForm<Values extends Record<string, any>>({
         case ETypeFieldForm.RADIO:
           return <MFormField.Radio key={`${item.name}-${index}`} {...item} />;
         case ETypeFieldForm.UPLOAD:
-          return <MFormField.Upload key={`${item.name}-${index}`} {...item} />;
+          return <MFormField.Upload key={`${item.name}-${index}`} typeScreen={typeScreen} {...item}  />;
         case ETypeFieldForm.CHECKBOX:
           return <MFormField.Checkbox key={`${item.name}-${index}`} {...item} />;
         default:

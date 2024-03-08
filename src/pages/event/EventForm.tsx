@@ -133,6 +133,7 @@ export default function EventForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+      typeScreen:'event',
       label: '画像',
       name: 'image_path',
       length: 1,
@@ -150,7 +151,7 @@ export default function EventForm() {
                 name: initValues?.image_url,
               },
             ]
-          : [],
+          : []
       },
       rules: [
         {
@@ -229,7 +230,6 @@ export default function EventForm() {
       ],
     },
   ];
-
   const handleSubmit = (values: IEvent) => {
     if (uploadImageCoverRef.current?.status !== EStatusFileUpload.SUCCESS) {
       message.warning('ロゴ画像をアップロードしていますので、少々お待ちください。');
@@ -319,6 +319,7 @@ export default function EventForm() {
           onDelete={handleDelete}
           onValuesChange={handleValuesChange}
           loading={loadingForm}
+          typeScreen={'event'}
         />
       )}
     </div>

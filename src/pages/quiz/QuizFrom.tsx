@@ -90,6 +90,7 @@ export default function QuizForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+
       label: '設問画像',
       name: 'image_path',
       length: 1,
@@ -223,6 +224,7 @@ export default function QuizForm() {
     },
     {
       type: ETypeFieldForm.UPLOAD,
+      typeScreen:'quiz',
       label: '解説画像',
       name: 'explanation_image_path',
       length: 1,
@@ -439,6 +441,7 @@ export default function QuizForm() {
           onCancel={handleCancel}
           onValuesChange={handleValuesChange}
           onDelete={handleDeleteQuiz}
+
         />
       )}
     </div>

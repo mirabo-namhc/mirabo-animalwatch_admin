@@ -35,7 +35,7 @@ const couponSlice = createSlice({
 
     // GET DETAIL
     getDetail(state, action: PayloadAction<number>) {
-      state.loading = true;
+      state.loading = true; 
     },
     getDetailSuccess(state, action: PayloadAction<ICoupon>) {
       state.detailData = action.payload as ICoupon;
@@ -62,6 +62,7 @@ const couponSlice = createSlice({
       state.loadingCreate = false;
       message.error(action.payload);
     },
+    
     // EDIT
     edit(state, action) {
       state.loadingUpdate = true;
